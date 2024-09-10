@@ -44,9 +44,8 @@ export default function Router() {
  
     {
       path: '*',
-      element: <Navigate to="https://otpninja.com/login" replace />,
-    }
-    
+      element: <Navigate to="/404" replace />,
+    },
   ]);
 
   return routes;
