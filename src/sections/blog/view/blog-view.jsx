@@ -37,19 +37,19 @@ const fetchToken = async () => {
     // Check if the response is successful and the token is available
     if (response.data.status && response.data.token) {
       setToken(response.data.token); // Set the token if found
-      console.log(response.data);
       console.log('Token is:', response.data.token); // Debug the token
     } else {
       console.error('Token not found or status is false');
       // Redirect to the specified URL if the token is undefined or status is false
-      window.location.href = 'https://otpninja.com/login'; // Corrected URL
+      window.location.href = 'https://otpninja.com/login'; // Change to your target URL
     }
   } catch (error) {
     console.error('Error fetching token:', error);
     // Optionally, handle the error case by redirecting
-    window.location.href = 'https://otpninja.com/login'; // Corrected URL
+    window.location.href = 'https://otpninja.com/login'; // Change to your target URL
   }
 };
+
 
 
   // Fetch the payments using the token
