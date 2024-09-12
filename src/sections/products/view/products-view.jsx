@@ -114,11 +114,17 @@ export default function CustomizedTables() {
 
   useEffect(() => {
     const fetchNames = async () => {
+      
+      
+    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
       try {
         const optionsServices = {
           method: 'GET',
           url: 'https://otpninja.com/api/v1/listservices?type=mdn',
-          headers: { 'X-OTPNINJA-TOKEN': 'hLAPySpZEuGtGJVCbglgToIVLdjdssMR' },
+          headers: {
+            'X-OTPNINJA-TOKEN': token // If required, use token in custom header
+          },
+          withCredentials: true, // This will ensure credentials (like cookies) are sent
         };
         const responseServices = await axios.request(optionsServices);
         setServices(responseServices.data.data);
@@ -130,11 +136,16 @@ export default function CustomizedTables() {
   }, []);
 
   React.useEffect(() => {
+    
+    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     const fetchData = async () => {
       const options = {
         method: 'GET',
         url: 'https://otpninja.com/api/v1/getprice',
-        headers: { 'X-OTPNINJA-TOKEN': 'hLAPySpZEuGtGJVCbglgToIVLdjdssMR' },
+        headers: {
+          'X-OTPNINJA-TOKEN': token // If required, use token in custom header
+        },
+        withCredentials: true, // This will ensure credentials (like cookies) are sent
         params: { type: 'otp', servicecode: 'tx', countrycode: '17' }
       };
 
@@ -154,6 +165,9 @@ export default function CustomizedTables() {
 
   
   const handleBuy = async () => {
+    
+    
+    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     try {// Ensure this is a valid country code
       console.log('Selected Service:', selectedService); // Ensure this is a valid service code
 
@@ -163,10 +177,11 @@ export default function CustomizedTables() {
 
       // Set up the request options using the second code snippet's structure
       const options = {
+        
         method: 'POST',
         url: 'https://otpninja.com/api/v1/buynumber',
         headers: {
-          'X-OTPNINJA-TOKEN': 'hLAPySpZEuGtGJVCbglgToIVLdjdssMR', // Add your authentication token
+          'X-OTPNINJA-TOKEN': token // If required, use token in custom header
         },
         data: {
           serviceid: selectedService,  // Use the selected service code
@@ -174,8 +189,8 @@ export default function CustomizedTables() {
           countrycode: ''    // Use the selected country code
         }
       };
-      console.log(selectedService)
-      console.log('mdn')
+      console.log(options)
+      console.log(response)
 
       // Make the API request
       const response = await axios.request(options);

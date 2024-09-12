@@ -63,7 +63,6 @@ export default function Blog() {
           headers: {
             'X-OTPNINJA-TOKEN': token // If required, use token in custom header
           },
-          withCredentials: true, // This will ensure credentials (like cookies) are sent
         };
         const response = await axios.request(options);
         setPayments(response.data.data);
