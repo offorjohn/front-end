@@ -116,8 +116,8 @@ export default function LoginView() {
           <form onSubmit={handleSubmit}>
             <Stack spacing={3}>
               <TextField
-                name="email"
-                label="Email address"
+                name="user"
+                label="Username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 fullWidth
