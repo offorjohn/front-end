@@ -90,15 +90,21 @@ export default function CustomizedTables() {
   
   useEffect(() => {
     const fetchPayments = async () => {
+      
+    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
       try {
         const options = {
           method: 'GET',
-          url: 'https://otpninja.com/api/v1/listmessages?type=mdn',
-          headers: { 'X-OTPNINJA-TOKEN': 'hLAPySpZEuGtGJVCbglgToIVLdjdssMR' },
+          url: 'https://otpninja.com/api/v1/listmessages?type=mdn',  
+          headers: {
+            'X-OTPNINJA-TOKEN': token // If required, use token in custom header
+          },
         };
         const response = await axios.request(options);
         setPayments(response.data.data);
         console.log(response.data)
+        console.log(options)
+        console.log(response)
       } catch (error) {
         console.error('Error fetching payments:', error);
       }

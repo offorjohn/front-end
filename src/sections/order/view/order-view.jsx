@@ -43,14 +43,17 @@ export default function CustomizedTables() {
   const [payments, setPayments] = useState([]);
 
   React.useEffect(() => {
+    
+    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     console.log('useEffect triggered');
     const fetchPayments = async () => {
       console.log('fetchPayments function called');
       try {
         const options = {
           method: 'GET',
-          url: 'https://otpninja.com/api/v1/listpayments',
-          headers: { 'X-OTPNINJA-TOKEN': 'hLAPySpZEuGtGJVCbglgToIVLdjdssMR' }
+          url: 'https://otpninja.com/api/v1/listpayments',  headers: {
+            'X-OTPNINJA-TOKEN': token // If required, use token in custom header
+          },
         };
         const response = await axios.request(options);
         console.log(options)

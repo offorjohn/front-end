@@ -1,5 +1,6 @@
 /* eslint-disable import/no-unresolved */
-import { useState } from 'react';
+import axios from 'axios';
+import { useState } from 'react'; // Make sure to import axios
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -25,56 +26,59 @@ import Iconify from 'src/components/iconify';
 
 export default function LoginView() {
   const theme = useTheme();
-
   const router = useRouter();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [, setData] = useState(null);
 
-  const handleClick = () => {
-    router.push('/dashboard');
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setError('');
+  
+
+    try {
+      const options = {
+        method: 'POST',
+        url: 'https://otpninja.com/api/v1/auth',
+        data: { username: email, password },
+      };
+
+      const response = await axios.request(options);
+
+      console.log(response.data); // Log the response data after receiving it
+  
+      setData(response.data);  // Save response data to state
+      console.log(setData)
+  
+      // Save credentials to local storage
+      localStorage.setItem('loginResponse', JSON.stringify(response.data));
+      localStorage.setItem('email', email); // Save email
+      localStorage.setItem('password', password); // Save password
+      
+  
+      if (response.data.token) {
+        router.push('/'); // Redirect on successful login
+      } else {
+        setError('Login failed. Please check your credentials.');
+      }
+    // eslint-disable-next-line no-shadow
+    } catch (error) {
+      console.error(error);
+      setError('An error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
-
-  const renderForm = (
-    <>
-      <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
-
-        <TextField
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Stack>
-
-      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
-      </Stack>
-
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        variant="contained"
-        color="inherit"
-        onClick={handleClick}
-      >
-        Login
-      </LoadingButton>
-    </>
-  );
+  
 
   return (
+    
     <Box
       sx={{
         ...bgGradient({
@@ -109,6 +113,61 @@ export default function LoginView() {
             </Link>
           </Typography>
 
+          <form onSubmit={handleSubmit}>
+            <Stack spacing={3}>
+              <TextField
+                name="email"
+                label="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                fullWidth
+              />
+
+              <TextField
+                name="password"
+                label="Password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                        <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                fullWidth
+              />
+            </Stack>
+
+            <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
+              <Link variant="subtitle2" underline="hover">
+                Forgot password?
+              </Link>
+            </Stack>
+
+            <LoadingButton
+              fullWidth
+              size="large"
+              type="submit"
+              variant="contained"
+              color="inherit"
+              loading={loading}
+            >
+              Login
+            </LoadingButton>
+
+            {error && <Typography color="error">{error}</Typography>}
+          </form>
+
+          <Divider sx={{ my: 3 }}>
+            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              OR
+            </Typography>
+          </Divider>
+
           <Stack direction="row" spacing={2}>
             <Button
               fullWidth
@@ -140,16 +199,10 @@ export default function LoginView() {
               <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
             </Button>
           </Stack>
-
-          <Divider sx={{ my: 3 }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
-            </Typography>
-          </Divider>
-
-          {renderForm}
         </Card>
       </Stack>
+      
     </Box>
   );
+  
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import axios from "axios";
 import * as React from 'react';
 import { useState } from 'react';
@@ -21,73 +22,12 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import TableContainer from '@mui/material/TableContainer';
 
 export default function Blog() {
+
   const [open, setOpen] = useState(false);
   const [selectedPaymentMode, setSelectedPaymentMode] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const [payments, setPayments] = useState([]);
-  const [token, setToken] = useState(''); // State to store the token
-
-// Fetch the token from the API
-const fetchToken = async () => {
-  try {
-    const response = await axios.get('https://otpninja.com/api/v1/getsession');
-    console.log(response.data); // Inspect the full response
-    
-    // Check if the response is successful and the token is available
-    if (response.data.status && response.data.token) {
-      setToken(response.data.token); // Set the token if found
-      console.log('Token is:', response.data.token); // Debug the token
-    } else {
-      console.error('Token not found or status is false');
-      // Redirect to the specified URL if the token is undefined or status is false
-      window.location.href = 'https://otpninja.com/login'; // Change to your target URL
-    }
-  } catch (error) {
-    console.error('Error fetching token:', error);
-    // Optionally, handle the error case by redirecting
-    window.location.href = 'https://otpninja.com/login'; // Change to your target URL
-  }
-};
-
-
-
-  // Fetch the payments using the token
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const fetchPayments = async () => {
-    try {
-      const options = {
-        method: 'GET',
-        url: 'https://otpninja.com/api/v1/listpayments',
-        headers: { 'X-OTPNINJA-TOKEN': token }
-      };
-      const response = await axios.request(options);
-      console.log(response.data)
-      setPayments(response.data.token);
-      console.log(response);
-    } catch (error) {
-      console.error('Error fetching payments:', error);
-    }
-  };
-
-  // Fetch the token and payments on component mount
-  React.useEffect(() => {
-    const fetchData = async () => {
-      await fetchToken(); // First, fetch the token
-    };
-    fetchData();
-  }, []);
-
-  // Fetch payments when the token is available
-  React.useEffect(() => {
-    if (token) {
-      fetchPayments();
-    }
-  }, [fetchPayments, token]); // Fetch payments when token changes
-
-  console.log(payments)
-  console.log(fetchPayments)
-  console.log(fetchToken)
 
   // Create rows and sort them by date (earliest first)
   const rows = payments
@@ -111,7 +51,29 @@ const fetchToken = async () => {
   const handleChange = (event) => {
     setSelectedPaymentMode(event.target.value);
   };
-  console.log('Token is :',  token)
+
+  React.useEffect(() => {
+    const fetchPayments = async () => {
+        
+      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+      try {
+        const options = {
+          method: 'GET',
+          url: 'https://otpninja.com/api/v1/listpayments',
+          headers: {
+            'X-OTPNINJA-TOKEN': token // If required, use token in custom header
+          },
+          withCredentials: true, // This will ensure credentials (like cookies) are sent
+        };
+        const response = await axios.request(options);
+        setPayments(response.data.data);
+        console.log(response)
+      } catch (error) {
+        console.error('Error fetching payments:', error);
+      }
+    };
+    fetchPayments();
+  }, []);
 
   // Calculate the indices for slicing the rows
   const startIndex = (currentPage - 1) * rowsPerPage;
