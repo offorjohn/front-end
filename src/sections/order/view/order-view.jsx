@@ -51,7 +51,8 @@ export default function CustomizedTables() {
       try {
         const options = {
           method: 'GET',
-          url: 'https://otpninja.com/api/v1/listpayments',  headers: {
+          url: 'https://otpninja.com/api/v1/listpayments',  
+          headers: {
             'X-OTPNINJA-TOKEN': token // If required, use token in custom header
           },
         };

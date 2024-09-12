@@ -367,19 +367,27 @@ export default function CustomizedTables() {
     console.log('useEffect triggered');
 
     const fetchNames = async () => {
+      
+      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
       console.log('fetchNames function called');
       try {
         const optionsCountries = {
           method: 'GET',
           url: 'https://otpninja.com/api/v1/listcountries?type=otp',
 
-          headers: { 'X-OTPNINJA-TOKEN': 'hLAPySpZEuGtGJVCbglgToIVLdjdssMR' }
+          headers: {
+            'X-OTPNINJA-TOKEN': token // If required, use token in custom header
+          },
         };
 
         const optionsServices = {
+          
           method: 'GET',
           url: 'https://otpninja.com/api/v1/listservices?type=otp',  // Example service endpoint
-          headers: { 'X-OTPNINJA-TOKEN': 'hLAPySpZEuGtGJVCbglgToIVLdjdssMR' }
+        
+          headers: {
+            'X-OTPNINJA-TOKEN': token // If required, use token in custom header
+          },
         };
 
         // Fetch countries and services in parallel
@@ -427,14 +435,17 @@ export default function CustomizedTables() {
         document.getElementById("price").style.display = "none"; // Hide price
       }
 
+      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
 
 
       // Set up the request options using the second code snippet's structure
       const options = {
+        
         method: 'POST',
         url: 'https://otpninja.com/api/v1/buynumber',
+      
         headers: {
-          'X-OTPNINJA-TOKEN': 'hLAPySpZEuGtGJVCbglgToIVLdjdssMR', // Add your authentication token
+          'X-OTPNINJA-TOKEN': token // If required, use token in custom header
         },
         data: {
           serviceid: selectedService,  // Use the selected service code
@@ -476,14 +487,17 @@ export default function CustomizedTables() {
 
 
   React.useEffect(() => {
+    
+    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     console.log('useEffect triggered');
     const fetchPayments = async () => {
       console.log(fetchPayments);
       try {
         const options = {
           method: 'GET',
-          url: 'https://otpninja.com/api/v1/listmessages?type=otp',
-          headers: { 'X-OTPNINJA-TOKEN': 'hLAPySpZEuGtGJVCbglgToIVLdjdssMR' }
+          url: 'https://otpninja.com/api/v1/listmessages?type=otp',   headers: {
+            'X-OTPNINJA-TOKEN': token // If required, use token in custom header
+          },
         };
         const response = await axios.request(options);
 
@@ -497,11 +511,14 @@ export default function CustomizedTables() {
 
 
   React.useEffect(() => {
+    
+    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     const fetchData = async () => {
       const options = {
         method: 'GET',
-        url: 'https://otpninja.com/api/v1/getprice',
-        headers: { 'X-OTPNINJA-TOKEN': 'hLAPySpZEuGtGJVCbglgToIVLdjdssMR' },
+        url: 'https://otpninja.com/api/v1/getprice',   headers: {
+          'X-OTPNINJA-TOKEN': token // If required, use token in custom header
+        },
         params: { type: 'otp', servicecode: 'tx', countrycode: '17' }
       };
 
