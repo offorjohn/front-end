@@ -51,7 +51,7 @@ export default function CustomizedTables() {
 
   const [subphone, setSubPhone] = useState('');
   const [purchasedNid, setPurchasedNid] = useState(null); // Store the 'nid'
-  const [cost, setCost] = useState('');
+  const [cost] = useState('');
   // const [message, setMessage] = useState('');
 
   const isMobile = useMediaQuery('(max-width:600px)'); // Adjust breakpoint as needed
@@ -612,8 +612,6 @@ export default function CustomizedTables() {
         const { message } = sortedData[0];
 
 
-
-        setCost(message)
 
 
         // setMessage(`${message}`)

@@ -149,7 +149,7 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
 
       {storedCost && time && (
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-          {storedCost && (
+          {cost && (
             <Typography
               style={{
                 paddingLeft: '24px',
