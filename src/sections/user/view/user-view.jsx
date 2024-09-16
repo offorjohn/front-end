@@ -51,7 +51,7 @@ export default function CustomizedTables() {
 
   const [subphone, setSubPhone] = useState('');
   const [purchasedNid, setPurchasedNid] = useState(null); // Store the 'nid'
-  const [cost, setCost] = useState('');
+  const [cost] = useState('');
   // const [message, setMessage] = useState('');
 
   const isMobile = useMediaQuery('(max-width:600px)'); // Adjust breakpoint as needed
@@ -514,9 +514,7 @@ export default function CustomizedTables() {
 
         setSubtitleText(`🔽 Waiting to receive an SMS from ${service}. Please note that services may take multiple attempts to succeed.`);
         setTitle(`${service} SMS Verifications`)
-        // Set dynamic response text
-
-
+      // Set dynamic response text
 
       }
       console.log(service)
@@ -604,7 +602,6 @@ export default function CustomizedTables() {
         // Set the sorted data in your state (React use case)
         setPayments(response.data.data);
 
-        setSubtitleText(`🔽 Waiting to receive an SMS from ${name}. Please note that services may take multiple attempts to succeed.`);
 
         // Extract values from the latest item (first item after sorting)
         const { name } = sortedData[0];  // Get 'name' from the latest message
@@ -612,7 +609,7 @@ export default function CustomizedTables() {
 
 
 
-        setCost(message)
+        setResponseText(message)
 
 
         // setMessage(`${message}`)

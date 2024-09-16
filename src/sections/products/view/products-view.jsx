@@ -95,11 +95,10 @@ export default function CustomizedTables() {
       try {
         const options = {
           method: 'GET',
-          url: 'https://otpninja.com/api/v1/getbalance',  
+          url: 'https://otpninja.com/api/v1/listmessages?type=mdn',  
           headers: {
             'X-OTPNINJA-TOKEN': token // If required, use token in custom header
           },
-          
         };
         const response = await axios.request(options);
         setPayments(response.data.data);
@@ -146,7 +145,6 @@ export default function CustomizedTables() {
         headers: {
           'X-OTPNINJA-TOKEN': token // If required, use token in custom header
         },
-
         withCredentials: true, // This will ensure credentials (like cookies) are sent
         params: { type: 'otp', servicecode: 'tx', countrycode: '17' }
       };
