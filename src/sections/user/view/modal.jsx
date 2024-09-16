@@ -12,10 +12,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 
-const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subphone, cost, time }) => {
-  // Countdown timer state
-  const [timeLeft, setTimeLeft] = useState(1200); // 1200 seconds = 20 minutes
-
+const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subphone, cost }) => {
   // Separate state for modal open/close
   const [isModalOpen, setIsModalOpen] = useState(() => {
     const savedState = localStorage.getItem('isModalOpen');
@@ -32,23 +29,6 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
   const [storedCost, setStoredCost] = useState(() =>
     localStorage.getItem('modalCost') || cost || ''
   );
-
-  // Function to format the time as MM:SS
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-  };
-
-  useEffect(() => {
-    // Set up the interval to decrease the time by 1 second every second
-    const timer = setInterval(() => {
-      setTimeLeft((prevTimeLeft) => (prevTimeLeft > 0 ? prevTimeLeft - 1 : 0));
-    }, 1000);
-
-    // Clear the timer when the component is unmounted or when the countdown reaches 0
-    return () => clearInterval(timer);
-  }, []);
 
   // Update localStorage whenever storedResponseText, subphone, or cost changes
   useEffect(() => {
@@ -74,6 +54,7 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
       if (responseText && responseText.trim() !== '') {
         setStoredResponseText(responseText);
       }
+      console.log(responseText)
       if (subphone && subphone.trim() !== '') {
         setStoredSubphone(subphone);
       }
@@ -144,69 +125,18 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
               Copy
             </span>
           </div>
-
-          <div style={{ display: 'block', fontWeight: 'normal', position: 'relative' }}>
-            {storedCost}
-            {/* Add copy button */}
-            <span
-              onClick={() => {
-                navigator.clipboard.writeText(storedCost); // Copy cost to clipboard
-                alert('Cost copied!'); // Optional: Add an alert or notification
-              }}
-              style={{
-                fontWeight: 'bold', // Bold for the "Copy" text
-                marginLeft: '15px', // Shift to the left
-                cursor: 'pointer', // Make it look clickable
-                padding: '5px 10px', // Padding inside the box
-                border: '1px solid #ccc', // Light border around the box
-                borderRadius: '8px', // Rounded corners
-                backgroundColor: '#f0f0f0', // Light gray background for the box
-              }}
-            >
-              Copy
-            </span>
-          </div>
         </Typography>
       )}
 
-      {storedCost && time && (
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-          {storedCost && (
-            <Typography
-              style={{
-                paddingLeft: '24px',
-                paddingRight: '24px',
-                fontWeight: 'bold',
-              }}
-            >
-              Verification Cost
-              <div style={{ display: 'block', fontWeight: 'normal', position: 'relative' }}>
-                {storedCost}
-              </div>
-            </Typography>
-          )}
-
-          {/* Countdown Timer */}
-          {time && (
-            <div>
-              <Typography
-                style={{
-                  paddingLeft: '40px',
-                  paddingRight: '70px',
-                  fontWeight: 'bold',
-                }}
-              >
-                Time Remaining
-                <div style={{ display: 'block', fontWeight: 'normal', position: 'relative' }}>
-                  {formatTime(timeLeft)} {/* Countdown displayed */}
-                </div>
-              </Typography>
-            </div>
-          )}
-        </div>
-      )}
-
       <DialogContent>
+        <DialogContentText>
+          {storedResponseText || 'No message available.'}
+        </DialogContentText>
+        
+        <DialogContentText>
+          {storedResponseText || 'No message available.'}
+        </DialogContentText>
+        
         <DialogContentText>
           {storedResponseText || 'No message available.'}
         </DialogContentText>
@@ -227,7 +157,6 @@ Modal.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
   subphone: PropTypes.string,
-  time: PropTypes.string,
   cost: PropTypes.string,
 };
 

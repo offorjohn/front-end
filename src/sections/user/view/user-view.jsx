@@ -515,7 +515,6 @@ export default function CustomizedTables() {
         setSubtitleText(`🔽 Waiting to receive an SMS from ${service}. Please note that services may take multiple attempts to succeed.`);
         setTitle(`${service} SMS Verifications`)
         // Set dynamic response text
-        setResponseText(`Use this code ${number} at a price of ${price} for ${service}.`);
 
 
 
