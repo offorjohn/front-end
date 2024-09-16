@@ -144,12 +144,34 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
               Copy
             </span>
           </div>
+
+          <div style={{ display: 'block', fontWeight: 'normal', position: 'relative' }}> {/* Ensure normal weight for phone number */}
+            {storedCost}
+            {/* Add copy button */}
+            <span
+              onClick={() => {
+                navigator.clipboard.writeText(storedCost); // Copy phone number to clipboard
+                alert('Phone number copied!'); // Optional: Add an alert or notification
+              }}
+              style={{
+                fontWeight: 'bold',    // Bold for the "Copy" text
+                marginLeft: '15px',    // Shift to the left
+                cursor: 'pointer',     // Make it look clickable
+                padding: '5px 10px',   // Padding inside the box
+                border: '1px solid #ccc', // Light border around the box
+                borderRadius: '8px',   // Rounded corners
+                backgroundColor: '#f0f0f0', // Light gray background for the box
+              }}
+            >
+              Copy
+            </span>
+          </div>
         </Typography>
       )}
 
       {storedCost && time && (
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-          {cost && (
+          {storedCost && (
             <Typography
               style={{
                 paddingLeft: '24px',
