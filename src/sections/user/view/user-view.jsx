@@ -117,11 +117,6 @@ export default function CustomizedTables() {
     }
   };
 
-
-
-
-
-
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   // eslint-disable-next-line no-unused-vars
@@ -594,24 +589,16 @@ export default function CustomizedTables() {
             'X-OTPNINJA-TOKEN': token // If required, use token in custom header
           },
         };
-        const response = await axios.request(options);
-
+        const response = await axios.request(options); 
         // Sort the data by 'messagedate' in descending order to get the latest data first
         const sortedData = response.data.data.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
         console.log(sortedData);
         // Set the sorted data in your state (React use case)
         setPayments(response.data.data);
-
-
         // Extract values from the latest item (first item after sorting)
         const { name } = sortedData[0];  // Get 'name' from the latest message
         const { message } = sortedData[0];
-
-
-
         setResponseText(message)
-
-
         // setMessage(`${message}`)
         // Log the extracted values to confirm
         console.log(message);
@@ -977,10 +964,21 @@ export default function CustomizedTables() {
                     <Button
                       onClick={handleOpenModal}
                       sx={{
-                        backgroundColor: '#3055c6',  // Light blue color
-                        color: '#fff',               // White text color
+                        color: 'white',
+                        backgroundColor: 'rgba(3, 105, 161)',
+                        boxShadow: 1,
                         '&:hover': {
-                          backgroundColor: '#244a9d', // Darker blue on hover
+                          backgroundColor: 'rgba(3, 105, 161)',
+                        },
+                        '&:disabled': {
+                          backgroundColor: 'gray',
+                          color: 'darkgray',
+                          cursor: 'default',
+                        },
+                        '&:focus': {
+                          outline: 'none',
+                          ring: 'rgba(3, 105, 161)',
+                          ringOffset: '2px',
                         },
                       }}
                     >
