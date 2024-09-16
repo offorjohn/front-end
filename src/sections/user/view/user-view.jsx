@@ -35,28 +35,50 @@ import Modal from './modal';// Import the Modal component
 export default function CustomizedTables() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  // eslint-disable-next-line no-empty-pattern
-  const [] = useState([]);
+
   const [open, setOpen] = useState(false);
+
+
 
   const [names, setNames] = useState([]); // State to store names
 
 
   const [payments, setPayments] = useState([]);
   const [showModal, setShowModal] = useState(false);
+
   const [, setModalType] = useState('success'); // 'success' or 'yellow' based on the response
   const [responseText, setResponseText] = useState('');
+
+  const [subphone, setSubPhone] = useState('');
+  const [purchasedNid, setPurchasedNid] = useState(null); // Store the 'nid'
+  const [cost, setCost] = useState('');
+  // const [message, setMessage] = useState('');
+
   const isMobile = useMediaQuery('(max-width:600px)'); // Adjust breakpoint as needed
-  const [responseData, setResponseData] = useState(null); // State to hold the response data
   const [selectedName, setSelectedName] = React.useState('');
   const [serv, setServ] = useState(null);  // To store the single service object
   // eslint-disable-next-line no-unused-vars
   const [, setPrice] = useState('');
   const [maxWidth, setMaxWidth] = useState('sm');
+  const [subtitleText, setSubtitleText] = useState('🔽 waiting to receive an SMS. Please note that services may take multiple attempts to succeed.');
+  const [title, setTitle] = useState('SMS Verifications')
+
+
+  const [responseData, setResponseData] = useState(null);
 
 
   const [services, setServices] = React.useState([]);
   const [selectedService, setSelectedService] = React.useState('');
+
+
+
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+
+  }
+
+
 
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -98,6 +120,8 @@ export default function CustomizedTables() {
 
 
 
+
+
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   // eslint-disable-next-line no-unused-vars
@@ -115,7 +139,7 @@ export default function CustomizedTables() {
 
 
   const countryCodeMap = {
-    
+
     74: 'AF', // Afghanistan
     155: 'AL', // Albania
     58: 'DZ', // Algeria
@@ -314,22 +338,22 @@ export default function CustomizedTables() {
     30: 'YE', // Yemen
     147: 'ZM', // Zambia
     96: 'ZW', // Zimbabwe
-};
+  };
 
 
 
   const getFlagUrl = (numericCountryCode) => {
     // Convert numeric country code to ISO code
     const isoCode = countryCodeMap[numericCountryCode];
-    
+
     if (!isoCode) {
       return ''; // Return empty URL if ISO code is not found
     }
-    
+
     // Example using Flagpedia API
     return `https://flagpedia.net/data/flags/h80/${isoCode.toLowerCase()}.png`;
   };
-  
+
 
   const handleChange = (event) => {
     const {
@@ -364,12 +388,10 @@ export default function CustomizedTables() {
 
 
   React.useEffect(() => {
-    console.log('useEffect triggered');
 
     const fetchNames = async () => {
-      
+
       const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-      console.log('fetchNames function called');
       try {
         const optionsCountries = {
           method: 'GET',
@@ -381,10 +403,10 @@ export default function CustomizedTables() {
         };
 
         const optionsServices = {
-          
+
           method: 'GET',
           url: 'https://otpninja.com/api/v1/listservices?type=otp',  // Example service endpoint
-        
+
           headers: {
             'X-OTPNINJA-TOKEN': token // If required, use token in custom header
           },
@@ -395,9 +417,6 @@ export default function CustomizedTables() {
           axios.request(optionsCountries),
           axios.request(optionsServices)
         ]);
-
-        console.log('Response received for countries:', responseCountries);
-        console.log('Response received for services:', responseServices);
 
         // Update state with both responses
         setNames(responseCountries.data.data);
@@ -415,9 +434,6 @@ export default function CustomizedTables() {
 
   const handleBuy = async () => {
     try {
-      console.log(selectedName); // Ensure this is a valid country code
-      console.log('Selected Service:', selectedService); // Ensure this is a valid service code
-
       let showPrice = false;
 
       if (!selectedName || !selectedService) {
@@ -438,19 +454,22 @@ export default function CustomizedTables() {
       const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
 
 
+
+
       // Set up the request options using the second code snippet's structure
       const options = {
-        
+
         method: 'POST',
         url: 'https://otpninja.com/api/v1/buynumber',
-      
+
         headers: {
           'X-OTPNINJA-TOKEN': token // If required, use token in custom header
         },
         data: {
           serviceid: selectedService,  // Use the selected service code
           type: 'otp',                 // Use 'otp' as the type
-          countrycode: selectedName    // Use the selected country code
+          countrycode: selectedName,    // Use the selected country code
+          mode: 'live'
         }
       };
 
@@ -458,17 +477,50 @@ export default function CustomizedTables() {
       const response = await axios.request(options);
       console.log('Purchase response:', response.data);
 
+
+      // Extract the 'nid' from the response data
+      const { nid } = response.data;
+      console.log(nid);
+
+      // Store the nid in the state for later use
+      setPurchasedNid(nid);
+
+
       // Update state with response data
       setResponseData(response.data);
+      // Extracting the number and price from response
+      const { number } = response.data;  // Accessing number from 'data'
+      const { price } = response.data;    // Accessing price from 'data'
 
-      // Handle response based on message content
-      if (response.data.message === 'Invalid service') {
+      const { service } = response.data
+
+
+      // Log the extracted values to confirm
+      console.log('Number:', number);
+      console.log('Price:', price);
+      console.log(service);
+
+
+      console.log(response.data.message.number)
+      console.log(response.data.number)
+      if (response.data.number === 'undefined') {
         setResponseText('Service not available.');
       } else {
-        setResponseText(JSON.stringify(response.data.message)); // Display the actual response message
-        setModalType('success'); // Adjust the modal type based on success
-      }
+        // Constructing a response message for modal
 
+        setSubPhone(`${number}`); // Set verification phone number
+
+        // Set dynamic subtitle based on the received number
+
+        setSubtitleText(`🔽 Waiting to receive an SMS from ${service}. Please note that services may take multiple attempts to succeed.`);
+        setTitle(`${service} SMS Verifications`)
+        // Set dynamic response text
+        setResponseText(`Use this code ${number} at a price of ${price} for ${service}.`);
+
+
+
+      }
+      console.log(service)
       // Show the modal
       setShowModal(true);
 
@@ -476,18 +528,62 @@ export default function CustomizedTables() {
       console.error('Purchase error:', error); // Log the error for debugging
       setResponseText('Purchase failed. Please try again.');
       setModalType('yellow');
-      setShowModal(true);
+
+      console.log(responseText)
+      console.log(showModal)
+
+
     } finally {
       // Optionally close the dialog after a successful purchase
       handleClose();
     }
   };
 
+  // Function to cancel the purchased number
+  const cancelNumber = async () => {
+
+    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    if (!purchasedNid) {
+      console.log('No purchased NID found.');
+      return;
+    }
+
+    try {
+      // Set up the request options for canceling the number
+      const cancelOptions = {
+        method: 'POST',
+        url: 'https://otpninja.com/api/v1/cancelnumber',
+        headers: {
+          'X-OTPNINJA-TOKEN': token,
+        },
+        data: {
+          nid: purchasedNid, // Use the stored nid
+        },
+      };
+
+      // Make the cancel request
+      const cancelResponse = await axios.request(cancelOptions);
+      console.log(cancelResponse.data.message);
+
+      // Check if the cancellation was successful
+      if (cancelResponse.data.message) { // Adjust this check according to your response structure
+        alert(`Cancellation successful: ${cancelResponse.data.message}`);
+      } else {
+        alert(`Cancellation failed: ${cancelResponse.data.message}`);
+      }
+
+    } catch (error) {
+      console.error('Error canceling number:', error);
+    }
+  };
+
+
+
 
 
 
   React.useEffect(() => {
-    
+
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     console.log('useEffect triggered');
     const fetchPayments = async () => {
@@ -495,13 +591,36 @@ export default function CustomizedTables() {
       try {
         const options = {
           method: 'GET',
-          url: 'https://otpninja.com/api/v1/listmessages?type=otp',   headers: {
+          url: 'https://otpninja.com/api/v1/listmessages?type=otp',
+
+          headers: {
             'X-OTPNINJA-TOKEN': token // If required, use token in custom header
           },
         };
         const response = await axios.request(options);
 
+        // Sort the data by 'messagedate' in descending order to get the latest data first
+        const sortedData = response.data.data.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
+        console.log(sortedData);
+        // Set the sorted data in your state (React use case)
         setPayments(response.data.data);
+
+        setSubtitleText(`🔽 Waiting to receive an SMS from ${name}. Please note that services may take multiple attempts to succeed.`);
+
+        // Extract values from the latest item (first item after sorting)
+        const { name } = sortedData[0];  // Get 'name' from the latest message
+        const { message } = sortedData[0];
+
+
+
+        setCost(message)
+
+
+        // setMessage(`${message}`)
+        // Log the extracted values to confirm
+        console.log(message);
+        console.log(name);
+
       } catch (error) {
         console.error('Error fetching payments:', error);
       }
@@ -511,12 +630,12 @@ export default function CustomizedTables() {
 
 
   React.useEffect(() => {
-    
+
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     const fetchData = async () => {
       const options = {
         method: 'GET',
-        url: 'https://otpninja.com/api/v1/getprice',   headers: {
+        url: 'https://otpninja.com/api/v1/getprice', headers: {
           'X-OTPNINJA-TOKEN': token // If required, use token in custom header
         },
         params: { type: 'otp', servicecode: 'tx', countrycode: '17' }
@@ -534,8 +653,9 @@ export default function CustomizedTables() {
     // Call the fetch function once when the component mounts
     fetchData();
   }, []);  // Empty dependency array ensures it runs only once on mount
-
   // Create rows and sort them by date (earliest first)
+
+
   const rows = payments
     .map((payment) => ({
       id: payment.reference, // Assuming `reference` is unique
@@ -544,7 +664,12 @@ export default function CustomizedTables() {
       messagedate: new Date(payment.messagedate), // Convert date string to Date object
       message: payment.message,
     }))
-    .sort((a, b) => a.date - b.date); // Sort by date (earliest first)
+
+    .sort((a, b) => a.messagedate - b.messagedate)
+
+    .slice(-5); // Take the last 3 elements
+
+
 
   // Handle page change
   const handleChangePage = (event, newPage) => {
@@ -559,6 +684,10 @@ export default function CustomizedTables() {
 
 
 
+
+
+
+
   // Calculate rows to display based on pagination
   const paginatedRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   const isDesktop = useMediaQuery('(min-width:600px)');
@@ -566,12 +695,33 @@ export default function CustomizedTables() {
   return (
     <Container>
 
+
+
+
+      {/* Button to cancel number */}
+      <Button onClick={cancelNumber} disabled={!purchasedNid}>
+        Cancel Number
+      </Button>
+
       {/* Modal Component */}
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
         responseText={responseText}
+        subtitle={subtitleText} // Dynamic subtitle
+        subphone={subphone}
+        cost={cost}
+
+        purchasedNid={purchasedNid} // Pass the NID here
+
+
         modalType={responseData}
+        title={title}
+
+
+        time="Time Left"
+
+
       />
       <Box sx={{ mt: 4 }}>
         <Stack
@@ -680,16 +830,16 @@ export default function CustomizedTables() {
                         PaperProps: {
                           style: { // Adjust this if needed
                             width: 400,     // Set the desired width for the dropdown menu
-                            
+
                           },
                         },
-                        
+
                       }}
-                      
+
 
                     >
                       <MenuItem value="">
-                      <em style={{ fontSize: '18px' }}>Country</em>
+                        <em style={{ fontSize: '18px' }}>Country</em>
 
                       </MenuItem>
                       {names.map((name) => (
@@ -731,7 +881,7 @@ export default function CustomizedTables() {
                       onChange={handleChanges}  // Handler to update the selected service
                       label="Service Name"  // Correct label prop
                       fullWidth
-                      
+
                       MenuProps={{
                         PaperProps: {
                           style: { // Adjust this if needed
@@ -744,7 +894,7 @@ export default function CustomizedTables() {
                         <em style={{ fontSize: '18px' }}>Services</em>
                       </MenuItem>
                       {services.map((service) => (
-                        <MenuItem key={service.code} value={service.code}  style={{ fontSize: '18px', margin: '10px 0' }}>
+                        <MenuItem key={service.code} value={service.code} style={{ fontSize: '18px', margin: '10px 0' }}>
                           {service.name}
                         </MenuItem>
                       ))}
@@ -827,7 +977,20 @@ export default function CustomizedTables() {
                   <StyledTableCell align="left">{row.name}</StyledTableCell>
                   <StyledTableCell align="left">{row.number}</StyledTableCell>
                   <StyledTableCell align="left">
-                    {row.message}
+
+                    <Button
+                      onClick={handleOpenModal}
+                      sx={{
+                        backgroundColor: '#3055c6',  // Light blue color
+                        color: '#fff',               // White text color
+                        '&:hover': {
+                          backgroundColor: '#244a9d', // Darker blue on hover
+                        },
+                      }}
+                    >
+                      Open
+                    </Button>
+
                   </StyledTableCell>
                   <StyledTableCell align="left">{row.messagedate.toLocaleDateString()}</StyledTableCell>
                 </StyledTableRow>

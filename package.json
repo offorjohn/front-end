@@ -3,7 +3,6 @@
   "author": "minimals.cc",
   "licence": "MIT",
   "version": "1.8.0",
-
   "proxy": "https://otpninja.com/api/v1/getsession",
   "private": false,
   "scripts": {
@@ -44,7 +43,6 @@
     "react-hook-form": "^7.47.0",
     "react-router-dom": "^6.16.0",
     "simplebar-react": "^3.2.4"
-
   },
   "devDependencies": {
     "@vitejs/plugin-react-swc": "^3.4.0",
@@ -59,13 +57,14 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-unused-imports": "^3.0.0",
+    "idb": "^8.0.0",
     "prettier": "^3.0.3",
     "vite": "^4.4.11",
     "vite-plugin-checker": "^0.6.2"
   },
   "peerDependencies": {
-     "js-cookie": "^3.0.5",
-    "axios": "^1.7.6"
-   
+    "axios": "^1.7.6",
+    "idb": "^8.0.0",
+    "js-cookie": "^3.0.5"
   }
 }
