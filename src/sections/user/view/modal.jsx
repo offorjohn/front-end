@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 
@@ -12,7 +13,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 
 const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subphone, cost, time }) => {
-
   // Countdown timer state
   const [timeLeft, setTimeLeft] = useState(1200); // 1200 seconds = 20 minutes
 
@@ -104,7 +104,7 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
             marginBottom: '1rem',
             paddingLeft: '24px',
             paddingRight: '24px',
-            color: '#3055c6',      // Light blue color for the text
+            color: '#3055c6', // Light blue color for the text
             backgroundColor: 'rgba(0, 0, 255, 0.1)', // Transparent blue background
             borderRadius: '8px', // Optional: to add rounded corners
           }}
@@ -123,7 +123,7 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
           }}
         >
           Verification Phone Number
-          <div style={{ display: 'block', fontWeight: 'normal', position: 'relative' }}> {/* Ensure normal weight for phone number */}
+          <div style={{ display: 'block', fontWeight: 'normal', position: 'relative' }}>
             {storedSubphone}
             {/* Add copy button */}
             <span
@@ -132,12 +132,12 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
                 alert('Phone number copied!'); // Optional: Add an alert or notification
               }}
               style={{
-                fontWeight: 'bold',    // Bold for the "Copy" text
-                marginLeft: '15px',    // Shift to the left
-                cursor: 'pointer',     // Make it look clickable
-                padding: '5px 10px',   // Padding inside the box
+                fontWeight: 'bold', // Bold for the "Copy" text
+                marginLeft: '15px', // Shift to the left
+                cursor: 'pointer', // Make it look clickable
+                padding: '5px 10px', // Padding inside the box
                 border: '1px solid #ccc', // Light border around the box
-                borderRadius: '8px',   // Rounded corners
+                borderRadius: '8px', // Rounded corners
                 backgroundColor: '#f0f0f0', // Light gray background for the box
               }}
             >
@@ -145,21 +145,21 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
             </span>
           </div>
 
-          <div style={{ display: 'block', fontWeight: 'normal', position: 'relative' }}> {/* Ensure normal weight for phone number */}
+          <div style={{ display: 'block', fontWeight: 'normal', position: 'relative' }}>
             {storedCost}
             {/* Add copy button */}
             <span
               onClick={() => {
-                navigator.clipboard.writeText(storedCost); // Copy phone number to clipboard
-                alert('Phone number copied!'); // Optional: Add an alert or notification
+                navigator.clipboard.writeText(storedCost); // Copy cost to clipboard
+                alert('Cost copied!'); // Optional: Add an alert or notification
               }}
               style={{
-                fontWeight: 'bold',    // Bold for the "Copy" text
-                marginLeft: '15px',    // Shift to the left
-                cursor: 'pointer',     // Make it look clickable
-                padding: '5px 10px',   // Padding inside the box
+                fontWeight: 'bold', // Bold for the "Copy" text
+                marginLeft: '15px', // Shift to the left
+                cursor: 'pointer', // Make it look clickable
+                padding: '5px 10px', // Padding inside the box
                 border: '1px solid #ccc', // Light border around the box
-                borderRadius: '8px',   // Rounded corners
+                borderRadius: '8px', // Rounded corners
                 backgroundColor: '#f0f0f0', // Light gray background for the box
               }}
             >
