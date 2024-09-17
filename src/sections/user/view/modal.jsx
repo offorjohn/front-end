@@ -138,9 +138,11 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
             justifyContent: 'center',
             alignItems: 'center',
             minHeight: '200px',
-            textAlign: 'center',
-            border: '2px solid #808080', // Rectangle border (grey)
-            borderRadius: '8px', // Rounded corners for the border (optional)
+            textAlign: 'center',border: '2px solid rgba(255, 255, 255, 0.2)', // Semi-transparent white border
+            backdropFilter: 'blur(10px)',                 // Glass-like blur effect
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',   // Soft shadow for depth
+            borderRadius: '8px',                          // Rounded corners for a smoother appearance
+            
             padding: '16px',
             width: '100%',
             boxSizing: 'border-box',
