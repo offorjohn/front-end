@@ -4,13 +4,14 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 
+import Box from '@mui/material/Box';
 import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContentText from '@mui/material/DialogContentText';
+import DialogContentText from '@mui/material/DialogContentText'; // Import Box for flexbox styling
 
 const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subphone, cost }) => {
   // Separate state for modal open/close
@@ -114,7 +115,7 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
               }}
               style={{
                 fontWeight: 'bold', // Bold for the "Copy" text
-                marginLeft: '15px', // Shift to the left
+                marginLeft: '40px', // Shift to the left
                 cursor: 'pointer', // Make it look clickable
                 padding: '5px 10px', // Padding inside the box
                 border: '1px solid #ccc', // Light border around the box
@@ -128,18 +129,22 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
         </Typography>
       )}
 
-      <DialogContent>
-        <DialogContentText>
-          {storedResponseText || 'No message available.'}
-        </DialogContentText>
-        
-        <DialogContentText>
-          {storedResponseText || 'No message available.'}
-        </DialogContentText>
-        
-        <DialogContentText>
-          {storedResponseText || 'No message available.'}
-        </DialogContentText>
+      <DialogContent>  <DialogContent>
+        {/* Center the response text */}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            
+            textAlign: 'center', // Center the text
+          }}
+        >
+          <DialogContentText>
+            {storedResponseText || 'No message available.'}
+          </DialogContentText>
+        </Box>
+      </DialogContent>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">

@@ -498,16 +498,23 @@ export default function CustomizedTables() {
 
       console.log(response.data.message.number)
       console.log(response.data.number)
-      if (response.data.number === 'undefined') {
+      if (response.data.number === undefined) {
         setResponseText('Service not available.');
+        
+        setSubPhone(`No Service for this Number Try Another Service`); // Set verification phone number
+      
       } else {
         // Constructing a response message for modal
+        setResponseText('waiting');
 
         setSubPhone(`${number}`); // Set verification phone number
 
         // Set dynamic subtitle based on the received number
 
-        setSubtitleText(`🔽 Waiting to receive an SMS from ${service}. Please note that services may take multiple attempts to succeed.`);
+        setSubtitleText(`🔽 Waiting to receive an SMS from ${service}. Please note that services may take multiple attempts t succeed.`);
+     
+
+
         setTitle(`${service} SMS Verifications`)
       // Set dynamic response text
 
@@ -601,6 +608,8 @@ export default function CustomizedTables() {
         setResponseText(message)
         // setMessage(`${message}`)
         // Log the extracted values to confirm
+
+        
         console.log(message);
         console.log(name);
 
