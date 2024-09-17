@@ -134,16 +134,27 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
         <Box
           sx={{
             display: 'flex',
+            flexDirection: 'column', // Stack the elements vertically
             justifyContent: 'center',
             alignItems: 'center',
-            
-            textAlign: 'center', // Center the text
+            minHeight: '200px',
+            textAlign: 'center',
+            border: '2px solid #808080', // Rectangle border (grey)
+            borderRadius: '8px', // Rounded corners for the border (optional)
+            padding: '16px',
+            width: '100%',
+            boxSizing: 'border-box',
           }}
         >
+          <Typography variant="body1" sx={{ marginBottom: '12px', fontWeight: 'bold' }}>
+            Please Request Only One Code. Multiple Requests May Result in Issues with Your Code:
+          </Typography>
+
           <DialogContentText>
             {storedResponseText || 'No message available.'}
           </DialogContentText>
         </Box>
+
       </DialogContent>
       </DialogContent>
       <DialogActions>

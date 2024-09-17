@@ -60,8 +60,8 @@ export default function CustomizedTables() {
   // eslint-disable-next-line no-unused-vars
   const [, setPrice] = useState('');
   const [maxWidth, setMaxWidth] = useState('sm');
-  const [subtitleText, setSubtitleText] = useState('🔽 waiting to receive an SMS. Please note that services may take multiple attempts to succeed.');
-  const [title, setTitle] = useState('SMS Verifications')
+  const [subtitleText, setSubtitleText] = useState('OTP RECIEVED      ✔.');
+  const [title, setTitle] = useState('PREVIOUS SMS Verifications')
 
 
   const [responseData, setResponseData] = useState(null);
@@ -499,19 +499,19 @@ export default function CustomizedTables() {
       console.log(response.data.message.number)
       console.log(response.data.number)
       if (response.data.number === undefined) {
-        setResponseText('Service not available.');
+        setResponseText(`Service not available For this Number.`);
         
-        setSubPhone(`No Service for this Number Try Another Service`); // Set verification phone number
+        
       
       } else {
         // Constructing a response message for modal
-        setResponseText('waiting');
+        setResponseText('waiting...  Please Reload Page to View Otp');
 
         setSubPhone(`${number}`); // Set verification phone number
 
         // Set dynamic subtitle based on the received number
 
-        setSubtitleText(`🔽 Waiting to receive an SMS from ${service}. Please note that services may take multiple attempts t succeed.`);
+        setSubtitleText(`🔽 Waiting to receive an SMS from ${service}. Please note that services may take multiple attempts to succeed.`);
      
 
 
