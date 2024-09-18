@@ -11,13 +11,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 
 const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle, subphone, cost }) => {
-  // Separate state for modal open/close
+  // State for modal open/close
   const [isModalOpen, setIsModalOpen] = useState(() => {
     const savedState = localStorage.getItem('isModalOpen');
     return savedState === 'true' || show;
   });
 
-  // Separate state for responseText, subphone, and cost
+  // State for responseText, subphone, and cost
   const [storedResponseText, setStoredResponseText] = useState(() =>
     localStorage.getItem('modalResponseText') || responseText || ''
   );
@@ -27,6 +27,11 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
   const [storedCost, setStoredCost] = useState(() =>
     localStorage.getItem('modalCost') || cost || ''
   );
+
+  // State for timer
+  const [timer, setTimer] = useState(20 * 60); // 20 minutes in seconds
+
+  
 
   // Update localStorage whenever storedResponseText, subphone, or cost changes
   useEffect(() => {
@@ -63,6 +68,31 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
       setIsModalOpen(false);
     }
   }, [show, responseText, subphone, cost]);
+
+  // Timer logic
+  useEffect(() => {
+    if (!isModalOpen) return;
+
+    const intervalId = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer <= 0) {
+          clearInterval(intervalId);
+          return 0;
+        }
+        return prevTimer - 1;
+      });
+    }, 1000);
+
+    // eslint-disable-next-line consistent-return
+    return () => clearInterval(intervalId);
+  }, [isModalOpen]);
+
+  // Format time
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+  };
 
   // Handle modal close
   const handleClose = () => {
@@ -132,6 +162,14 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
               Copy
             </Button>
           </div>
+          <Typography
+            style={{
+              marginTop: '1rem',
+              fontWeight: 'bold',
+            }}
+          >
+            Time Remaining: {formatTime(timer)}
+          </Typography>
         </Typography>
       )}
 
