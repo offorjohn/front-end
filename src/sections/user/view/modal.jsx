@@ -163,15 +163,21 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
         {/* Cancel Button on the far left */}
         <Button
           onClick={handleClose}
-          color="secondary"
-          sx={{ alignSelf: 'flex-start' }}
+          sx={{
+            color: 'red', // Red text color
+            borderColor: 'red', // Optional: red border if needed
+            '&:hover': {
+              backgroundColor: 'rgba(255, 0, 0, 0.1)', // Light red background on hover
+            },
+            alignSelf: 'flex-start' // Align button to the left
+          }}
         >
-          Cancel  Number
+          Cancel Number
         </Button>
 
         <Button
           onClick={handleClose}
-          color="secondary"
+          color="primary"
           sx={{ alignSelf: 'flex-start' }}
         >
           Report Number
