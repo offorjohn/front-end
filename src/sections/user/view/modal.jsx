@@ -138,17 +138,17 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
             justifyContent: 'center',
             alignItems: 'center',
             minHeight: '200px',
-            textAlign: 'center',border: '2px solid rgba(255, 255, 255, 0.2)', // Semi-transparent white border
+            textAlign: 'center', border: '2px solid rgba(255, 255, 255, 0.2)', // Semi-transparent white border
             backdropFilter: 'blur(10px)',                 // Glass-like blur effect
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',   // Soft shadow for depth
             borderRadius: '8px',                          // Rounded corners for a smoother appearance
-            
+
             padding: '16px',
             width: '100%',
             boxSizing: 'border-box',
           }}
         >
-          <Typography variant="body1" sx={{ marginBottom: '12px', fontWeight: 'bold' }}>
+          <Typography variant="body1" sx={{ marginBottom: '8px', fontWeight: 'bold' }}>
             Please Request Only One Code. Multiple Requests May Result in Issues with Your Code:
           </Typography>
 
@@ -159,11 +159,28 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
 
       </DialogContent>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Close
+      <DialogActions sx={{ justifyContent: 'space-between', width: '100%' }}>
+        {/* Cancel Button on the far left */}
+        <Button
+          onClick={handleClose}
+          color="secondary"
+          sx={{ alignSelf: 'flex-start' }}
+        >
+          Cancel  Number
         </Button>
+
+        <Button
+          onClick={handleClose}
+          color="secondary"
+          sx={{ alignSelf: 'flex-start' }}
+        >
+          Report Number
+        </Button>
+
+
       </DialogActions>
+
+
     </Dialog>
   );
 });
