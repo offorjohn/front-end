@@ -500,29 +500,18 @@ export default function CustomizedTables() {
       console.log(response.data.number)
       if (response.data.number === undefined) {
         setResponseText(`Service not available For this Number.`);
-        
-        
-      
       } else {
         // Constructing a response message for modal
         setResponseText('waiting...  Please Reload Page to View Otp');
-
         setSubPhone(`${number}`); // Set verification phone number
-
         // Set dynamic subtitle based on the received number
-
         setSubtitleText(`🔽 Waiting to receive an SMS from ${service}. Please note that services may take multiple attempts to succeed.`);
-     
-
-
         setTitle(`${service} SMS Verifications`)
       // Set dynamic response text
-
       }
       console.log(service)
       // Show the modal
       setShowModal(true);
-
     } catch (error) {
       console.error('Purchase error:', error); // Log the error for debugging
       setResponseText('Purchase failed. Please try again.');
@@ -609,7 +598,7 @@ export default function CustomizedTables() {
         // setMessage(`${message}`)
         // Log the extracted values to confirm
 
-        
+        setTitle(`${name} SMS Verifications`)
         console.log(message);
         console.log(name);
 
