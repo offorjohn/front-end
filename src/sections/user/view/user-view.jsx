@@ -32,9 +32,11 @@ import Modal from './modal';// Import the Modal component
 
 
 
+
 export default function CustomizedTables() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  
 
   const [open, setOpen] = useState(false);
 
@@ -45,6 +47,8 @@ export default function CustomizedTables() {
 
   const [payments, setPayments] = useState([]);
   const [showModal, setShowModal] = useState(false);
+
+  
 
   const [, setModalType] = useState('success'); // 'success' or 'yellow' based on the response
   const [responseText, setResponseText] = useState('');
@@ -78,6 +82,8 @@ export default function CustomizedTables() {
 
   }
 
+
+  
 
 
 
@@ -380,6 +386,7 @@ export default function CustomizedTables() {
     setOpen(false);
   };
 
+  
 
 
   React.useEffect(() => {
@@ -467,10 +474,13 @@ export default function CustomizedTables() {
           mode: 'live'
         }
       };
+      
 
       // Make the API request
       const response = await axios.request(options);
       console.log('Purchase response:', response.data);
+
+      
 
 
       // Extract the 'nid' from the response data
@@ -490,10 +500,14 @@ export default function CustomizedTables() {
       const { service } = response.data
 
 
+
+
       // Log the extracted values to confirm
       console.log('Number:', number);
       console.log('Price:', price);
       console.log(service);
+
+      console.log(nid)
 
 
       console.log(response.data.message.number)
@@ -599,6 +613,7 @@ export default function CustomizedTables() {
         // Log the extracted values to confirm
 
         setTitle(`${name} SMS Verifications`)
+        
         console.log(message);
         console.log(name);
 
@@ -664,6 +679,8 @@ export default function CustomizedTables() {
   };
 
 
+  
+
 
 
 
@@ -679,15 +696,13 @@ export default function CustomizedTables() {
 
 
 
-      {/* Button to cancel number */}
-      <Button onClick={cancelNumber} disabled={!purchasedNid}>
-        Cancel Number
-      </Button>
-
       {/* Modal Component */}
       <Modal
         show={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={cancelNumber} disabled={!purchasedNid}
+        onWork={() => setShowModal(false) }
+        onChange={handleChange}
+        
         responseText={responseText}
         subtitle={subtitleText} // Dynamic subtitle
         subphone={subphone}

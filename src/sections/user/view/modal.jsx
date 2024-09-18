@@ -13,7 +13,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText'; // Import Box for flexbox styling
 
-const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subphone, cost }) => {
+const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle, subphone, cost }) => {
   // Separate state for modal open/close
   const [isModalOpen, setIsModalOpen] = useState(() => {
     const savedState = localStorage.getItem('isModalOpen');
@@ -72,10 +72,12 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
   const handleClose = () => {
     setIsModalOpen(false);
     onClose(); // Trigger the external onClose function
+    onWork();
   };
+  
 
   return (
-    <Dialog open={isModalOpen} onClose={handleClose}>
+    <Dialog open={isModalOpen} >
       {title && <DialogTitle>{title}</DialogTitle>}
 
       {subtitle && (
@@ -163,6 +165,8 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
         {/* Cancel Button on the far left */}
         <Button
           onClick={handleClose}
+
+
           sx={{
             color: 'red', // Red text color
             borderColor: 'red', // Optional: red border if needed
@@ -176,7 +180,7 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
         </Button>
 
         <Button
-          onClick={handleClose}
+        
           color="primary"
           sx={{ alignSelf: 'flex-start' }}
         >
@@ -193,7 +197,8 @@ const Modal = React.memo(({ show, onClose, responseText, title, subtitle, subpho
 
 Modal.propTypes = {
   show: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func.string,
+  onWork:  PropTypes.func.string,
   responseText: PropTypes.string.isRequired,
   title: PropTypes.string,
   subtitle: PropTypes.string,
