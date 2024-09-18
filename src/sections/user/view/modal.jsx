@@ -29,7 +29,7 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
   );
 
   // State for timer
-  const [timer, setTimer] = useState(20 * 60); // 20 minutes in seconds
+  const [timer, setTimer] = useState(10 * 60); // 20 minutes in seconds
 
   
 
