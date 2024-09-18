@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 
@@ -11,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContentText from '@mui/material/DialogContentText'; // Import Box for flexbox styling
+import DialogContentText from '@mui/material/DialogContentText';
 
 const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle, subphone, cost }) => {
   // Separate state for modal open/close
@@ -55,7 +52,6 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
       if (responseText && responseText.trim() !== '') {
         setStoredResponseText(responseText);
       }
-      console.log(responseText)
       if (subphone && subphone.trim() !== '') {
         setStoredSubphone(subphone);
       }
@@ -74,10 +70,9 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
     onClose(); // Trigger the external onClose function
     onWork();
   };
-  
 
   return (
-    <Dialog open={isModalOpen} >
+    <Dialog open={isModalOpen}>
       {title && <DialogTitle>{title}</DialogTitle>}
 
       {subtitle && (
@@ -107,44 +102,52 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
           }}
         >
           Verification Phone Number
-          <div style={{ display: 'block', fontWeight: 'normal', position: 'relative' }}>
-            {storedSubphone}
-            {/* Add copy button */}
+          <div style={{ display: 'block', position: 'relative' }}>
             <span
+              style={{
+                display: 'inline-block',
+                padding: '5px 10px',
+                border: '2px solid #ccc', // Rectangle border
+                borderRadius: '4px',
+                backgroundColor: '#f0f0f0',
+                marginRight: '10px',
+              }}
+            >
+              {storedSubphone}
+            </span>
+            <Button
               onClick={() => {
                 navigator.clipboard.writeText(storedSubphone); // Copy phone number to clipboard
                 alert('Phone number copied!'); // Optional: Add an alert or notification
               }}
-              style={{
-                fontWeight: 'bold', // Bold for the "Copy" text
-                marginLeft: '40px', // Shift to the left
-                cursor: 'pointer', // Make it look clickable
-                padding: '5px 10px', // Padding inside the box
-                border: '1px solid #ccc', // Light border around the box
-                borderRadius: '8px', // Rounded corners
-                backgroundColor: '#f0f0f0', // Light gray background for the box
+              sx={{
+                fontWeight: 'bold',
+                padding: '5px 10px',
+                backgroundColor: '#f0f0f0',
+                border: '1px solid #ccc',
+                borderRadius: '4px',
+                cursor: 'pointer',
               }}
             >
               Copy
-            </span>
+            </Button>
           </div>
         </Typography>
       )}
 
-      <DialogContent>  <DialogContent>
-        {/* Center the response text */}
+      <DialogContent>
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'column', // Stack the elements vertically
+            flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
             minHeight: '200px',
-            textAlign: 'center', border: '2px solid rgba(255, 255, 255, 0.2)', // Semi-transparent white border
-            backdropFilter: 'blur(10px)',                 // Glass-like blur effect
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',   // Soft shadow for depth
-            borderRadius: '8px',                          // Rounded corners for a smoother appearance
-
+            textAlign: 'center',
+            border: '2px solid rgba(255, 255, 255, 0.2)',
+            backdropFilter: 'blur(10px)',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+            borderRadius: '8px',
             padding: '16px',
             width: '100%',
             boxSizing: 'border-box',
@@ -158,47 +161,39 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
             {storedResponseText || 'No message available.'}
           </DialogContentText>
         </Box>
+      </DialogContent>
 
-      </DialogContent>
-      </DialogContent>
       <DialogActions sx={{ justifyContent: 'space-between', width: '100%' }}>
         {/* Cancel Button on the far left */}
         <Button
           onClick={handleClose}
-
-
           sx={{
-            color: 'red', // Red text color
-            borderColor: 'red', // Optional: red border if needed
+            color: 'red',
+            borderColor: 'red',
             '&:hover': {
-              backgroundColor: 'rgba(255, 0, 0, 0.1)', // Light red background on hover
+              backgroundColor: 'rgba(255, 0, 0, 0.1)',
             },
-            alignSelf: 'flex-start' // Align button to the left
+            alignSelf: 'flex-start',
           }}
         >
           Cancel Number
         </Button>
 
         <Button
-        
           color="primary"
           sx={{ alignSelf: 'flex-start' }}
         >
           Report Number
         </Button>
-
-
       </DialogActions>
-
-
     </Dialog>
   );
 });
 
 Modal.propTypes = {
   show: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.string,
-  onWork:  PropTypes.func.string,
+  onClose: PropTypes.func.isRequired,
+  onWork: PropTypes.func.isRequired,
   responseText: PropTypes.string.isRequired,
   title: PropTypes.string,
   subtitle: PropTypes.string,
