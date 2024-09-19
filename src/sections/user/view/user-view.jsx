@@ -10,7 +10,6 @@ import { Container } from '@mui/system';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Select from '@mui/material/Select';
-import { ListItemText } from '@mui/material';
 import TableRow from '@mui/material/TableRow';
 import MenuItem from '@mui/material/MenuItem';
 import { styled } from '@mui/material/styles';
@@ -25,6 +24,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
+import { ListItemText, CircularProgress } from '@mui/material';
 import DialogContentText from '@mui/material/DialogContentText';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
@@ -36,23 +36,13 @@ import Modal from './modal';// Import the Modal component
 export default function CustomizedTables() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  
-
   const [open, setOpen] = useState(false);
-
-
-
   const [names, setNames] = useState([]); // State to store names
-
-
   const [payments, setPayments] = useState([]);
   const [showModal, setShowModal] = useState(false);
-
-  
-
   const [, setModalType] = useState('success'); // 'success' or 'yellow' based on the response
   const [responseText, setResponseText] = useState('');
-
+  const [loading, setLoading] = useState(false);
   const [subphone, setSubPhone] = useState('');
   const [purchasedNid, setPurchasedNid] = useState(null); // Store the 'nid'
   const [cost] = useState('');
@@ -83,7 +73,9 @@ export default function CustomizedTables() {
   }
 
 
-  
+
+
+
 
 
 
@@ -386,7 +378,7 @@ export default function CustomizedTables() {
     setOpen(false);
   };
 
-  
+
 
 
   React.useEffect(() => {
@@ -474,13 +466,13 @@ export default function CustomizedTables() {
           mode: 'live'
         }
       };
-      
+
 
       // Make the API request
       const response = await axios.request(options);
       console.log('Purchase response:', response.data);
 
-      
+
 
 
       // Extract the 'nid' from the response data
@@ -499,6 +491,13 @@ export default function CustomizedTables() {
 
       const { service } = response.data
 
+      setLoading(true);
+      // Simulate a network request or some async operation
+      setTimeout(() => {
+        // Replace this with your actual async logic
+        setLoading(false);
+      }, 10000); // Simulate a 2-second delay
+
 
 
 
@@ -516,16 +515,17 @@ export default function CustomizedTables() {
         setResponseText(`Service not available For this Number.`);
       } else {
         // Constructing a response message for modal
-        setResponseText('waiting...  Please Reload Page to View Otp');
+        setResponseText('waiting...  ');
         setSubPhone(`${number}`); // Set verification phone number
         // Set dynamic subtitle based on the received number
         setSubtitleText(`🔽 Waiting to receive an SMS from ${service}. Please note that services may take multiple attempts to succeed.`);
         setTitle(`${service} SMS Verifications`)
-      // Set dynamic response text
+        // Set dynamic response text
       }
       console.log(service)
       // Show the modal
       setShowModal(true);
+
     } catch (error) {
       console.error('Purchase error:', error); // Log the error for debugging
       setResponseText('Purchase failed. Please try again.');
@@ -536,10 +536,10 @@ export default function CustomizedTables() {
 
 
     } finally {
-      // Optionally close the dialog after a successful purchase
       handleClose();
     }
   };
+
 
   // Function to cancel the purchased number
   const cancelNumber = async () => {
@@ -566,10 +566,13 @@ export default function CustomizedTables() {
       // Make the cancel request
       const cancelResponse = await axios.request(cancelOptions);
       console.log(cancelResponse.data.message);
-
+      
+    
       // Check if the cancellation was successful
       if (cancelResponse.data.message) { // Adjust this check according to your response structure
         alert(`Cancellation successful: ${cancelResponse.data.message}`);
+        setShowModal(false);
+
       } else {
         alert(`Cancellation failed: ${cancelResponse.data.message}`);
       }
@@ -585,44 +588,60 @@ export default function CustomizedTables() {
 
 
   React.useEffect(() => {
-
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     console.log('useEffect triggered');
+
     const fetchPayments = async () => {
       console.log(fetchPayments);
       try {
         const options = {
           method: 'GET',
           url: 'https://otpninja.com/api/v1/listmessages?type=otp',
-
           headers: {
             'X-OTPNINJA-TOKEN': token // If required, use token in custom header
           },
         };
-        const response = await axios.request(options); 
+        const response = await axios.request(options);
+
         // Sort the data by 'messagedate' in descending order to get the latest data first
         const sortedData = response.data.data.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
         console.log(sortedData);
+
         // Set the sorted data in your state (React use case)
         setPayments(response.data.data);
+        console.log(response)
+   
+
         // Extract values from the latest item (first item after sorting)
         const { name } = sortedData[0];  // Get 'name' from the latest message
         const { message } = sortedData[0];
-        setResponseText(message)
-        // setMessage(`${message}`)
-        // Log the extracted values to confirm
+        setResponseText(message);
 
-        setTitle(`${name} SMS Verifications`)
-        
+        setTitle(`${name} SMS Verifications`);
+
+        // Log the extracted values to confirm
         console.log(message);
         console.log(name);
+        
 
       } catch (error) {
         console.error('Error fetching payments:', error);
       }
     };
+    
+    // Initial fetch
     fetchPayments();
+    // Set up polling
+    const intervalId = setInterval(() => {
+      fetchPayments();
+    }, 60000); // Poll every 60,000 milliseconds (1 minute)
+    console.log(intervalId)
+    console.log(fetchPayments)
+   
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
+
 
 
   React.useEffect(() => {
@@ -663,7 +682,6 @@ export default function CustomizedTables() {
 
     .sort((a, b) => a.messagedate - b.messagedate)
 
-    .slice(-5); // Take the last 3 elements
 
 
 
@@ -679,7 +697,7 @@ export default function CustomizedTables() {
   };
 
 
-  
+
 
 
 
@@ -700,9 +718,9 @@ export default function CustomizedTables() {
       <Modal
         show={showModal}
         onClose={cancelNumber} disabled={!purchasedNid}
-        onWork={() => setShowModal(false) }
+        onWork={() => setShowModal(false)}
         onChange={handleChange}
-        
+
         responseText={responseText}
         subtitle={subtitleText} // Dynamic subtitle
         subphone={subphone}
@@ -934,7 +952,16 @@ export default function CustomizedTables() {
               {/* Text Above Amount Section */}
               <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleBuy}>Buy</Button>
+                <Button
+                  onClick={handleBuy}
+                  disabled={loading} // Disable the button while loading
+                >
+                  {loading ? (
+                    <CircularProgress size={24} />
+                  ) : (
+                    'Buy'
+                  )}
+                </Button>
 
               </DialogActions>
 
