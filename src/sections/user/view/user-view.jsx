@@ -615,7 +615,7 @@ export default function CustomizedTables() {
         // Extract values from the latest item (first item after sorting)
         const { name } = sortedData[0];  // Get 'name' from the latest message
         const { message } = sortedData[0];
-        setResponseText(message);
+        setResponseText(`Refreshes after 30 seconds: ${message}`);
 
         setTitle(`${name} SMS Verifications`);
 
@@ -634,7 +634,7 @@ export default function CustomizedTables() {
     // Set up polling
     const intervalId = setInterval(() => {
       fetchPayments();
-    }, 60000); // Poll every 60,000 milliseconds (1 minute)
+    }, 30000); // Poll every 60,000 milliseconds (1 minute)
     console.log(intervalId)
     console.log(fetchPayments)
    
