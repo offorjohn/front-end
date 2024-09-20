@@ -58,7 +58,7 @@ export default function CustomizedTables() {
   const [subtitleText, setSubtitleText] = useState('OTP RECIEVED      ✔.');
   const [title, setTitle] = useState('PREVIOUS SMS Verifications')
 
-
+ 
   const [responseData, setResponseData] = useState(null);
 
 
@@ -109,7 +109,7 @@ export default function CustomizedTables() {
         const paymentData = await ("otp", res.token);
         // eslint-disable-next-line no-undef
         setPayments(paymentData);
-        console.log(res);
+      
       }
     } catch (error) {
       console.error('Login or fetching payments failed:', error);
@@ -471,14 +471,14 @@ export default function CustomizedTables() {
 
       // Make the API request
       const response = await axios.request(options);
-      console.log('Purchase response:', response.data);
 
 
 
 
       // Extract the 'nid' from the response data
       const { nid } = response.data;
-      console.log(nid);
+      console.log(nid)
+     
 
       // Store the nid in the state for later use
       setPurchasedNid(nid);
@@ -488,7 +488,7 @@ export default function CustomizedTables() {
       setResponseData(response.data);
       // Extracting the number and price from response
       const { number } = response.data;  // Accessing number from 'data'
-      const { price } = response.data;    // Accessing price from 'data'
+     
 
       const { service } = response.data
 
@@ -500,18 +500,6 @@ export default function CustomizedTables() {
       }, 10000); // Simulate a 2-second delay
 
 
-
-
-      // Log the extracted values to confirm
-      console.log('Number:', number);
-      console.log('Price:', price);
-      console.log(service);
-
-      console.log(nid)
-
-
-      console.log(response.data.message.number)
-      console.log(response.data.number)
       if (response.data.number === undefined) {
         setResponseText(`Service not available For this Number.`);
         setTimeout(() => {
@@ -544,9 +532,6 @@ export default function CustomizedTables() {
       setResponseText('Purchase failed. Please try again.');
       setModalType('yellow');
 
-      console.log(responseText)
-      console.log(showModal)
-
 
     } finally {
       handleClose();
@@ -559,7 +544,7 @@ export default function CustomizedTables() {
 
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     if (!purchasedNid) {
-      console.log('No purchased NID found.');
+   
       return;
     }
 
@@ -578,7 +563,7 @@ export default function CustomizedTables() {
 
       // Make the cancel request
       const cancelResponse = await axios.request(cancelOptions);
-      console.log(cancelResponse.data.message);
+   
 
       const { message } = cancelResponse.data; // Assuming the message is in the 'message' field
       const statusCode = cancelResponse.status; // Status code of the response
@@ -587,7 +572,6 @@ export default function CustomizedTables() {
       // Log the extracted values
       console.log('Message:', message);
       console.log('Status Code:', statusCode);
-      console.log('Response Data:', responseData);
 
 
       if (message === 'invalid request') {
@@ -602,7 +586,6 @@ export default function CustomizedTables() {
 
       if (isInvalidRequest) {
         
-        console.log('Message: Service already cancelled');
         setCancel('Number Cancelled Already');
       } else {
         
@@ -610,7 +593,7 @@ export default function CustomizedTables() {
         
         setCancel(`${cancelResponse.data.message}`)
 
-        console.log('Message:', message);
+
       }
       // Check if the cancellation was successful
       
@@ -643,7 +626,7 @@ export default function CustomizedTables() {
 
         // Sort the data by 'messagedate' in descending order to get the latest data first
         const sortedData = response.data.data.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
-        console.log(sortedData);
+  
 
         // Set the sorted data in your state (React use case)
         setPayments(response.data.data);
@@ -658,9 +641,7 @@ export default function CustomizedTables() {
 
 
         setTitle(`${name} SMS Verifications`);
-        // Log the extracted values to confirm
-        console.log(message);
-        console.log(name);
+     
       } catch (error) {
         console.error('Error fetching payments:', error);
       }
@@ -672,8 +653,6 @@ export default function CustomizedTables() {
     const intervalId = setInterval(() => {
       fetchPayments();
     }, 30000); // Poll every 60,000 milliseconds (1 minute)
-    console.log(intervalId)
-    console.log(fetchPayments)
 
     // Clean up the interval on component unmount
     return () => clearInterval(intervalId);
@@ -696,7 +675,6 @@ export default function CustomizedTables() {
       try {
         const response = await axios.request(options);
         setServ(response.data);  // Store the response data in the state
-        console.log(response.data.price);  // Check the data in the console
       } catch (error) {
         console.error('Error fetching service:', error);
       }
@@ -732,13 +710,6 @@ export default function CustomizedTables() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-
-
-
-
-
-
 
 
   // Calculate rows to display based on pagination

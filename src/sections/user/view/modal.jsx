@@ -72,6 +72,7 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
       if (subphone && subphone.trim() !== '') {
         setStoredSubphone(subphone);
       }
+      console.log(subphone)
 
       if (cancel && cancel.trim() !== '') {
         setStoredCancel(cancel);
@@ -85,31 +86,39 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
     }
   }, [show, responseText, subphone, cancel, cost]);
 
-  // Timer logic
-  useEffect(() => {
-    if (!isModalOpen) return;
 
-    const intervalId = setInterval(() => {
-      setTimer((prevTimer) => {
-        if (prevTimer <= 0) {
-          clearInterval(intervalId);
-          return 0;
-        }
-        return prevTimer - 1;
-      });
-    }, 1000);
-
-    // eslint-disable-next-line consistent-return
-    return () => clearInterval(intervalId);
-  }, [isModalOpen]);
-
-  // Format time
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-  };
-
+    // Timer logic
+    useEffect(() => {
+      if (storedSubphone) {
+        setTimer(10 * 60); // Reset timer to 10 minutes
+      } else {
+        setTimer(0); // Reset timer if subphone is empty
+      }
+    }, [storedSubphone]);
+    useEffect(() => {
+      if (!isModalOpen || timer === 0) return;
+  
+      const intervalId = setInterval(() => {
+        setTimer((prevTimer) => {
+          if (prevTimer <= 0) {
+            clearInterval(intervalId);
+            return 0;
+          }
+          return prevTimer - 1;
+        });
+      }, 1000);
+  
+      // eslint-disable-next-line consistent-return
+      return () => clearInterval(intervalId);
+    }, [isModalOpen, timer]); // Run effect when modal opens or timer changes
+  
+    // Format time
+    const formatTime = (seconds) => {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    };
+  
   // Handle modal close
   const handleClose = () => {
     setIsModalOpen(false);
