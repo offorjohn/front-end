@@ -10,7 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 
-const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle, subphone, cost }) => {
+const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle, subphone, cost, cancel }) => {
   // State for modal open/close
   const [isModalOpen, setIsModalOpen] = useState(() => {
     const savedState = localStorage.getItem('isModalOpen');
@@ -28,15 +28,23 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
     localStorage.getItem('modalCost') || cost || ''
   );
 
+  const [storedcancel, setStoredCancel] = useState(() =>
+    localStorage.getItem('modalcancel') || cancel || ''
+  );
+
   // State for timer
   const [timer, setTimer] = useState(10 * 60); // 20 minutes in seconds
 
-  
+
 
   // Update localStorage whenever storedResponseText, subphone, or cost changes
   useEffect(() => {
     localStorage.setItem('modalResponseText', storedResponseText || '');
   }, [storedResponseText]);
+
+  useEffect(() => {
+    localStorage.setItem('modalCancel', storedcancel || '');
+  })
 
   useEffect(() => {
     localStorage.setItem('modalSubphone', storedSubphone || '');
@@ -60,6 +68,10 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
       if (subphone && subphone.trim() !== '') {
         setStoredSubphone(subphone);
       }
+
+      if (cancel && cancel.trim() !== '') {
+        setStoredCancel(cancel);
+      }
       if (cost && cost.trim() !== '') {
         setStoredCost(cost);
       }
@@ -67,7 +79,7 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
     } else {
       setIsModalOpen(false);
     }
-  }, [show, responseText, subphone, cost]);
+  }, [show, responseText, subphone, cancel, cost]);
 
   // Timer logic
   useEffect(() => {
@@ -122,6 +134,10 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
         </Typography>
       )}
 
+
+
+
+
       {storedSubphone && (
         <Typography
           style={{
@@ -144,6 +160,7 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
               }}
             >
               {storedSubphone}
+
             </span>
             <Button
               onClick={() => {
@@ -170,6 +187,23 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
           >
             Time Remaining: {formatTime(timer)}
           </Typography>
+        </Typography>
+      )}
+
+      {cancel && (
+        <Typography
+          variant="body1"
+          style={{
+            fontWeight: 'bold',
+            marginBottom: '1rem',
+            paddingLeft: '24px',
+            paddingRight: '24px',
+            color: '#3055c6', // Light blue color for the text
+            backgroundColor: 'rgba(0, 0, 255, 0.1)', // Transparent blue background
+            borderRadius: '8px', // Optional: to add rounded corners
+          }}
+        >
+          {cancel}
         </Typography>
       )}
 
@@ -237,6 +271,7 @@ Modal.propTypes = {
   subtitle: PropTypes.string,
   subphone: PropTypes.string,
   cost: PropTypes.string,
+  cancel: PropTypes.string,
 };
 
 export default Modal;

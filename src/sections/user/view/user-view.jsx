@@ -42,6 +42,7 @@ export default function CustomizedTables() {
   const [showModal, setShowModal] = useState(false);
   const [, setModalType] = useState('success'); // 'success' or 'yellow' based on the response
   const [responseText, setResponseText] = useState('');
+  const [cancel, setCancel] = useState('')
   const [loading, setLoading] = useState(false);
   const [subphone, setSubPhone] = useState('');
   const [purchasedNid, setPurchasedNid] = useState(null); // Store the 'nid'
@@ -582,8 +583,9 @@ export default function CustomizedTables() {
 
       // Check if the cancellation was successful
       if (cancelResponse.data.message) { // Adjust this check according to your response structure
-        alert(`Cancellation successful: ${cancelResponse.data.message}`);
+        alert(cancelResponse.data.message);
         setShowModal(false);
+        setCancel(`Number Cancelled ${cancelResponse.data.message}`)
 
       } else {
         alert(`Cancellation failed: ${cancelResponse.data.message}`);
@@ -629,6 +631,8 @@ export default function CustomizedTables() {
         console.log(`Array length: ${arrayLength}`);
         
         setResponseText(`Refreshes after 30 seconds... ${message}`);
+
+
         setTitle(`${name} SMS Verifications`);
 // Log the extracted values to confirm
         console.log(message);
@@ -731,6 +735,7 @@ export default function CustomizedTables() {
         onChange={handleChange}
 
         responseText={responseText}
+        cancel={cancel}
         subtitle={subtitleText} // Dynamic subtitle
         subphone={subphone}
         cost={cost}
