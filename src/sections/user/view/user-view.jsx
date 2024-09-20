@@ -513,10 +513,22 @@ export default function CustomizedTables() {
       console.log(response.data.number)
       if (response.data.number === undefined) {
         setResponseText(`Service not available For this Number.`);
+        setTimeout(() => {
+        
+          setResponseText(`Service not available For this Number.`);
+        }, 1800000); // 1,800,000 milliseconds = 30 minutes
+
+
       } else {
         // Constructing a response message for modal
         setResponseText('waiting...  ');
         setSubPhone(`${number}`); // Set verification phone number
+
+        setTimeout(() => {
+          // After 30 seconds, you can change the response text back to something else, or clear it
+          setResponseText(''); // Clears the message after 30 seconds
+        }, 30000); // 30,000 milliseconds = 30 seconds
+
         // Set dynamic subtitle based on the received number
         setSubtitleText(`🔽 Waiting to receive an SMS from ${service}. Please note that services may take multiple attempts to succeed.`);
         setTitle(`${service} SMS Verifications`)
@@ -566,8 +578,8 @@ export default function CustomizedTables() {
       // Make the cancel request
       const cancelResponse = await axios.request(cancelOptions);
       console.log(cancelResponse.data.message);
-      
-    
+
+
       // Check if the cancellation was successful
       if (cancelResponse.data.message) { // Adjust this check according to your response structure
         alert(`Cancellation successful: ${cancelResponse.data.message}`);
@@ -610,25 +622,22 @@ export default function CustomizedTables() {
         // Set the sorted data in your state (React use case)
         setPayments(response.data.data);
         console.log(response)
-   
-
         // Extract values from the latest item (first item after sorting)
         const { name } = sortedData[0];  // Get 'name' from the latest message
         const { message } = sortedData[0];
-        setResponseText(`Refreshes after 30 seconds: ${message}`);
-
+        const arrayLength = sortedData.length;
+        console.log(`Array length: ${arrayLength}`);
+        
+        setResponseText(`Refreshes after 30 seconds... ${message}`);
         setTitle(`${name} SMS Verifications`);
-
-        // Log the extracted values to confirm
+// Log the extracted values to confirm
         console.log(message);
         console.log(name);
-        
-
       } catch (error) {
         console.error('Error fetching payments:', error);
       }
     };
-    
+
     // Initial fetch
     fetchPayments();
     // Set up polling
@@ -637,7 +646,7 @@ export default function CustomizedTables() {
     }, 30000); // Poll every 60,000 milliseconds (1 minute)
     console.log(intervalId)
     console.log(fetchPayments)
-   
+
     // Clean up the interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
