@@ -585,7 +585,7 @@ export default function CustomizedTables() {
       if (cancelResponse.data.message) { // Adjust this check according to your response structure
         alert(cancelResponse.data.message);
         setShowModal(false);
-        setCancel(`Number Cancelled ${cancelResponse.data.message}`)
+        setCancel(`${cancelResponse.data.message}`)
 
       } else {
         alert(`Cancellation failed: ${cancelResponse.data.message}`);
