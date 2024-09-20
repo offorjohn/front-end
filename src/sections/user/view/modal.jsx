@@ -10,12 +10,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 
-const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle, subphone, cost, cancel }) => {
+const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle, subphone, cost, cancel }) => {
+
+
+
   // State for modal open/close
   const [isModalOpen, setIsModalOpen] = useState(() => {
     const savedState = localStorage.getItem('isModalOpen');
     return savedState === 'true' || show;
   });
+
 
   // State for responseText, subphone, and cost
   const [storedResponseText, setStoredResponseText] = useState(() =>
@@ -109,9 +113,18 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
   // Handle modal close
   const handleClose = () => {
     setIsModalOpen(false);
-    onClose(); // Trigger the external onClose function
-    onWork();
+
+    onBack();
   };
+
+
+  const handleCancel = () => {
+    
+    // You can also add other logic here to handle
+
+
+    onClose(); // Trigger the external onClose function
+  }
 
   return (
     <Dialog open={isModalOpen}>
@@ -236,9 +249,31 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
       </DialogContent>
 
       <DialogActions sx={{ justifyContent: 'space-between', width: '100%' }}>
-        {/* Cancel Button on the far left */}
+
+
+
+        {/* Back Button */}
         <Button
           onClick={handleClose}
+          sx={{
+            backgroundColor: 'transparent', // Default background color
+            transition: 'all 0.3s ease-in-out', // Smooth transition for all properties
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 255, 0.1)', // Light blue background on hover
+              color: 'darkblue', // Change text color on hover
+            },
+             alignSelf: 'flex-start',
+          }}
+        >
+          Back
+        </Button>
+
+
+        {/* Cancel Button on the far left */}
+
+        <Button
+          onClick={handleCancel}
+
           sx={{
             color: 'red',
             borderColor: 'red',
@@ -250,6 +285,7 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
         >
           Cancel Number
         </Button>
+
 
         <Button
           color="primary"
@@ -265,13 +301,14 @@ const Modal = React.memo(({ show, onClose, onWork, responseText, title, subtitle
 Modal.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onWork: PropTypes.func.isRequired,
+
   responseText: PropTypes.string.isRequired,
   title: PropTypes.string,
   subtitle: PropTypes.string,
   subphone: PropTypes.string,
   cost: PropTypes.string,
   cancel: PropTypes.string,
+  onBack: PropTypes.string
 };
 
 export default Modal;

@@ -515,7 +515,7 @@ export default function CustomizedTables() {
       if (response.data.number === undefined) {
         setResponseText(`Service not available For this Number.`);
         setTimeout(() => {
-        
+
           setResponseText(`Service not available For this Number.`);
         }, 1800000); // 1,800,000 milliseconds = 30 minutes
 
@@ -580,16 +580,40 @@ export default function CustomizedTables() {
       const cancelResponse = await axios.request(cancelOptions);
       console.log(cancelResponse.data.message);
 
+      const { message } = cancelResponse.data; // Assuming the message is in the 'message' field
+      const statusCode = cancelResponse.status; // Status code of the response
 
-      // Check if the cancellation was successful
-      if (cancelResponse.data.message) { // Adjust this check according to your response structure
-        alert(cancelResponse.data.message);
-        setShowModal(false);
+
+      // Log the extracted values
+      console.log('Message:', message);
+      console.log('Status Code:', statusCode);
+      console.log('Response Data:', responseData);
+
+
+      if (message === 'invalid request') {
+        console.log('Message: Service already cancelled');
+        setCancel('kdurbj')
+      } else {
+        console.log('Message:', message);
+      }
+
+      // Extract comparison result into a variable
+      const isInvalidRequest = (message === 'invalid request');
+
+      if (isInvalidRequest) {
+        
+        console.log('Message: Service already cancelled');
+        setCancel('Number Cancelled Already');
+      } else {
+        
+        setShowModal(true);
+        
         setCancel(`${cancelResponse.data.message}`)
 
-      } else {
-        alert(`Cancellation failed: ${cancelResponse.data.message}`);
+        console.log('Message:', message);
       }
+      // Check if the cancellation was successful
+      
 
     } catch (error) {
       console.error('Error canceling number:', error);
@@ -629,12 +653,12 @@ export default function CustomizedTables() {
         const { message } = sortedData[0];
         const arrayLength = sortedData.length;
         console.log(`Array length: ${arrayLength}`);
-        
+
         setResponseText(`Refreshes after 30 seconds... ${message}`);
 
 
         setTitle(`${name} SMS Verifications`);
-// Log the extracted values to confirm
+        // Log the extracted values to confirm
         console.log(message);
         console.log(name);
       } catch (error) {
@@ -733,6 +757,9 @@ export default function CustomizedTables() {
         onClose={cancelNumber} disabled={!purchasedNid}
         onWork={() => setShowModal(false)}
         onChange={handleChange}
+        onBack={() => setShowModal(false)}
+
+
 
         responseText={responseText}
         cancel={cancel}
