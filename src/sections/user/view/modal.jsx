@@ -10,7 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 
-const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle, subphone, cost, cancel }) => {
+const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle, cancelM, subphone, cost, cancel }) => {
 
 
 
@@ -87,38 +87,38 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
   }, [show, responseText, subphone, cancel, cost]);
 
 
-    // Timer logic
-    useEffect(() => {
-      if (storedSubphone) {
-        setTimer(10 * 60); // Reset timer to 10 minutes
-      } else {
-        setTimer(0); // Reset timer if subphone is empty
-      }
-    }, [storedSubphone]);
-    useEffect(() => {
-      if (!isModalOpen || timer === 0) return;
-  
-      const intervalId = setInterval(() => {
-        setTimer((prevTimer) => {
-          if (prevTimer <= 0) {
-            clearInterval(intervalId);
-            return 0;
-          }
-          return prevTimer - 1;
-        });
-      }, 1000);
-  
-      // eslint-disable-next-line consistent-return
-      return () => clearInterval(intervalId);
-    }, [isModalOpen, timer]); // Run effect when modal opens or timer changes
-  
-    // Format time
-    const formatTime = (seconds) => {
-      const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = seconds % 60;
-      return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-    };
-  
+  // Timer logic
+  useEffect(() => {
+    if (storedSubphone) {
+      setTimer(10 * 60); // Reset timer to 10 minutes
+    } else {
+      setTimer(0); // Reset timer if subphone is empty
+    }
+  }, [storedSubphone]);
+  useEffect(() => {
+    if (!isModalOpen || timer === 0) return;
+
+    const intervalId = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer <= 0) {
+          clearInterval(intervalId);
+          return 0;
+        }
+        return prevTimer - 1;
+      });
+    }, 1000);
+
+    // eslint-disable-next-line consistent-return
+    return () => clearInterval(intervalId);
+  }, [isModalOpen, timer]); // Run effect when modal opens or timer changes
+
+  // Format time
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+  };
+
   // Handle modal close
   const handleClose = () => {
     setIsModalOpen(false);
@@ -128,7 +128,7 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
 
 
   const handleCancel = () => {
-    
+
     // You can also add other logic here to handle
 
 
@@ -156,10 +156,6 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
         </Typography>
       )}
 
-
-
-
-
       {storedSubphone && (
         <Typography
           style={{
@@ -168,6 +164,7 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
             paddingRight: '24px',
             fontWeight: 'bold',
           }}
+
         >
           Verification Phone Number
           <div style={{ display: 'block', position: 'relative' }}>
@@ -199,8 +196,34 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
               }}
             >
               Copy
+
+
             </Button>
+
+
           </div>
+
+
+          {cancelM && (
+            <Typography
+              variant="body1"
+              style={{
+
+                fontWeight: 'bold',
+                marginBottom: '1rem',
+                paddingLeft: '24px',
+                paddingRight: '24px',
+                marginTop: '1rem',
+                color: '#ff6666', // Light red color for the text
+
+                backgroundColor: 'rgba(255, 0, 0, 0.1)', // Transparent red background
+                width: '50%', // Adjust the width as per your requirement, for example 80%
+                borderRadius: '8px', // Optional: to add rounded corners
+              }}
+            >
+              {cancelM}
+            </Typography>
+          )}
           <Typography
             style={{
               marginTop: '1rem',
@@ -271,7 +294,7 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
               backgroundColor: 'rgba(0, 0, 255, 0.1)', // Light blue background on hover
               color: 'darkblue', // Change text color on hover
             },
-             alignSelf: 'flex-start',
+            alignSelf: 'flex-start',
           }}
         >
           Back
@@ -314,6 +337,7 @@ Modal.propTypes = {
   responseText: PropTypes.string.isRequired,
   title: PropTypes.string,
   subtitle: PropTypes.string,
+  cancelM: PropTypes.string,
   subphone: PropTypes.string,
   cost: PropTypes.string,
   cancel: PropTypes.string,

@@ -47,20 +47,14 @@ export default function CustomizedTables() {
   const [subphone, setSubPhone] = useState('');
   const [purchasedNid, setPurchasedNid] = useState(null); // Store the 'nid'
   const [cost] = useState('');
-  // const [message, setMessage] = useState('');
-
   const isMobile = useMediaQuery('(max-width:600px)'); // Adjust breakpoint as needed
   const [selectedName, setSelectedName] = React.useState('');
   const [serv, setServ] = useState(null);  // To store the single service object
-  // eslint-disable-next-line no-unused-vars
-  const [, setPrice] = useState('');
   const [maxWidth, setMaxWidth] = useState('sm');
-  const [subtitleText, setSubtitleText] = useState('OTP RECIEVED      ✔.');
+  const [subtitleText, setSubtitleText] = useState('Previous Verifications    ✔.');
   const [title, setTitle] = useState('PREVIOUS SMS Verifications')
-
- 
   const [responseData, setResponseData] = useState(null);
-
+  const [cancelModal, setCancelM] = useState('Number Cancelled. ✔')
 
   const [services, setServices] = React.useState([]);
   const [selectedService, setSelectedService] = React.useState('');
@@ -478,20 +472,13 @@ export default function CustomizedTables() {
       // Extract the 'nid' from the response data
       const { nid } = response.data;
       console.log(nid)
-     
-
       // Store the nid in the state for later use
       setPurchasedNid(nid);
-
-
       // Update state with response data
       setResponseData(response.data);
       // Extracting the number and price from response
       const { number } = response.data;  // Accessing number from 'data'
-     
-
       const { service } = response.data
-
       setLoading(true);
       // Simulate a network request or some async operation
       setTimeout(() => {
@@ -521,6 +508,7 @@ export default function CustomizedTables() {
         // Set dynamic subtitle based on the received number
         setSubtitleText(`🔽 Waiting to receive an SMS from ${service}. Please note that services may take multiple attempts to succeed.`);
         setTitle(`${service} SMS Verifications`)
+        setCancelM('');
         // Set dynamic response text
       }
       console.log(service)
@@ -567,33 +555,16 @@ export default function CustomizedTables() {
 
       const { message } = cancelResponse.data; // Assuming the message is in the 'message' field
       const statusCode = cancelResponse.status; // Status code of the response
-
-
       // Log the extracted values
       console.log('Message:', message);
       console.log('Status Code:', statusCode);
-
-
-      if (message === 'invalid request') {
-        console.log('Message: Service already cancelled');
-        setCancel('kdurbj')
-      } else {
-        console.log('Message:', message);
-      }
-
       // Extract comparison result into a variable
       const isInvalidRequest = (message === 'invalid request');
-
       if (isInvalidRequest) {
-        
         setCancel('Number Cancelled Already');
       } else {
-        
         setShowModal(true);
-        
         setCancel(`${cancelResponse.data.message}`)
-
-
       }
       // Check if the cancellation was successful
       
@@ -653,7 +624,7 @@ export default function CustomizedTables() {
     const intervalId = setInterval(() => {
       fetchPayments();
     }, 30000); // Poll every 60,000 milliseconds (1 minute)
-
+    console.log(intervalId)
     // Clean up the interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
@@ -737,6 +708,7 @@ export default function CustomizedTables() {
         subtitle={subtitleText} // Dynamic subtitle
         subphone={subphone}
         cost={cost}
+        cancelM={cancelModal}
 
         purchasedNid={purchasedNid} // Pass the NID here
 
