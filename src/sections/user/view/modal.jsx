@@ -75,8 +75,11 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
       console.log(subphone)
 
       if (cancel && cancel.trim() !== '') {
+        
+      setTimer(0); // Stop the timer when the cancel is successful
         setStoredCancel(cancel);
       }
+      console.log(cancel)
       if (cost && cost.trim() !== '') {
         setStoredCost(cost);
       }
@@ -87,17 +90,11 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
   }, [show, responseText, subphone, cancel, cost]);
 
 
-  // Timer logic
+  
+  // Timer logic - Updated to stop when timer is 0 or on cancel
   useEffect(() => {
-    if (storedSubphone) {
-      setTimer(10 * 60); // Reset timer to 10 minutes
-    } else {
-      setTimer(0); // Reset timer if subphone is empty
-    }
-  }, [storedSubphone]);
-  useEffect(() => {
-    if (!isModalOpen || timer === 0) return;
-
+    if (!isModalOpen || timer === 0) return; // Do nothing if timer is 0
+  
     const intervalId = setInterval(() => {
       setTimer((prevTimer) => {
         if (prevTimer <= 0) {
@@ -107,10 +104,14 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
         return prevTimer - 1;
       });
     }, 1000);
-
+  
     // eslint-disable-next-line consistent-return
     return () => clearInterval(intervalId);
-  }, [isModalOpen, timer]); // Run effect when modal opens or timer changes
+  }, [isModalOpen, timer]);
+
+
+  
+  
 
   // Format time
   const formatTime = (seconds) => {
