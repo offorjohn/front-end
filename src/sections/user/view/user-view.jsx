@@ -568,10 +568,10 @@ export default function CustomizedTables() {
       }
       // Check if the cancellation was successful
 
-
-
-    // Refresh the page after successful cancellation
-    window.location.reload(); // This will refresh the page
+    // Wait for 4 seconds before refreshing the page
+    setTimeout(() => {
+      window.location.reload(); // This will refresh the page after 4 seconds
+    }, 4000);
 
       
 
