@@ -61,6 +61,7 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
   // Update localStorage whenever modal open/close state changes
   useEffect(() => {
     localStorage.setItem('isModalOpen', isModalOpen);
+    
   }, [isModalOpen]);
 
   // Update modal visibility and responseText when props change
@@ -75,16 +76,18 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
       console.log(subphone)
 
       if (cancel && cancel.trim() !== '') {
-        
-      setTimer(0); // Stop the timer when the cancel is successful
+        setTimer(600); // Set the timer to 10 minutes (600 seconds)
+
         setStoredCancel(cancel);
       }
       console.log(cancel)
       if (cost && cost.trim() !== '') {
         setStoredCost(cost);
       }
+      
       setIsModalOpen(true);
     } else {
+      
       setIsModalOpen(false);
     }
   }, [show, responseText, subphone, cancel, cost]);
@@ -93,7 +96,9 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
   
   // Timer logic - Updated to stop when timer is 0 or on cancel
   useEffect(() => {
-    if (!isModalOpen || timer === 0) return; // Do nothing if timer is 0
+    if (!isModalOpen || timer  === 0) 
+             
+      return; // Do nothing if timer is 0
   
     const intervalId = setInterval(() => {
       setTimer((prevTimer) => {
@@ -232,6 +237,7 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
             }}
           >
             Time Remaining: {formatTime(timer)}
+            
           </Typography>
         </Typography>
       )}
