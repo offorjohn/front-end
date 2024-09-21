@@ -28,6 +28,44 @@ export default function Blog() {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(5);
   const [payments, setPayments] = useState([]);
+  
+  const [amount, setAmount] = useState('');
+  const handleChange = (event) => {
+    setSelectedPaymentMode(event.target.value);
+  };
+
+  const handleAmountChange = (event) => {
+    setAmount(event.target.value);
+  };
+
+  const paymentMoney = async () => {
+    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+
+    try {
+      const options = {
+        method: 'GET',
+        url: `https://otpninja.com/api/v1/initpayment?amount=${amount}`,
+        headers: {
+          'X-OTPNINJA-TOKEN': token,
+        },
+      };
+
+      const response = await axios.request(options);
+
+      if (response.data.status) {
+        const paymentLink = response.data.paymentlink;
+        // Redirect the user to the payment link
+        window.location.href = paymentLink;
+      } else {
+        console.error("Payment initiation failed:", response.data.message);
+      }
+    } catch (error) {
+      console.error('Error initializing payment:', error);
+    }
+  };
+
+
+
 
   // Create rows and sort them by date (earliest first)
   const rows = payments
@@ -48,9 +86,7 @@ export default function Blog() {
     setOpen(true);
   };
 
-  const handleChange = (event) => {
-    setSelectedPaymentMode(event.target.value);
-  };
+ 
 
   React.useEffect(() => {
     const fetchPayments = async () => {
@@ -119,8 +155,11 @@ export default function Blog() {
             textAlign: { xs: 'center', md: 'left' },
             width: '100%',
             mt: 2,
+            
           }}
+          
         >
+          
           Enter the Amount (NGN)
         </Box>
 
@@ -140,6 +179,9 @@ export default function Blog() {
             id="outlined-adornment-price"
             placeholder="Enter the amount you want to add"
             label="Price"
+            value={amount}
+            onChange={handleAmountChange}
+       
           />
         </FormControl>
 
@@ -167,6 +209,7 @@ export default function Blog() {
         <Stack direction="row" spacing={2}>
           <Button
             variant="contained"
+             onClick={paymentMoney}
             sx={{
               minWidth: { xs: '90vw', md: 450 },
               mx: { xs: '5vw', md: 0 },
