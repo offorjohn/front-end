@@ -72,11 +72,12 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
       }
       if (subphone && subphone.trim() !== '') {
         setStoredSubphone(subphone);
+        setTimer('600'); // Set the timer to 10 minutes (600 seconds)
       }
       console.log(subphone)
 
       if (cancel && cancel.trim() !== '') {
-        setTimer(600); // Set the timer to 10 minutes (600 seconds)
+        setTimer(''); // Set the timer to 10 minutes (600 seconds)
 
         setStoredCancel(cancel);
       }
@@ -96,9 +97,17 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
   
   // Timer logic - Updated to stop when timer is 0 or on cancel
   useEffect(() => {
-    if (!isModalOpen || timer  === 0) 
-             
-      return; // Do nothing if timer is 0
+    if (!isModalOpen) {
+      setTimer(0); // Reset the timer to 0 when the modal closes
+      return; // Exit if the modal is closed
+    }
+  
+    if (timer === 0) {
+      setTimer(''); // Restart the timer from 10 minutes when it reaches 0
+      return; // Exit after resetting to avoid starting an interval immediately
+    }
+
+    
   
     const intervalId = setInterval(() => {
       setTimer((prevTimer) => {

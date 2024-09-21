@@ -567,6 +567,12 @@ export default function CustomizedTables() {
         setCancel(`${cancelResponse.data.message}`)
       }
       // Check if the cancellation was successful
+
+
+
+    // Refresh the page after successful cancellation
+    window.location.reload(); // This will refresh the page
+
       
 
     } catch (error) {
