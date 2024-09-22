@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -25,7 +26,7 @@ import DialogActions from '@mui/material/DialogActions';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import DialogContentText from '@mui/material/DialogContentText';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell'; // Import useNavigate
 
 import Modal from './modal';// Import the Modal component
 
@@ -56,26 +57,32 @@ export default function CustomizedTables() {
   const [showModal, setShowModal] = useState(false);
   const [responseData, setResponseData] = useState(null); // State to hold the response data
   const [selectedService, setSelectedService] = useState(''); // Set the initial value
- 
+
   const [, setModalType] = useState('success'); // 'success' or 'yellow' based on the response
   const [setRentals, setSelectedRentals] = useState('')
   const [responseText, setResponseText] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
-  
+
   const [serv, setServ] = useState(null);  // To store the single service object
   const [payments, setPayments] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const isMobile = useMediaQuery('(max-width:600px)');
   const [services, setServices] = useState([]);
 
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleButtonClick = () => {
+    navigate('/dedicated'); // Replace '/new-page' with the route you want to navigate to
+  };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
 
 
-  
-  
+
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -86,22 +93,31 @@ export default function CustomizedTables() {
     setSelectedService(value);
   };
 
-  
-  
+
+
   useEffect(() => {
     const fetchPayments = async () => {
-      
-    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+
+      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
       try {
         const options = {
           method: 'GET',
-          url: 'https://otpninja.com/api/v1/listmessages?type=mdn',  
+          url: 'https://otpninja.com/api/v1/listmessages?type=mdn',
           headers: {
             'X-OTPNINJA-TOKEN': token // If required, use token in custom header
           },
         };
         const response = await axios.request(options);
-        setPayments(response.data.data);
+
+
+
+        // Filter out duplicate numbers
+        const uniquePayments = response.data.data.filter(
+          (payment, index, self) =>
+            index === self.findIndex((p) => p.number === payment.number)
+        );
+
+        setPayments(uniquePayments); // Store only the unique payments
         console.log(response.data)
         console.log(options)
         console.log(response)
@@ -114,9 +130,9 @@ export default function CustomizedTables() {
 
   useEffect(() => {
     const fetchNames = async () => {
-      
-      
-    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+
+
+      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
       try {
         const optionsServices = {
           method: 'GET',
@@ -136,7 +152,7 @@ export default function CustomizedTables() {
   }, []);
 
   React.useEffect(() => {
-    
+
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     const fetchData = async () => {
       const options = {
@@ -163,21 +179,21 @@ export default function CustomizedTables() {
   }, []);  // Empty dependency array ensures it runs only once on mount
 
 
-  
+
   const handleBuy = async () => {
-    
-    
+
+
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     try {// Ensure this is a valid country code
       console.log('Selected Service:', selectedService); // Ensure this is a valid service code
 
-     
+
 
 
 
       // Set up the request options using the second code snippet's structure
       const options = {
-        
+
         method: 'POST',
         url: 'https://otpninja.com/api/v1/buynumber',
         headers: {
@@ -247,8 +263,8 @@ export default function CustomizedTables() {
 
   return (
     <Container>
-       {/* Modal Component */}
-       <Modal
+      {/* Modal Component */}
+      <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
         responseText={responseText}
@@ -311,10 +327,10 @@ export default function CustomizedTables() {
                     <InputLabel id="service-label">Service Name</InputLabel>
                     <Select
                       labelId="service-label"
-                      
+
                       id="service-select"
-                      value={selectedService} 
-                       onChange={handleChanges}
+                      value={selectedService}
+                      onChange={handleChanges}
                       label="Service Name"
                       MenuProps={{
                         PaperProps: {
@@ -352,8 +368,8 @@ export default function CustomizedTables() {
                       labelId="service-label"
                       id="service-select"
                       value={setRentals}
-                  
-                       onChange={(e) => setSelectedRentals(e.target.value)} // Call handleChange on select change
+
+                      onChange={(e) => setSelectedRentals(e.target.value)} // Call handleChange on select change
                       label="Service Name"
                     >
                       <MenuItem value="30-days-rentals">
@@ -363,29 +379,29 @@ export default function CustomizedTables() {
 
 
                   </FormControl>
-                </Box> 
+                </Box>
 
                 <Box sx={{ width: '250px', maxWidth: '100%' }}>
-                <DialogContentText>Prices</DialogContentText>
+                  <DialogContentText>Prices</DialogContentText>
                   <FormControl
-                   
+
                   >
                     <InputLabel id="price" />
 
                     {/* Use Typography instead of Select to display the price */}
                     <Box
-                     
+
                     >
                       {/* Show "Please select a service" when no service is selected */}
                       {!selectedService ? (
                         <Typography
-                        style={{ marginTop: '20px' }}
+                          style={{ marginTop: '20px' }}
                         >
                           Please select a service
                         </Typography>
                       ) : (
                         <Typography
-                          
+
                         >
                           {serv.name} ✔ N{serv.price} {/* Display the service name and price */}
                         </Typography>
@@ -395,7 +411,7 @@ export default function CustomizedTables() {
                 </Box>
 
               </Stack>
-              
+
               {/* Text Above Amount Section */}
               <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
@@ -419,12 +435,15 @@ export default function CustomizedTables() {
                 <StyledTableCell align="left">Number</StyledTableCell>
                 <StyledTableCell align="left">Message</StyledTableCell>
                 <StyledTableCell align="left">Date</StyledTableCell>
+                <StyledTableCell align="left">Action</StyledTableCell>
+
               </TableRow>
             </TableHead>
             <TableBody>
               {paginatedRows.map((row) => (
                 <StyledTableRow key={row.id}>
                   <StyledTableCell align="left">{row.number}</StyledTableCell>
+
                   <StyledTableCell align="left">
                     {row.message.split(' ').map((word, index) => (
                       <React.Fragment key={index}>
@@ -433,6 +452,34 @@ export default function CustomizedTables() {
                     ))}
                   </StyledTableCell>
                   <StyledTableCell align="left">{row.messagedate.toLocaleDateString()}</StyledTableCell>
+                  <StyledTableCell align="left">
+
+                    <Button
+                      onClick={handleButtonClick} // Call handleButtonClick on click
+                      sx={{
+                        color: 'white',
+                        backgroundColor: 'rgba(3, 105, 161)',
+                        boxShadow: 1,
+                        '&:hover': {
+                          backgroundColor: 'rgba(3, 105, 161)',
+                        },
+                        '&:disabled': {
+                          backgroundColor: 'gray',
+                          color: 'darkgray',
+                          cursor: 'default',
+                        },
+                        '&:focus': {
+                          outline: 'none',
+                          ring: 'rgba(3, 105, 161)',
+                          ringOffset: '2px',
+                        },
+                      }}
+                    >
+                      Open
+                    </Button>
+
+                  </StyledTableCell>
+
                 </StyledTableRow>
               ))}
             </TableBody>

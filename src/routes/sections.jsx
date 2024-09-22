@@ -14,6 +14,7 @@ const UserPage = lazy(() => import('src/pages/user'));
 const LoginPage = lazy(() => import('src/pages/login'));
 const ProductsPage = lazy(() => import('src/pages/products'));
 const OrderPage =  lazy(() => import('src/pages/order'))
+const DedicatedPage =  lazy(() => import('src/pages/dedicated'))
 
 
 // ----------------------------------------------------------------------
@@ -33,6 +34,7 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
+        { path: 'dedicated', element: <DedicatedPage /> },
         { path: 'order', element: <OrderPage/> },
    
       ],
