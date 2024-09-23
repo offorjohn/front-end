@@ -153,13 +153,17 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
   };
 
 
+  let cancelCalled = false;
+
   const handleCancel = () => {
-
-    // You can also add other logic here to handle
-
-
+    if (cancelCalled) return; // Prevent further execution if already called
+  
+    cancelCalled = true; // Set the flag to true
     onClose(); // Trigger the external onClose function
-  }
+  
+    // You can also add other logic here to handle
+  };
+  
 
     // Early return to render an empty modal when conditions are met
     if (!storedResponseText || storedResponseText.includes("Service not available")) {
@@ -252,9 +256,10 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
                 paddingLeft: '24px',
                 paddingRight: '24px',
                 marginTop: '1rem',
-                color: '#ff6666', // Light red color for the text
+                color: '#00000', // Light green color for the text
 
-                backgroundColor: 'rgba(255, 0, 0, 0.1)', // Transparent red background
+                backgroundColor: 'rgba(0, 255, 0, 0.1)', // Transparent green background
+                
                 width: '50%', // Adjust the width as per your requirement, for example 80%
                 borderRadius: '8px', // Optional: to add rounded corners
               }}

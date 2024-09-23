@@ -54,7 +54,7 @@ export default function CustomizedTables() {
   const [subtitleText, setSubtitleText] = useState('Previous Verifications    ✔.');
   const [title, setTitle] = useState('PREVIOUS SMS Verifications')
   const [responseData, setResponseData] = useState(null);
-  const [cancelModal, setCancelM] = useState('Number Cancelled. ✔')
+  const [cancelModal, setCancelM] = useState('Request FulFilled. ✔')
 
   const [services, setServices] = React.useState([]);
   const [selectedService, setSelectedService] = React.useState('');
