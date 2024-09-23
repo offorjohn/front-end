@@ -488,11 +488,17 @@ export default function CustomizedTables() {
 
 
       if (response.data.number === undefined) {
+
+
         setResponseText(`Service not available For this Number.`);
+        setShowModal(false);
+      
+
         setTimeout(() => {
 
           setResponseText(`Service not available For this Number.`);
-        }, 1800000); // 1,800,000 milliseconds = 30 minutes
+        },  10800000); // 1,800,000 milliseconds = 30 minutes
+        
 
 
       } else {
@@ -527,7 +533,7 @@ export default function CustomizedTables() {
   };
 
 
-  // Function to cancel the purchased number
+  // Function to cancel the purchased numberv
   const cancelNumber = async () => {
 
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;

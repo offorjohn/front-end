@@ -10,6 +10,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 
+
+
 const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle, cancelM, subphone, cost, cancel }) => {
 
 
@@ -25,6 +27,10 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
   const [storedResponseText, setStoredResponseText] = useState(() =>
     localStorage.getItem('modalResponseText') || responseText || ''
   );
+
+  console.log(responseText)
+
+
   const [storedSubphone, setStoredSubphone] = useState(() =>
     localStorage.getItem('modalSubphone') || subphone || ''
   );
@@ -38,6 +44,8 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
 
   // State for timer
   const [timer, setTimer] = useState(10 * 60); // 20 minutes in seconds
+
+  
 
 
 
@@ -61,7 +69,7 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
   // Update localStorage whenever modal open/close state changes
   useEffect(() => {
     localStorage.setItem('isModalOpen', isModalOpen);
-    
+
   }, [isModalOpen]);
 
   // Update modal visibility and responseText when props change
@@ -70,6 +78,7 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
       if (responseText && responseText.trim() !== '') {
         setStoredResponseText(responseText);
       }
+      
       if (subphone && subphone.trim() !== '') {
         setStoredSubphone(subphone);
         setTimer('600'); // Set the timer to 10 minutes (600 seconds)
@@ -85,30 +94,32 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
       if (cost && cost.trim() !== '') {
         setStoredCost(cost);
       }
-      
+
       setIsModalOpen(true);
     } else {
-      
+
       setIsModalOpen(false);
     }
   }, [show, responseText, subphone, cancel, cost]);
 
-
   
+
+
+
   // Timer logic - Updated to stop when timer is 0 or on cancel
   useEffect(() => {
     if (!isModalOpen) {
       setTimer(0); // Reset the timer to 0 when the modal closes
       return; // Exit if the modal is closed
     }
-  
+
     if (timer === 0) {
       setTimer(''); // Restart the timer from 10 minutes when it reaches 0
       return; // Exit after resetting to avoid starting an interval immediately
     }
 
-    
-  
+
+
     const intervalId = setInterval(() => {
       setTimer((prevTimer) => {
         if (prevTimer <= 0) {
@@ -118,14 +129,14 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
         return prevTimer - 1;
       });
     }, 1000);
-  
+
     // eslint-disable-next-line consistent-return
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
 
 
-  
-  
+
+
 
   // Format time
   const formatTime = (seconds) => {
@@ -149,6 +160,18 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
 
     onClose(); // Trigger the external onClose function
   }
+
+    // Early return to render an empty modal when conditions are met
+    if (!storedResponseText || storedResponseText.includes("Service not available")) {
+      return (
+        <Dialog open={isModalOpen} onClose={handleClose}>
+          <DialogContent>
+            Service Not Available
+            {/* Empty content */}
+          </DialogContent>
+        </Dialog>
+      );
+    }
 
   return (
     <Dialog open={isModalOpen}>
@@ -246,7 +269,7 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
             }}
           >
             Time Remaining: {formatTime(timer)}
-            
+
           </Typography>
         </Typography>
       )}
@@ -286,13 +309,24 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
             boxSizing: 'border-box',
           }}
         >
-          <Typography variant="body1" sx={{ marginBottom: '8px', fontWeight: 'bold' }}>
-            Please Request Only One Code. Multiple Requests May Result in Issues with Your Code:
-          </Typography>
 
-          <DialogContentText>
-            {storedResponseText || 'No message available.'}
-          </DialogContentText>
+          {/* Conditionally render content based on storedResponseText */}
+          {storedResponseText && storedResponseText.trim() !== '' ? (
+            <>
+              <Typography variant="body1" sx={{ marginBottom: '8px', fontWeight: 'bold' }}>
+                Please Request Only One Code. Multiple Requests May Result in Issues with Your Code:
+              </Typography>
+
+              <DialogContentText>
+                {storedResponseText}
+              </DialogContentText>
+            </>
+          ) : (
+            <Typography variant="body1" sx={{ color: 'red', fontWeight: 'bold' }}>
+              Service not available
+            </Typography>
+          )}
+
         </Box>
       </DialogContent>
 
