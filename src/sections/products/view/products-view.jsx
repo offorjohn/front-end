@@ -64,16 +64,21 @@ export default function CustomizedTables() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
 
+  const [uniqueNumbers, setUniqueNumbers] = useState([]);
   const [serv, setServ] = useState(null);  // To store the single service object
   const [payments, setPayments] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const isMobile = useMediaQuery('(max-width:600px)');
   const [services, setServices] = useState([]);
 
+
+
   const navigate = useNavigate(); // Initialize useNavigate
 
-  const handleButtonClick = () => {
-    navigate('/dedicated'); // Replace '/new-page' with the route you want to navigate to
+
+  const handleButtonClick = (phoneNumber) => {
+    console.log("Navigating to:", phoneNumber); // Log the phone number being navigated to
+    navigate(`/dedicated?number=${encodeURIComponent(phoneNumber)}`); // Use encodeURIComponent to handle special characters
   };
 
   const handleClickOpen = () => {
@@ -116,6 +121,17 @@ export default function CustomizedTables() {
           (payment, index, self) =>
             index === self.findIndex((p) => p.number === payment.number)
         );
+
+
+        // Access the numbers from uniquePayments
+        // eslint-disable-next-line no-shadow
+        const uniqueNumbers = uniquePayments.map(payment => payment.number);
+
+        console.log(uniqueNumbers); // Logs the array of unique numbers
+
+
+
+        setUniqueNumbers(uniquePayments.map(payment => payment.number)); // Store only the unique numbers
 
         setPayments(uniquePayments); // Store only the unique payments
         console.log(response.data)
@@ -236,6 +252,8 @@ export default function CustomizedTables() {
       handleClose();
     }
   };
+
+
 
   // Create rows and sort them by date (earliest first)
   const rows = payments
@@ -440,10 +458,9 @@ export default function CustomizedTables() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedRows.map((row) => (
+              {paginatedRows.map((row, rowIndex) => ( // Add rowIndex here
                 <StyledTableRow key={row.id}>
                   <StyledTableCell align="left">{row.number}</StyledTableCell>
-
                   <StyledTableCell align="left">
                     {row.message.split(' ').map((word, index) => (
                       <React.Fragment key={index}>
@@ -451,35 +468,40 @@ export default function CustomizedTables() {
                       </React.Fragment>
                     ))}
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.messagedate.toLocaleDateString()}</StyledTableCell>
+                  <StyledTableCell align="left">{new Date(row.messagedate).toLocaleDateString()}</StyledTableCell>
                   <StyledTableCell align="left">
-
-                    <Button
-                      onClick={handleButtonClick} // Call handleButtonClick on click
-                      sx={{
-                        color: 'white',
-                        backgroundColor: 'rgba(3, 105, 161)',
-                        boxShadow: 1,
-                        '&:hover': {
-                          backgroundColor: 'rgba(3, 105, 161)',
-                        },
-                        '&:disabled': {
-                          backgroundColor: 'gray',
-                          color: 'darkgray',
-                          cursor: 'default',
-                        },
-                        '&:focus': {
-                          outline: 'none',
-                          ring: 'rgba(3, 105, 161)',
-                          ringOffset: '2px',
-                        },
-                      }}
-                    >
-                      Open
-                    </Button>
-
+                    {/* Only show the number for this row based on its index */}
+                    {uniqueNumbers[rowIndex] && ( // Check if a number exists at the current index
+                      <div style={{ marginBottom: '8px' }}>
+                        <Button
+                          onClick={() => handleButtonClick(uniqueNumbers[rowIndex])} // Use the number for this row
+                          sx={{
+                            color: 'white',
+                            backgroundColor: 'rgba(3, 105, 161)',
+                            boxShadow: 1,
+                            '&:hover': {
+                              backgroundColor: 'rgba(3, 105, 161)',
+                            },
+                            '&:disabled': {
+                              backgroundColor: 'gray',
+                              color: 'darkgray',
+                              cursor: 'default',
+                            },
+                            '&:focus': {
+                              outline: 'none',
+                              ring: 'rgba(3, 105, 161)',
+                              ringOffset: '2px',
+                            },
+                          }}
+                          title={`Open ${uniqueNumbers[rowIndex]}`} // Tooltip to indicate the action
+                        >
+                          {/* Optionally, you can use an icon here if you want to provide a visual cue */}
+                          Open
+                          <span style={{ display: 'none' }}>Open {uniqueNumbers[rowIndex]}</span> {/* Hides the text visually */}
+                        </Button>
+                      </div>
+                    )}
                   </StyledTableCell>
-
                 </StyledTableRow>
               ))}
             </TableBody>
