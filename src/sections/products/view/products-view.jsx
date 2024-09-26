@@ -77,7 +77,7 @@ export default function CustomizedTables() {
 
 
   const handleButtonClick = (phoneNumber) => {
-    console.log("Navigating to:", phoneNumber); // Log the phone number being navigated to
+
     navigate(`/dedicated?number=${encodeURIComponent(phoneNumber)}`); // Use encodeURIComponent to handle special characters
   };
 
