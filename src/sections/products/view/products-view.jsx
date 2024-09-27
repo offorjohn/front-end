@@ -57,9 +57,9 @@ export default function CustomizedTables() {
   const [showModal, setShowModal] = useState(false);
   const [responseData, setResponseData] = useState(null); // State to hold the response data
   const [selectedService, setSelectedService] = useState(''); // Set the initial value
-
+  const [selectedName, setSelectedName] = React.useState('');
   const [, setModalType] = useState('success'); // 'success' or 'yellow' based on the response
-  const [setRentals, setSelectedRentals] = useState('')
+
   const [responseText, setResponseText] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
@@ -96,6 +96,13 @@ export default function CustomizedTables() {
       target: { value },
     } = event;
     setSelectedService(value);
+  };
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setSelectedName(value);
   };
 
 
@@ -156,9 +163,10 @@ export default function CustomizedTables() {
           headers: {
             'X-OTPNINJA-TOKEN': token // If required, use token in custom header
           },
-          withCredentials: true, // This will ensure credentials (like cookies) are sent
+         
         };
         const responseServices = await axios.request(optionsServices);
+        console.log(responseServices);
         setServices(responseServices.data.data);
       } catch (error) {
         console.error('Error fetching services:', error);
@@ -177,7 +185,7 @@ export default function CustomizedTables() {
         headers: {
           'X-OTPNINJA-TOKEN': token // If required, use token in custom header
         },
-        withCredentials: true, // This will ensure credentials (like cookies) are sent
+       
         params: { type: 'otp', servicecode: 'tx', countrycode: '17' }
       };
 
@@ -197,12 +205,26 @@ export default function CustomizedTables() {
 
 
   const handleBuy = async () => {
+    try {
+      let showPrice = false;
 
+      // eslint-disable-next-line no-undef
+      if (!selectedName || !selectedService) {
+        alert("Please select both a country and a service before proceeding.");
+        showPrice = false; // Hide the price if either is not selected
+        return;
+      }
 
-    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-    try {// Ensure this is a valid country code
-      console.log('Selected Service:', selectedService); // Ensure this is a valid service code
+      showPrice = true; // Show the price if both are selected
 
+      // Display price based on the showPrice flag
+      if (showPrice) {
+        document.getElementById("price").style.display = "block"; // Show price
+      } else {
+        document.getElementById("price").style.display = "none"; // Hide price
+      }
+
+      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
 
 
 
@@ -212,37 +234,54 @@ export default function CustomizedTables() {
 
         method: 'POST',
         url: 'https://otpninja.com/api/v1/buynumber',
+
         headers: {
           'X-OTPNINJA-TOKEN': token // If required, use token in custom header
         },
         data: {
           serviceid: selectedService,  // Use the selected service code
           type: 'mdn',                 // Use 'otp' as the type
-          countrycode: ''    // Use the selected country code
+          // eslint-disable-next-line no-undef
+          countrycode: selectedName,    // Use the selected country code
+          mode: 'test'
         }
       };
+
       console.log(options)
-      console.log(response)
+
 
       // Make the API request
       const response = await axios.request(options);
-      console.log('Purchase response:', response.data);
 
-      // Update state with response data
-      setResponseData(response.data);
+      console.log(response.data)
+       // Update state with response data
+       setResponseText(response.data);
 
-      // Handle response based on message content
-      if (response.data.message === 'Invalid service') {
-        setResponseText('Service not available.');
-      } else {
-        setResponseText(JSON.stringify(response.data.message)); // Display the actual response message
-        setModalType('success'); // Adjust the modal type based on success
-      }
 
-      // Show the modal
+
+
+       console.log(options)
+       console.log(response)
+ 
+       // Make the API request
+       console.log('Purchase response:', response.data);
+ 
+       // Update state with response data
+       setResponseData(response.data);
+ 
+       // Handle response based on message content
+       if (response.data.message === 'Invalid service') {
+         setResponseText('Service not available.');
+       } else {
+         setResponseText(JSON.stringify(response.data.message)); // Display the actual response message
+         setModalType('success'); // Adjust the modal type based on success
+       }
+ 
+       // Show the modal
+       setShowModal(true);
       setShowModal(true);
 
-    } catch (error) {
+    }  catch (error) {
       console.error('Purchase error:', error); // Log the error for debugging
       setResponseText('Purchase failed. Please try again.');
       setModalType('yellow');
@@ -362,7 +401,7 @@ export default function CustomizedTables() {
                         <em style={{ fontSize: '18px' }}>Services</em>
                       </MenuItem>
                       {services.map((service) => (
-                        <MenuItem key={service.name} value={service.name}>
+                           <MenuItem key={service.code} value={service.code}>
                           {service.name}
                         </MenuItem>
                       ))}
@@ -385,9 +424,9 @@ export default function CustomizedTables() {
                     <Select
                       labelId="service-label"
                       id="service-select"
-                      value={setRentals}
+                      value={selectedName}
 
-                      onChange={(e) => setSelectedRentals(e.target.value)} // Call handleChange on select change
+                      onChange={handleChange}
                       label="Service Name"
                     >
                       <MenuItem value="30-days-rentals">
@@ -451,7 +490,7 @@ export default function CustomizedTables() {
             <TableHead>
               <TableRow>
                 <StyledTableCell align="left">Number</StyledTableCell>
-                <StyledTableCell align="left">Message</StyledTableCell>
+              
                 <StyledTableCell align="left">Date</StyledTableCell>
                 <StyledTableCell align="left">Action</StyledTableCell>
 
@@ -461,13 +500,7 @@ export default function CustomizedTables() {
               {paginatedRows.map((row, rowIndex) => ( // Add rowIndex here
                 <StyledTableRow key={row.id}>
                   <StyledTableCell align="left">{row.number}</StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.message.split(' ').map((word, index) => (
-                      <React.Fragment key={index}>
-                        {word}{(index + 1) % 10 === 0 ? <br /> : ' '}
-                      </React.Fragment>
-                    ))}
-                  </StyledTableCell>
+                  
                   <StyledTableCell align="left">{new Date(row.messagedate).toLocaleDateString()}</StyledTableCell>
                   <StyledTableCell align="left">
                     {/* Only show the number for this row based on its index */}

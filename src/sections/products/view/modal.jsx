@@ -10,11 +10,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 const Modal = React.memo(({ show, onClose, responseText, modalType }) => {
     console.log(responseText);  // This should only log when `responseText` changes or the modal opens
     
+    
     return (
       <Dialog open={show} onClose={onClose}>
         <DialogContent>
           <DialogContentText>
             {responseText}
+            
           </DialogContentText>
         </DialogContent>
         <DialogActions>

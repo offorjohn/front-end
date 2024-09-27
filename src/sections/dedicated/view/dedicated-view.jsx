@@ -1,26 +1,19 @@
 /* eslint-disable no-nested-ternary */
-// DedicatedPage.jsx
-
 import axios from 'axios';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { experimentalStyled as styled } from '@mui/material/styles';
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-  ...theme.applyStyles('dark', {
-    backgroundColor: '#1A2027',
-  }),
-}));
+import Table from '@mui/material/Table';
+import TableRow from '@mui/material/TableRow';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import Typography from '@mui/material/Typography';
+import TableContainer from '@mui/material/TableContainer';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const DedicatedPage = () => {
   const location = useLocation();
@@ -41,17 +34,9 @@ const DedicatedPage = () => {
           },
         });
 
-        console.log(response.data);
-
-        // Check if the response contains messages and set the data accordingly
-        if (response.data.status && Array.isArray(response.data.data)) {
-          setData(response.data.data); // Update state with the fetched messages
-        } else {
-          setError('No messages found.');
-        }
+        setData(response.data.data); // Update state with the fetched messages
       } catch (err) {
         setError(err.message); // Update state with error message
-        console.error('Error fetching data:', err);
       } finally {
         setLoading(false); // Set loading to false after data fetch is complete
       }
@@ -63,28 +48,82 @@ const DedicatedPage = () => {
   }, [phoneNumber]);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={5}>
-        {loading ? ( // Show loading indicator while fetching data
-          <Grid item xs={12}>
-            <Item>Loading...</Item>
-          </Grid>
-        ) : error ? ( // Show error message if there is an error
-          <Grid item xs={12}>
-            <Item>Error: {error}</Item>
-          </Grid>
-        ) : (
-          data.map((item, index) => ( // Map over the fetched messages
-            <Grid item xs={12} sm={6} md={4} key={index}> {/* Responsive grid items */}
-              <Item>
-                <strong>Sender:</strong> {item.sender} <br />
-                <strong>Message:</strong> {item.message} <br />
-                <strong>Date:</strong> {new Date(item.messagedate).toLocaleString()} {/* Format date */}
-              </Item>
-            </Grid>
-          ))
-        )}
-      </Grid>
+    <Box sx={{ flexGrow: 1, p: 3 }}>
+      {loading ? (
+        <CircularProgress /> // Show loading spinner while fetching data
+      ) : error ? (
+        <Typography color="error">Error: {error}</Typography> // Show error message if there is an error
+      ) : (
+        <>
+
+          {data.length > 0 && (
+            <Box
+              sx={{
+                display: 'flex',            // Align two boxes side by side (optional for layout purposes)
+                justifyContent: 'center',   // Center the boxes horizontally
+                gap: '10px',                // Optional: spacing between the two boxes
+                marginBottom: '40px',      // Move the box up (negative margin)
+              }}
+            >
+              {/* Outer Box */}
+              <Box
+                sx={{
+                  border: '3px solid #ccc', // Outer box border
+                  padding: '20px',
+                  borderRadius: '8px',
+                  width: '40%',     // Auto width based on content
+                  display: 'inline-block',
+                }}
+              >
+                {/* Inner Box */}
+                <Box
+                  sx={{
+                    border: '2px solid #ccc', // Inner box border
+                    padding: '5px',
+                    borderRadius: '8px',
+                    textAlign: 'center',
+                  }}
+                >
+                  <Typography variant="h6" gutterBottom>
+                    ✉  ©  {data[0].number}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          )}
+
+
+          {/* Table to display sender, message, and date */}
+          <TableContainer component={Paper}>
+            <Table aria-label="messages table">
+              <TableHead>
+                <TableRow>
+                  <TableCell><strong>Sender</strong></TableCell>
+                  <TableCell><strong>Message</strong></TableCell>
+                  <TableCell><strong>Date</strong></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{item.sender}</TableCell>
+                    <TableCell>
+                      {item.message.split('\n').map((line) => (
+                        <React.Fragment key={index}>
+                          {line}
+                          <br />
+                        </React.Fragment>
+                      ))}
+                    </TableCell>
+
+                    <TableCell>{new Date(item.messagedate).toLocaleString()}</TableCell> {/* Format date */}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
     </Box>
   );
 };
