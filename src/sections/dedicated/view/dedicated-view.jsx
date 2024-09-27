@@ -55,14 +55,14 @@ const DedicatedPage = () => {
         <Typography color="error">Error: {error}</Typography> // Show error message if there is an error
       ) : (
         <>
-
           {data.length > 0 && (
             <Box
               sx={{
                 display: 'flex',            // Align two boxes side by side (optional for layout purposes)
                 justifyContent: 'center',   // Center the boxes horizontally
                 gap: '10px',                // Optional: spacing between the two boxes
-                marginBottom: '40px',      // Move the box up (negative margin)
+                marginBottom: '40px',      // Move the box up
+                flexDirection: { xs: 'column', sm: 'row' }, // Stack on small screens
               }}
             >
               {/* Outer Box */}
@@ -71,7 +71,8 @@ const DedicatedPage = () => {
                   border: '3px solid #ccc', // Outer box border
                   padding: '20px',
                   borderRadius: '8px',
-                  width: '40%',     // Auto width based on content
+                  width: { xs: '100%', sm: '30%' },  // Responsive width
+                  maxWidth: '400px',         // Maximum width for the outer box
                   display: 'inline-block',
                 }}
               >
@@ -91,6 +92,7 @@ const DedicatedPage = () => {
               </Box>
             </Box>
           )}
+
 
 
           {/* Table to display sender, message, and date */}
