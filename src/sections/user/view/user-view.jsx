@@ -593,6 +593,9 @@ export default function CustomizedTables() {
 
   React.useEffect(() => {
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    let interval = 30000; // Initial interval of 30 seconds
+    const maxInterval = 300000; // Maximum interval of 5 minutes
+  
     console.log('useEffect triggered');
 
     const fetchPayments = async () => {
@@ -625,22 +628,30 @@ export default function CustomizedTables() {
 
         setTitle(`${name} SMS Verifications`);
      
-      } catch (error) {
-        console.error('Error fetching payments:', error);
-      }
-    };
+    
+      // Reset interval back to the initial value if data is found
+      interval = 30000;
+    } catch (error) {
+      console.error('Error fetching payments:', error);
 
-    // Initial fetch
+      // Double the interval time if the fetch fails or no new data is available
+      interval = Math.min(interval * 2, maxInterval);
+    }
+  };
+  console.log(maxInterval)
+
+  // Initial fetch
+  fetchPayments();
+
+  // Set up polling with dynamic interval
+  const intervalId = setInterval(() => {
     fetchPayments();
-    // Set up polling
-    const intervalId = setInterval(() => {
-      fetchPayments();
-    }, 30000); // Poll every 60,000 milliseconds (1 minute)
-    console.log(intervalId)
-    // Clean up the interval on component unmount
-    return () => clearInterval(intervalId);
-  }, []);
+  }, interval);
+  console.log(intervalId)
 
+  // Clean up the interval on component unmount
+  return () => clearInterval(intervalId);
+}, []);
 
 
   React.useEffect(() => {

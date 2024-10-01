@@ -163,7 +163,7 @@ export default function CustomizedTables() {
           headers: {
             'X-OTPNINJA-TOKEN': token // If required, use token in custom header
           },
-         
+
         };
         const responseServices = await axios.request(optionsServices);
         console.log(responseServices);
@@ -185,7 +185,7 @@ export default function CustomizedTables() {
         headers: {
           'X-OTPNINJA-TOKEN': token // If required, use token in custom header
         },
-       
+
         params: { type: 'otp', servicecode: 'tx', countrycode: '17' }
       };
 
@@ -254,34 +254,44 @@ export default function CustomizedTables() {
       const response = await axios.request(options);
 
       console.log(response.data)
-       // Update state with response data
-       setResponseText(response.data);
+      // Update state with response data
+      setResponseText(response.data);
+      console.log(setResponseText)
+      console.log(response)
 
 
 
 
-       console.log(options)
-       console.log(response)
- 
-       // Make the API request
-       console.log('Purchase response:', response.data);
- 
-       // Update state with response data
-       setResponseData(response.data);
- 
-       // Handle response based on message content
-       if (response.data.message === 'Invalid service') {
-         setResponseText('Service not available.');
-       } else {
-         setResponseText(JSON.stringify(response.data.message)); // Display the actual response message
-         setModalType('success'); // Adjust the modal type based on success
-       }
- 
-       // Show the modal
-       setShowModal(true);
+      console.log(options)
+      console.log(response)
+
+      // Make the API request
+      console.log('Purchase response:', response.data);
+
+
+
+      // Update state with response data
+      setResponseData(response.data);
+
+      // Handle response based on message content
+      if (response.data.message === 'Invalid service') {
+        setResponseText('Service not available.');
+      } else {
+        setResponseText(JSON.stringify(response.data.message)); // Display the actual response message
+        setModalType('success'); // Adjust the modal type based on success
+      }
+
+      // Check for successful purchase and trigger a page refresh in 3 seconds
+      if (response.data.message === 'Successfully purchased number') {
+        setTimeout(() => {
+          window.location.reload(); // Refresh the page
+        }, 3000); // 3 seconds
+      }
+
+
       setShowModal(true);
 
-    }  catch (error) {
+    } catch (error) {
       console.error('Purchase error:', error); // Log the error for debugging
       setResponseText('Purchase failed. Please try again.');
       setModalType('yellow');
@@ -401,7 +411,7 @@ export default function CustomizedTables() {
                         <em style={{ fontSize: '18px' }}>Services</em>
                       </MenuItem>
                       {services.map((service) => (
-                           <MenuItem key={service.code} value={service.code}>
+                        <MenuItem key={service.code} value={service.code}>
                           {service.name}
                         </MenuItem>
                       ))}
@@ -490,7 +500,7 @@ export default function CustomizedTables() {
             <TableHead>
               <TableRow>
                 <StyledTableCell align="left">Number</StyledTableCell>
-              
+
                 <StyledTableCell align="left">Date</StyledTableCell>
                 <StyledTableCell align="left">Action</StyledTableCell>
 
@@ -500,7 +510,7 @@ export default function CustomizedTables() {
               {paginatedRows.map((row, rowIndex) => ( // Add rowIndex here
                 <StyledTableRow key={row.id}>
                   <StyledTableCell align="left">{row.number}</StyledTableCell>
-                  
+
                   <StyledTableCell align="left">{new Date(row.messagedate).toLocaleDateString()}</StyledTableCell>
                   <StyledTableCell align="left">
                     {/* Only show the number for this row based on its index */}
