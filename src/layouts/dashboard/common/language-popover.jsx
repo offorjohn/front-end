@@ -79,6 +79,7 @@ export default function LanguagePopover() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              fontSize: '1rem', // Adjust the font size to make it smaller
             }}
           >
             ${balance !== null ? balance : 'Error'}
