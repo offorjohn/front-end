@@ -17,6 +17,22 @@ export default function AppView() {
 
   const [username, setUsername] = useState(''); // State for username
 
+  
+  useEffect(() => {
+    // Hardcoded data
+    const hardcodedData = [
+      { title: 'Balance', total: 10, color: 'success', icon: null },
+    
+      { title: 'Total Verification Number', total: 30, color: 'info', icon: null },
+      { title: 'Total Rental Number', total: 40, color: 'error', icon: null },
+    ];
+
+    setData(hardcodedData);
+    setLoading(false);
+  }, []);  // Empty dependency array ensures it runs only once on mount
+
+  
+
   useEffect(() => {
     
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
@@ -32,7 +48,7 @@ export default function AppView() {
       
       try {
         const response = await axios.request(options);
-        setData(response.data.data); // Assuming 'data' contains the array of user data
+        // setData(response.data.data); // Assuming 'data' contains the array of user data
         setUsername(response.data.data[0]?.username || ''); // Extract username
         console.log(response.data); // Check the data in the console
       // eslint-disable-next-line no-shadow
