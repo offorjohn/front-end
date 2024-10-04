@@ -1,34 +1,19 @@
-import { useState } from 'react';
+/* eslint-disable no-nested-ternary */
+import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Popover from '@mui/material/Popover';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
-
-// ----------------------------------------------------------------------
-
-const LANGS = [
-  {
-    value: 'en',
-    label: 'English',
-    icon: '/assets/icons/ic_flag_en.svg',
-  },
-  {
-    value: 'de',
-    label: 'German',
-    icon: '/assets/icons/ic_flag_de.svg',
-  },
-  {
-    value: 'fr',
-    label: 'French',
-    icon: '/assets/icons/ic_flag_fr.svg',
-  },
-];
+import CircularProgress from '@mui/material/CircularProgress';
 
 // ----------------------------------------------------------------------
 
 export default function LanguagePopover() {
   const [open, setOpen] = useState(null);
+  const [balance, setBalance] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -37,6 +22,42 @@ export default function LanguagePopover() {
   const handleClose = () => {
     setOpen(null);
   };
+
+  // Fetch balance from the API
+  React.useEffect(() => {
+    const fetchBalance = async () => {
+      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+
+      if (!token) {
+        setError('Token not found');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch('https://otpninja.com/api/v1/getbalance', {
+          method: 'GET',
+          headers: {
+            'X-OTPNINJA-TOKEN': token, // If required, use token in custom header
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch balance');
+        }
+
+        const data = await response.json();
+        setBalance(data.balance); // Assuming the API returns { balance: 100 }
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError('Failed to fetch balance');
+        setLoading(false);
+      }
+    };
+
+    fetchBalance();
+  }, []);
 
   return (
     <>
@@ -50,7 +71,19 @@ export default function LanguagePopover() {
           }),
         }}
       >
-        <img src={LANGS[0].icon} alt={LANGS[0].label} />
+        {loading ? (
+          <CircularProgress size={24} />
+        ) : (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            ${balance !== null ? balance : 'Error'}
+          </Box>
+        )}
       </IconButton>
 
       <Popover
@@ -68,18 +101,15 @@ export default function LanguagePopover() {
           },
         }}
       >
-        {LANGS.map((option) => (
-          <MenuItem
-            key={option.value}
-            selected={option.value === LANGS[0].value}
-            onClick={() => handleClose()}
-            sx={{ typography: 'body2', py: 1 }}
-          >
-            <Box component="img" alt={option.label} src={option.icon} sx={{ width: 28, mr: 2 }} />
-
-            {option.label}
-          </MenuItem>
-        ))}
+        <MenuItem onClick={handleClose} sx={{ typography: 'body2', py: 1 }}>
+          {loading ? (
+            <CircularProgress size={24} />
+          ) : error ? (
+            'Error fetching balance'
+          ) : (
+            `Balance: $${balance}`
+          )}
+        </MenuItem>
       </Popover>
     </>
   );

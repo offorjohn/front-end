@@ -61,7 +61,7 @@ export default function CustomizedTables() {
   const [, setModalType] = useState('success'); // 'success' or 'yellow' based on the response
 
   const [responseText, setResponseText] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [open, setOpen] = useState(false);
 
   const [uniqueNumbers, setUniqueNumbers] = useState([]);
@@ -69,6 +69,8 @@ export default function CustomizedTables() {
   const [payments, setPayments] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const isMobile = useMediaQuery('(max-width:600px)');
+  const [autoRenew, setAutoRenew] = useState(false); // Default to no autorenew
+
   const [services, setServices] = useState([]);
 
 
@@ -243,7 +245,8 @@ export default function CustomizedTables() {
           type: 'mdn',                 // Use 'otp' as the type
           // eslint-disable-next-line no-undef
           countrycode: selectedName,    // Use the selected country code
-          mode: 'test'
+          mode: 'live',
+          autorenew: autoRenew         // Add autorenew based on the select value
         }
       };
 
@@ -273,6 +276,8 @@ export default function CustomizedTables() {
       // Update state with response data
       setResponseData(response.data);
 
+           
+      
       // Handle response based on message content
       if (response.data.message === 'Invalid service') {
         setResponseText('Service not available.');
@@ -281,12 +286,14 @@ export default function CustomizedTables() {
         setModalType('success'); // Adjust the modal type based on success
       }
 
-      // Check for successful purchase and trigger a page refresh in 3 seconds
-      if (response.data.message === 'Successfully purchased number') {
-        setTimeout(() => {
-          window.location.reload(); // Refresh the page
-        }, 3000); // 3 seconds
-      }
+           // Check for successful purchase and trigger a page refresh in 3 seconds
+           if (response.data.message === 'Successfully purchased number') {
+            setTimeout(() => {
+              window.location.reload(); // Refresh the page
+            }, 3000); // 3 seconds
+          }
+
+   
 
 
       setShowModal(true);
@@ -313,7 +320,9 @@ export default function CustomizedTables() {
       messagedate: new Date(payment.messagedate), // Convert date string to Date object
       message: payment.message,
     }))
-    .sort((a, b) => a.messagedate - b.messagedate); // Sort by date (earliest first)
+    .sort((a, b) => a.messagedate - b.messagedate) // Sort by date (earliest first)
+
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -476,6 +485,30 @@ export default function CustomizedTables() {
                     </Box>
                   </FormControl>
                 </Box>
+
+                <Box sx={{ width: '250px', maxWidth: '100%' }}>
+                  <DialogContentText>Auto-Renew</DialogContentText>
+                  <FormControl
+                    sx={{
+                      m: 1,
+                      width: 500,
+                      maxWidth: isMobile ? '100%' : '900px', // Full width on mobile, fixed width on desktop
+                    }}
+                  >
+                    <InputLabel id="autorenew-label">Auto-Renew</InputLabel>
+                    <Select
+                      labelId="autorenew-label"
+                      id="autorenew-select"
+                      value={autoRenew}
+                      onChange={(event) => setAutoRenew(event.target.value)} // Set state for autorenew
+                      label="Auto-Renew"
+                    >
+                      <MenuItem value={false}>No</MenuItem> {/* Default: No autorenew */}
+                      <MenuItem value>Yes</MenuItem> {/* Enable autorenew */}
+                    </Select>
+                  </FormControl>
+                </Box>
+
 
               </Stack>
 
