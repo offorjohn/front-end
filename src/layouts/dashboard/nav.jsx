@@ -27,7 +27,6 @@ import navConfig from './config-navigation';
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
-
   const upLg = useResponsive('up', 'lg');
 
   useEffect(() => {
@@ -40,21 +39,18 @@ export default function Nav({ openNav, onCloseNav }) {
   const renderAccount = (
     <Box
       sx={{
-        my: 3,
-        mx: 2.5,
+        my: 2,
+        mx: 2,
         py: 2,
-        px: 2.5,
+        px: 2,
         display: 'flex',
         borderRadius: 1.5,
         alignItems: 'center',
         bgcolor: (theme) => alpha(theme.palette.grey[900], 0.12),
       }}
     >
-    
-
       <Box sx={{ ml: 2 }}>
         <Typography variant="subtitle2">{account.displayName}</Typography>
-
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           {account.role}
         </Typography>
@@ -69,26 +65,52 @@ export default function Nav({ openNav, onCloseNav }) {
       ))}
     </Stack>
   );
-
   const renderUpgrade = (
-    <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-      <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-
-
-
+    <Box sx={{ px: 1, pb: 1, mt: 2 }}>
+      <Stack alignItems="center" spacing={1} sx={{ pt: 1, borderRadius: 2, position: 'relative' }}>
         <Button
           href="https://www.linkedin.com/in/your-profile" // Replace with your LinkedIn profile URL
           target="_blank"
           variant="contained"
-          color="inherit"
+          color="primary" // Use primary color for standout action
+          sx={{ width: '100%' }} // Optional: make buttons full width
         >
           Connect on LinkedIn
         </Button>
+  
+        <Button
+          href="https://t.me/your-profile" // Replace with your Telegram URL
+          target="_blank"
+          variant="contained"color="info"
 
+          sx={{ width: '100%' }} // Optional: make buttons full width
+        >
+          Connect on Telegram
+        </Button>
+  
+        <Button
+          href="https://twitter.com/your-profile" // Replace with your Twitter URL
+          target="_blank"
+          variant="contained"color="inherit"
+
+          sx={{ width: '100%' }} // Optional: make buttons full width
+        >
+          Connect on Twitter
+        </Button>
+  
+        <Button
+          href="https://www.instagram.com/your-profile" // Replace with your Instagram URL
+          target="_blank"
+          variant="contained"color="error"
+
+          sx={{ width: '100%' }} // Optional: make buttons full width
+        >
+          Connect on Instagram
+        </Button>
       </Stack>
     </Box>
   );
-
+  
   const renderContent = (
     <Scrollbar
       sx={{
@@ -101,13 +123,9 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       <Logo sx={{ mt: 3, ml: 4 }} />
-
       {renderAccount}
-
       {renderMenu}
-
       <Box sx={{ flexGrow: 1 }} />
-
       {renderUpgrade}
     </Scrollbar>
   );
@@ -156,7 +174,6 @@ Nav.propTypes = {
 
 function NavItem({ item }) {
   const pathname = usePathname();
-
   const active = item.path === pathname;
 
   return (
@@ -165,14 +182,15 @@ function NavItem({ item }) {
       href={item.path}
       sx={{
         minHeight: 44,
-        borderRadius: 0.75,
+        borderRadius: 10,
+        padding: 2,
         typography: 'body2',
+        fontWeight: 'fontWeightBold', // Make all items bold
+
         color: 'text.secondary',
         textTransform: 'capitalize',
-        fontWeight: 'fontWeightMedium',
         ...(active && {
           color: 'primary.main',
-          fontWeight: 'fontWeightSemiBold',
           bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
           '&:hover': {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16),
@@ -183,8 +201,7 @@ function NavItem({ item }) {
       <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
         {item.icon}
       </Box>
-
-      <Box component="span">{item.title} </Box>
+      <Box component="span">{item.title}</Box>
     </ListItemButton>
   );
 }

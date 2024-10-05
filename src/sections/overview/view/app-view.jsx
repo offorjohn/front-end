@@ -33,7 +33,7 @@ export default function AppView() {
       try {
         const response = await axios.request(options);
         setUsername(response.data.data[0]?.username || ''); // Extract username
-      // eslint-disable-next-line no-shadow
+        // eslint-disable-next-line no-shadow
       } catch (error) {
         console.error('Error fetching profile:', error);
         setError('Failed to fetch profile.');
@@ -65,9 +65,9 @@ export default function AppView() {
         setData((prevData) => [
           ...prevData,
           { title: 'Total Rentals Numbers', total: totalMDN, color: 'primary', icon: null },
-          { title: 'Total Verification Numbers', total: totalOTP, color: 'secondary', icon: null },
+          { title: ' Verification Numbers', total: totalOTP, color: 'secondary', icon: null },
         ]);
-      // eslint-disable-next-line no-shadow
+        // eslint-disable-next-line no-shadow
       } catch (error) {
         console.error('Error fetching totals:', error);
         setError('Failed to fetch total numbers.');
@@ -82,7 +82,7 @@ export default function AppView() {
         });
 
         setBalance(balanceResponse.data.balance); // Assuming the API returns a `balance` field
-      // eslint-disable-next-line no-shadow
+        // eslint-disable-next-line no-shadow
       } catch (error) {
         console.error('Error fetching balance:', error);
         setError('Failed to fetch balance.');
@@ -113,23 +113,55 @@ export default function AppView() {
         {Array.isArray(data) && data.map((item, index) => (
           <Grid item xs={12} sm={6} md={3} key={index}>
             <AppWidgetSummary
-              title={item.title || 'Work Ongoing'} // Provide default values if necessary
-              total={item.total || 0} // Provide default values if necessary
-              color={item.color || 'default'} // Provide default values if necessary
-              icon={item.icon || null} // Provide default values if necessary
+              title={item.title || 'Work Ongoing'}
+              total={item.total || 0}
+              color={item.color || 'blue'}
+              icon={
+                <div style={{ 
+                   backgroundColor: 'hsl(201, 95%, 60%)',
+
+
+                  padding: '8px',           // Add padding for spacing
+                  borderRadius: '50%',      // Make it circular
+                  display: 'inline-block'   // Ensure it's inline
+                }}>
+                  <img 
+                    src="/assets/icons/navbar/ic_wallet.svg"
+                    alt="wallet icon"
+                    style={{ width: 24, height: 24, display: 'block' }} // Display block to center it
+                  />
+                </div>
+              }
             />
           </Grid>
         ))}
+      
 
         {/* Display the balance */}
         <Grid item xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="Balance"
-            total={balance} // Show balance
-            color="success" // You can set any color
-            icon={null} // Add an icon if needed
+            total={balance}
+            color="success"
+            icon={
+              <div style={{ 
+                 backgroundColor: 'hsl(201, 95%, 60%)',
+
+
+                padding: '8px',           // Add padding for spacing
+                borderRadius: '50%',      // Make it circular
+                display: 'inline-block'   // Ensure it's inline
+              }}>
+                <img 
+                  src="/assets/icons/navbar/ic_wallet.svg"
+                  alt="wallet icon"
+                  style={{ width: 24, height: 24, display: 'block' }} // Display block to center it
+                />
+              </div>
+            }
           />
         </Grid>
+
       </Grid>
     </Container>
   );
