@@ -61,8 +61,8 @@ export default function AppView() {
 
         // Update data with total counts
         setData([
-          { title: 'TotalRentals Numbers', total: totalMDN, color: 'primary', icon: 'ic_analytics' },
-          { title: 'Verification Numbers', total: totalOTP, color: 'secondary', icon: 'ic_flag' },
+          { title: 'Total Rentals Numbers', total: totalMDN, color: 'primary', icon: 'ic_globe' },
+          { title: 'Total Verification Numbers', total: totalOTP, color: 'secondary', icon: 'ic_flag' },
         ]);
       } catch (error) {
         console.error('Error fetching total numbers:', error);

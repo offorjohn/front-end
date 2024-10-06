@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid'; // Import the Grid component
+// Import the Grid component
 
 import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
@@ -40,88 +40,86 @@ export default function Nav({ openNav, onCloseNav }) {
 
 
   const renderMenu = (
-    <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
+    <Stack component="nav"  spacing={1.4} sx={{ px: 2 }}>
       {navConfig.map((item) => (
         <NavItem key={item.title} item={item} />
       ))}
     </Stack>
   );
- const renderUpgrade = (
-  <Box sx={{ px: 1, pb: 1, mt: 2 }}>
-    <Grid container spacing={2} justifyContent="center"> {/* Create a grid container */}
-      
-      <Grid item xs={6}> {/* First button in the grid */}
+  const renderUpgrade = (
+    <Box sx={{ px: 2, pb: 3, mt: 10, display: 'flex', justifyContent: 'center' }}>
+      <Stack direction="row" spacing={1} >
+        {/* Twitter Button */}
         <Button
-          href="https://www.linkedin.com/in/your-profile" // Replace with your LinkedIn profile URL
+          href="https://www.twitter.com/in/your-profile"
           target="_blank"
           variant="contained"
-          sx={{ 
-            width: '50%', 
-            height: 60,  // Adjust height for smaller buttons
-            bgcolor: '#0077B5', 
-            '&:hover': { bgcolor: '#005582' },
-            borderRadius: 2,  // Optional: Add border-radius for rounded corners
-            fontSize: '0.875rem',  // Adjust font size for smaller text
-          }} 
-          startIcon={<Icon icon="mdi:linkedin" width={20} />} // Smaller icon size
-         />
-      </Grid>
-
-      <Grid item xs={6}> {/* Second button in the grid */}
+          sx={{
+            width: 'auto',
+            height: 50,
+            bgcolor: '#1DA1F2', // Twitter blue
+            '&:hover': { bgcolor: '#0d8bde' }, // Darker blue on hover
+            borderRadius: 2,
+            fontSize: '0.875rem',
+            minWidth: '40px',
+          }}
+          startIcon={<Icon icon="mdi:twitter" width={20} />}
+        />
+  
+        {/* Telegram Button */}
         <Button
-          href="https://t.me/your-profile" // Replace with your Telegram URL
+          href="https://t.me/your-profile"
           target="_blank"
           variant="contained"
-          sx={{ 
-            width: '50%', 
-            height: 60,  // Adjust height for smaller buttons
-            bgcolor: '#0088CC', 
-            '&:hover': { bgcolor: '#0079B3' },
-            borderRadius: 2,  // Optional: Add border-radius for rounded corners
-            fontSize: '0.875rem',  // Adjust font size for smaller text
-          }} 
-          startIcon={<Icon icon="mdi:telegram" width={20} />} // Smaller icon size
-         />
-      </Grid>
-
-      <Grid item xs={6}> {/* Third button in the grid */}
+          sx={{
+            width: 'auto',
+            height: 50,
+            bgcolor: '#0088CC', // Telegram blue
+            '&:hover': { bgcolor: '#0079B3' }, // Darker blue on hover
+            borderRadius: 2,
+            fontSize: '0.875rem',
+            minWidth: '40px',
+          }}
+          startIcon={<Icon icon="mdi:telegram" width={20} />}
+        />
+  
+        {/* Facebook Button */}
         <Button
-          href="https://twitter.com/your-profile" // Replace with your Twitter URL
+          href="https://facebook.com/your-profile"
           target="_blank"
           variant="contained"
-          sx={{ 
-            width: '50%', 
-            height: 60,  // Adjust height for smaller buttons
-            bgcolor: '#1DA1F2', 
-            '&:hover': { bgcolor: '#0d8bde' },
-            borderRadius: 2,  // Optional: Add border-radius for rounded corners
-            fontSize: '0.875rem',  // Adjust font size for smaller text
-          }} 
-          startIcon={<Icon icon="mdi:twitter" width={20} />} // Smaller icon size
-         />
-      </Grid>
-
-      <Grid item xs={6}> {/* Fourth button in the grid */}
+          sx={{
+            width: 'auto',
+            height: 50,
+            bgcolor: '#1877F2', // Facebook blue
+            '&:hover': { bgcolor: '#145DBF' }, // Darker blue on hover
+            borderRadius: 2,
+            fontSize: '0.875rem',
+            minWidth: '40px',
+          }}
+          startIcon={<Icon icon="mdi:facebook" width={20} />}
+        />
+  
+        {/* Instagram Button */}
         <Button
-          href="https://www.instagram.com/your-profile" // Replace with your Instagram URL
+          href="https://www.instagram.com/your-profile"
           target="_blank"
           variant="contained"
-          sx={{ 
-            width: '50%', 
-            height: 60,  // Adjust height for smaller buttons
-            bgcolor: '#C32AA3', 
-            '&:hover': { bgcolor: '#9B1F79' },
-            borderRadius: 2,  // Optional: Add border-radius for rounded corners
-            fontSize: '0.875rem',  // Adjust font size for smaller text
-          }} 
-          startIcon={<Icon icon="mdi:instagram" width={20} />} // Smaller icon size
-         />
-      </Grid>
-      
-    </Grid>
-  </Box>
-);
-
+          sx={{
+            width: 'auto',
+            height: 50,
+            bgcolor: '#E1306C', // Instagram pink
+            '&:hover': { bgcolor: '#C13584' }, // Darker pink on hover
+            borderRadius: 2,
+            fontSize: '0.875rem',
+            minWidth: '40px',
+          }}
+          startIcon={<Icon icon="mdi:instagram" width={20} />}
+        />
+      </Stack>
+    </Box>
+  );
+  
 
   const renderContent = (
     <Scrollbar
@@ -147,18 +145,21 @@ export default function Nav({ openNav, onCloseNav }) {
       >
 
 
-        {/* Use Iconify to render the icon */}
-        <Icon
-          icon="mdi:close" // Close icon
-          width={32} // Adjust width for larger size
-          sx={{
-            display: 'inline-block',
-            verticalAlign: 'middle',
-            fontWeight: 'bold', // Add bold font weight
-            color: 'text.primary', // Set color to primary text color
-       
-          }}
-        />
+    {/* Use Iconify to render the icon */}
+<Icon
+  icon="mdi:close" // Close icon
+  width={32} // Adjust width for larger size
+  sx={{
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    fontWeight: 'bold', // Add bold font weight
+    color: 'text.primary', // Set color to primary text color
+    '@media (min-width: 960px)': { // Hide on medium screens and up
+      display: 'none',
+    },
+  }}
+/>
+
 
       </ListItemButton>
 
@@ -231,11 +232,11 @@ function NavItem({ item }) {
       component={RouterLink}
       href={item.path}
       sx={{
-        minHeight: 44,
+        minHeight: 50,
         borderRadius: 10,
-        padding: 2,
+        padding: 2.1,
         typography: 'body2',
-        fontWeight: 'fontWeightBold', // Make all items bold
+        fontWeight: 'bold', // Make all items bold
 
         color: 'text.secondary',
         textTransform: 'capitalize',

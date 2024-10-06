@@ -50,7 +50,6 @@ export default function LanguagePopover() {
         setBalance(data.balance); // Assuming the API returns { balance: 100 }
         setLoading(false);
       } catch (err) {
-        console.error(err);
         setError('Failed to fetch balance');
         setLoading(false);
       }
