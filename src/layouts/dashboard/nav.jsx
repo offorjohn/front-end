@@ -56,8 +56,8 @@ export default function Nav({ openNav, onCloseNav }) {
           target="_blank"
           variant="contained"
           sx={{ 
-            width: '70%', 
-            height: 40,  // Adjust height for smaller buttons
+            width: '50%', 
+            height: 60,  // Adjust height for smaller buttons
             bgcolor: '#0077B5', 
             '&:hover': { bgcolor: '#005582' },
             borderRadius: 2,  // Optional: Add border-radius for rounded corners
@@ -73,8 +73,8 @@ export default function Nav({ openNav, onCloseNav }) {
           target="_blank"
           variant="contained"
           sx={{ 
-            width: '70%', 
-            height: 40,  // Adjust height for smaller buttons
+            width: '50%', 
+            height: 60,  // Adjust height for smaller buttons
             bgcolor: '#0088CC', 
             '&:hover': { bgcolor: '#0079B3' },
             borderRadius: 2,  // Optional: Add border-radius for rounded corners
@@ -90,8 +90,8 @@ export default function Nav({ openNav, onCloseNav }) {
           target="_blank"
           variant="contained"
           sx={{ 
-            width: '70%', 
-            height: 40,  // Adjust height for smaller buttons
+            width: '50%', 
+            height: 60,  // Adjust height for smaller buttons
             bgcolor: '#1DA1F2', 
             '&:hover': { bgcolor: '#0d8bde' },
             borderRadius: 2,  // Optional: Add border-radius for rounded corners
@@ -107,8 +107,8 @@ export default function Nav({ openNav, onCloseNav }) {
           target="_blank"
           variant="contained"
           sx={{ 
-            width: '70%', 
-            height: 40,  // Adjust height for smaller buttons
+            width: '50%', 
+            height: 60,  // Adjust height for smaller buttons
             bgcolor: '#C32AA3', 
             '&:hover': { bgcolor: '#9B1F79' },
             borderRadius: 2,  // Optional: Add border-radius for rounded corners
