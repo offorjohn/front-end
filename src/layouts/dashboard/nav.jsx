@@ -1,21 +1,21 @@
 /* eslint-disable import/no-unresolved */
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Icon } from '@iconify/react';
 
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid'; // Import the Grid component
+
 import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 import ListItemButton from '@mui/material/ListItemButton';
 
 import { usePathname } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
 import { useResponsive } from 'src/hooks/use-responsive';
-
-import { account } from 'src/_mock/account';
 
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
@@ -36,27 +36,8 @@ export default function Nav({ openNav, onCloseNav }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const renderAccount = (
-    <Box
-      sx={{
-        my: 2,
-        mx: 2,
-        py: 2,
-        px: 2,
-        display: 'flex',
-        borderRadius: 1.5,
-        alignItems: 'center',
-        bgcolor: (theme) => alpha(theme.palette.grey[900], 0.12),
-      }}
-    >
-      <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {account.role}
-        </Typography>
-      </Box>
-    </Box>
-  );
+
+
 
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
@@ -65,52 +46,83 @@ export default function Nav({ openNav, onCloseNav }) {
       ))}
     </Stack>
   );
-  const renderUpgrade = (
-    <Box sx={{ px: 1, pb: 1, mt: 2 }}>
-      <Stack alignItems="center" spacing={1} sx={{ pt: 1, borderRadius: 2, position: 'relative' }}>
+ const renderUpgrade = (
+  <Box sx={{ px: 1, pb: 1, mt: 2 }}>
+    <Grid container spacing={2} justifyContent="center"> {/* Create a grid container */}
+      
+      <Grid item xs={6}> {/* First button in the grid */}
         <Button
           href="https://www.linkedin.com/in/your-profile" // Replace with your LinkedIn profile URL
           target="_blank"
           variant="contained"
-          color="primary" // Use primary color for standout action
-          sx={{ width: '100%' }} // Optional: make buttons full width
-        >
-          Connect on LinkedIn
-        </Button>
-  
+          sx={{ 
+            width: '70%', 
+            height: 40,  // Adjust height for smaller buttons
+            bgcolor: '#0077B5', 
+            '&:hover': { bgcolor: '#005582' },
+            borderRadius: 2,  // Optional: Add border-radius for rounded corners
+            fontSize: '0.875rem',  // Adjust font size for smaller text
+          }} 
+          startIcon={<Icon icon="mdi:linkedin" width={20} />} // Smaller icon size
+         />
+      </Grid>
+
+      <Grid item xs={6}> {/* Second button in the grid */}
         <Button
           href="https://t.me/your-profile" // Replace with your Telegram URL
           target="_blank"
-          variant="contained"color="info"
+          variant="contained"
+          sx={{ 
+            width: '70%', 
+            height: 40,  // Adjust height for smaller buttons
+            bgcolor: '#0088CC', 
+            '&:hover': { bgcolor: '#0079B3' },
+            borderRadius: 2,  // Optional: Add border-radius for rounded corners
+            fontSize: '0.875rem',  // Adjust font size for smaller text
+          }} 
+          startIcon={<Icon icon="mdi:telegram" width={20} />} // Smaller icon size
+         />
+      </Grid>
 
-          sx={{ width: '100%' }} // Optional: make buttons full width
-        >
-          Connect on Telegram
-        </Button>
-  
+      <Grid item xs={6}> {/* Third button in the grid */}
         <Button
           href="https://twitter.com/your-profile" // Replace with your Twitter URL
           target="_blank"
-          variant="contained"color="inherit"
+          variant="contained"
+          sx={{ 
+            width: '70%', 
+            height: 40,  // Adjust height for smaller buttons
+            bgcolor: '#1DA1F2', 
+            '&:hover': { bgcolor: '#0d8bde' },
+            borderRadius: 2,  // Optional: Add border-radius for rounded corners
+            fontSize: '0.875rem',  // Adjust font size for smaller text
+          }} 
+          startIcon={<Icon icon="mdi:twitter" width={20} />} // Smaller icon size
+         />
+      </Grid>
 
-          sx={{ width: '100%' }} // Optional: make buttons full width
-        >
-          Connect on Twitter
-        </Button>
-  
+      <Grid item xs={6}> {/* Fourth button in the grid */}
         <Button
           href="https://www.instagram.com/your-profile" // Replace with your Instagram URL
           target="_blank"
-          variant="contained"color="error"
+          variant="contained"
+          sx={{ 
+            width: '70%', 
+            height: 40,  // Adjust height for smaller buttons
+            bgcolor: '#C32AA3', 
+            '&:hover': { bgcolor: '#9B1F79' },
+            borderRadius: 2,  // Optional: Add border-radius for rounded corners
+            fontSize: '0.875rem',  // Adjust font size for smaller text
+          }} 
+          startIcon={<Icon icon="mdi:instagram" width={20} />} // Smaller icon size
+         />
+      </Grid>
+      
+    </Grid>
+  </Box>
+);
 
-          sx={{ width: '100%' }} // Optional: make buttons full width
-        >
-          Connect on Instagram
-        </Button>
-      </Stack>
-    </Box>
-  );
-  
+
   const renderContent = (
     <Scrollbar
       sx={{
@@ -122,8 +134,37 @@ export default function Nav({ openNav, onCloseNav }) {
         },
       }}
     >
-      <Logo sx={{ mt: 3, ml: 4 }} />
-      {renderAccount}
+        {/* Make "rr" a clickable icon */}
+        <ListItemButton
+        onClick={onCloseNav} // Close the nav when clicked
+        sx={{
+          justifyContent: 'right',
+          padding: 3,
+          color: 'text.secondary',
+        }}
+
+      >
+
+
+        {/* Use Iconify to render the icon */}
+        <Icon
+          icon="mdi:close" // Close icon
+          width={32} // Adjust width for larger size
+          sx={{
+            display: 'inline-block',
+            verticalAlign: 'middle',
+            fontWeight: 'bold', // Add bold font weight
+            color: 'text.primary', // Set color to primary text color
+       
+          }}
+        />
+
+      </ListItemButton>
+
+      <Logo sx={{ mt: -11, ml: 4 }} />
+
+    
+
       {renderMenu}
       <Box sx={{ flexGrow: 1 }} />
       {renderUpgrade}
@@ -131,12 +172,16 @@ export default function Nav({ openNav, onCloseNav }) {
   );
 
   return (
+
     <Box
       sx={{
         flexShrink: { lg: 0 },
         width: { lg: NAV.WIDTH },
       }}
+
     >
+
+
       {upLg ? (
         <Box
           sx={{
@@ -145,7 +190,9 @@ export default function Nav({ openNav, onCloseNav }) {
             width: NAV.WIDTH,
             borderRight: (theme) => `dashed 1px ${theme.palette.divider}`,
           }}
+
         >
+
           {renderContent}
         </Box>
       ) : (
@@ -157,7 +204,9 @@ export default function Nav({ openNav, onCloseNav }) {
               width: NAV.WIDTH,
             },
           }}
+
         >
+
           {renderContent}
         </Drawer>
       )}

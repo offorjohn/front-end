@@ -79,10 +79,15 @@ export default function LanguagePopover() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+
+              color: 'white', // Set the text color to white
               fontSize: '1rem', // Adjust the font size to make it smaller
+              backgroundColor: 'hsl(201, 95%, 60%)',
+              padding: '0.5rem 0.5rem', // Add padding for spacing
+              borderRadius: '12px', // Add rounded borders
             }}
           >
-            ${balance !== null ? balance : 'Error'}
+            ₦{balance !== null ? balance : 'Error'}
           </Box>
         )}
       </IconButton>

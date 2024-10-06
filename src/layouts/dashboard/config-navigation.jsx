@@ -33,6 +33,9 @@ const navConfig = [
     icon: icon('ic_flag'),
 
   },
+
+
+
   {
     title: 'rentals',
     path: '/products',
@@ -47,14 +50,12 @@ const navConfig = [
   {
     
 
-    title: 'credit History',
+    title: 'support',
     path: '/credithistory',
     icon: icon('ic_case'),
 
   },
 
-
-  { type: 'separator' }, // Separator above "Not found"
   
   {
     title: 'logout',
@@ -62,7 +63,6 @@ const navConfig = [
     icon: icon('ic_lock'),
   },
 
-  { type: 'separator' }, // Separator below "Not found"
 
 ];
 

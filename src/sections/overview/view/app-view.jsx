@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unresolved */
+/* eslint-disable no-shadow */
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
@@ -33,7 +33,6 @@ export default function AppView() {
       try {
         const response = await axios.request(options);
         setUsername(response.data.data[0]?.username || ''); // Extract username
-        // eslint-disable-next-line no-shadow
       } catch (error) {
         console.error('Error fetching profile:', error);
         setError('Failed to fetch profile.');
@@ -55,21 +54,18 @@ export default function AppView() {
         // Extract unique numbers from the data array using Set
         const uniqueMDNNumbers = [...new Set(mdnResponse.data.data.map(item => item.number))];
         const uniqueOTPNumbers = [...new Set(otpResponse.data.data.map(item => item.number))];
-        console.log(uniqueMDNNumbers);
 
         // Get the count of unique numbers
         const totalMDN = uniqueMDNNumbers.length;
         const totalOTP = uniqueOTPNumbers.length;
 
         // Update data with total counts
-        setData((prevData) => [
-          ...prevData,
-          { title: 'Total Rentals Numbers', total: totalMDN, color: 'primary', icon: null },
-          { title: ' Verification Numbers', total: totalOTP, color: 'secondary', icon: null },
+        setData([
+          { title: 'TotalRentals Numbers', total: totalMDN, color: 'primary', icon: 'ic_analytics' },
+          { title: 'Verification Numbers', total: totalOTP, color: 'secondary', icon: 'ic_flag' },
         ]);
-        // eslint-disable-next-line no-shadow
       } catch (error) {
-        console.error('Error fetching totals:', error);
+        console.error('Error fetching total numbers:', error);
         setError('Failed to fetch total numbers.');
       }
 
@@ -82,7 +78,6 @@ export default function AppView() {
         });
 
         setBalance(balanceResponse.data.balance); // Assuming the API returns a `balance` field
-        // eslint-disable-next-line no-shadow
       } catch (error) {
         console.error('Error fetching balance:', error);
         setError('Failed to fetch balance.');
@@ -93,7 +88,7 @@ export default function AppView() {
 
     // Call the fetch function once when the component mounts
     fetchData();
-  }, []);  // Empty dependency array ensures it runs only once on mount
+  }, []); // Empty dependency array ensures it runs only once on mount
 
   if (loading) {
     return <Typography>Loading...</Typography>;
@@ -109,50 +104,23 @@ export default function AppView() {
         {username ? `Hi, Welcome back ${username} 👋` : 'Hi, Welcome back 👋'} {/* Display username if available */}
       </Typography>
 
-      <Grid container spacing={3}>
-        {Array.isArray(data) && data.map((item, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
-            <AppWidgetSummary
-              title={item.title || 'Work Ongoing'}
-              total={item.total || 0}
-              color={item.color || 'blue'}
-              icon={
-                <div style={{ 
-                   backgroundColor: 'hsl(201, 95%, 60%)',
-
-
-                  padding: '8px',           // Add padding for spacing
-                  borderRadius: '50%',      // Make it circular
-                  display: 'inline-block'   // Ensure it's inline
-                }}>
-                  <img 
-                    src="/assets/icons/navbar/ic_wallet.svg"
-                    alt="wallet icon"
-                    style={{ width: 24, height: 24, display: 'block' }} // Display block to center it
-                  />
-                </div>
-              }
-            />
-          </Grid>
-        ))}
-      
-
-        {/* Display the balance */}
-        <Grid item xs={12} sm={6} md={3}>
+      <Grid container spacing={4} justifyContent="center">
+        {/* Display the balance first */}
+        <Grid item xs={11} sm={6} md={3} justifyContent="center">
           <AppWidgetSummary
             title="Balance"
             total={balance}
             color="success"
             icon={
-              <div style={{ 
-                 backgroundColor: 'hsl(201, 95%, 60%)',
-
-
-                padding: '8px',           // Add padding for spacing
-                borderRadius: '50%',      // Make it circular
-                display: 'inline-block'   // Ensure it's inline
-              }}>
-                <img 
+              <div
+                style={{
+                  backgroundColor: 'hsl(201, 95%, 60%)',
+                  padding: '8px', // Add padding for spacing
+                  borderRadius: '50%', // Make it circular
+                  display: 'inline-block', // Ensure it's inline
+                }}
+              >
+                <img
                   src="/assets/icons/navbar/ic_wallet.svg"
                   alt="wallet icon"
                   style={{ width: 24, height: 24, display: 'block' }} // Display block to center it
@@ -162,6 +130,37 @@ export default function AppView() {
           />
         </Grid>
 
+        {Array.isArray(data) &&
+          data.map((item, index) => (
+            <Grid item xs={11} sm={6} md={3} key={index}>
+              <AppWidgetSummary
+                title={item.title || 'Work Ongoing'}
+                total={item.total || 0}
+                color={item.color || 'blue'}
+                icon={
+                  <div
+                    style={{
+                      backgroundColor: 'hsl(201, 95%, 60%)',
+                      padding: '8px', // Add padding for spacing
+                      borderRadius: '50%', // Make it circular
+                      display: 'inline-block', // Ensure it's inline
+                    }}
+                  >
+                    {/* Dynamically set the icon based on the `item.icon` value */}
+                    <img
+                      src={
+                        item.icon
+                          ? `/assets/icons/navbar/${item.icon}.svg`
+                          : '/assets/icons/navbar/ic_default.svg' // Fallback icon
+                      }
+                      alt={item.icon ? `${item.icon} icon` : 'default icon'}
+                      style={{ width: 24, height: 24, display: 'block' }} // Display block to center it
+                    />
+                  </div>
+                }
+              />
+            </Grid>
+          ))}
       </Grid>
     </Container>
   );

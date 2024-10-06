@@ -30,7 +30,7 @@ export default function Header({ onOpenNav }) {
   const renderContent = (
     <>
       {!lgUp && (
-        <IconButton onClick={onOpenNav} sx={{ mr: 1 }}>
+        <IconButton onClick={onOpenNav} sx={{ mr: 0 }}>
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
       )}
@@ -68,10 +68,9 @@ export default function Header({ onOpenNav }) {
     >
       <Toolbar
         sx={{
-          height: 1,
-          px: { lg: 5 },
         }}
       >
+      
         {renderContent}
       </Toolbar>
     </AppBar>
