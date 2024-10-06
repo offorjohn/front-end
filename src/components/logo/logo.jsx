@@ -29,7 +29,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
          src="/logo/logo_single.png" 
          sx={{ 
       
-          marginTop: -20,
+          marginTop: -9,
           
           width: 190, height: 90, cursor: 'pointer', ...sx }}
        />

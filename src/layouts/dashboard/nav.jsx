@@ -140,6 +140,7 @@ export default function Nav({ openNav, onCloseNav }) {
         sx={{
           justifyContent: 'right',
           padding: 3,
+          marginTop: -2,
           color: 'text.secondary',
         }}
 
@@ -161,7 +162,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
       </ListItemButton>
 
-      <Logo sx={{ mt: -11, ml: 4 }} />
+      <Logo sx={{ mt: -17, ml: 4 }} />
 
     
 
