@@ -24,9 +24,13 @@ export default function LanguagePopover() {
   };
 
   // Fetch balance from the API
-  React.useEffect(() => {
+  React.useEffect(() => {let interval = 5000; // Interval of 5 seconds
+
     const fetchBalance = async () => {
       const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    
+      const maxInterval = 300000; // Maximum interval of 5 minutes
+  
 
       if (!token) {
         setError('Token not found');
@@ -49,13 +53,29 @@ export default function LanguagePopover() {
         const data = await response.json();
         setBalance(data.balance); // Assuming the API returns { balance: 100 }
         setLoading(false);
+        
+      // Reset interval back to the initial value if data is found
+      interval = 30000;
       } catch (err) {
         setError('Failed to fetch balance');
         setLoading(false);
+
+        
+      // Double the interval time if the fetch fails or no new data is available
+      interval = Math.min(interval * 2, maxInterval);
       }
     };
 
     fetchBalance();
+
+    // Set up polling with dynamic interval
+  const intervalId = setInterval(() => {
+    fetchBalance();
+  }, interval);
+  console.log(intervalId)
+
+  // Clean up the interval on component unmount
+  return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -78,6 +98,7 @@ export default function LanguagePopover() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              fontWeight: 'bold',
 
               color: 'white', // Set the text color to white
               fontSize: '1rem', // Adjust the font size to make it smaller

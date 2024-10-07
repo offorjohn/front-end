@@ -40,7 +40,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
 
   const renderMenu = (
-    <Stack component="nav"  spacing={1.4} sx={{ px: 2 }}>
+    <Stack component="nav" spacing={1.4} sx={{ px: 2 }}>
       {navConfig.map((item) => (
         <NavItem key={item.title} item={item} />
       ))}
@@ -55,71 +55,91 @@ export default function Nav({ openNav, onCloseNav }) {
           target="_blank"
           variant="contained"
           sx={{
-            width: 'auto',
+            width: 55, // Larger size
             height: 50,
-            bgcolor: '#1DA1F2', // Twitter blue
-            '&:hover': { bgcolor: '#0d8bde' }, // Darker blue on hover
-            borderRadius: 2,
-            fontSize: '0.875rem',
-            minWidth: '40px',
+            bgcolor: '#000', // Black background
+            '&:hover': { bgcolor: '#1DA1F2' }, // Twitter blue on hover
+            borderRadius: '50%', // Round button
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '0.375rem',
+            minWidth: '2px',
           }}
-          startIcon={<Icon icon="mdi:twitter" width={20} />}
-        />
-  
+        >
+          <Icon icon="mdi:twitter" width={49} /> {/* Larger icon */}
+        </Button>
+
         {/* Telegram Button */}
         <Button
           href="https://t.me/your-profile"
           target="_blank"
           variant="contained"
           sx={{
-            width: 'auto',
+            width: 56, // Larger size
             height: 50,
-            bgcolor: '#0088CC', // Telegram blue
+            bgcolor: '#000', // Black background
             '&:hover': { bgcolor: '#0079B3' }, // Darker blue on hover
-            borderRadius: 2,
+            borderRadius: '50%', // Round button
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             fontSize: '0.875rem',
-            minWidth: '40px',
+            minWidth: '2px',
           }}
-          startIcon={<Icon icon="mdi:telegram" width={20} />}
-        />
-  
+        >
+          <Icon icon="mdi:telegram" width={30} /> {/* Larger icon */}
+        </Button>
+
+           {/* Instagram Button */}
+           <Button
+          href="https://www.instagram.com/your-profile"
+          target="_blank"
+          variant="contained"
+          sx={{
+            width: 60, // Rectangle shape (wider)
+            height: 50,
+            bgcolor: '#fff', // White background
+            '&:hover': { bgcolor: '#E1306C' }, // Darker blue on hover
+            borderRadius: 2, // Slightly rounded corners
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '0.875rem',
+            minWidth: '2px',
+          }}
+        >
+          <Icon icon="mdi:instagram" width={28}  color="#000"/> {/* Larger icon, Instagram color */}
+        </Button>
+
         {/* Facebook Button */}
         <Button
           href="https://facebook.com/your-profile"
           target="_blank"
           variant="contained"
           sx={{
-            width: 'auto',
+            width: 56, // Larger size
             height: 50,
-            bgcolor: '#1877F2', // Facebook blue
+            bgcolor: '#000', // Black background
             '&:hover': { bgcolor: '#145DBF' }, // Darker blue on hover
-            borderRadius: 2,
+            borderRadius: '50%', // Round button
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             fontSize: '0.875rem',
-            minWidth: '40px',
+            minWidth: '2px',
           }}
-          startIcon={<Icon icon="mdi:facebook" width={20} />}
-        />
-  
-        {/* Instagram Button */}
-        <Button
-          href="https://www.instagram.com/your-profile"
-          target="_blank"
-          variant="contained"
-          sx={{
-            width: 'auto',
-            height: 50,
-            bgcolor: '#E1306C', // Instagram pink
-            '&:hover': { bgcolor: '#C13584' }, // Darker pink on hover
-            borderRadius: 2,
-            fontSize: '0.875rem',
-            minWidth: '40px',
-          }}
-          startIcon={<Icon icon="mdi:instagram" width={20} />}
-        />
+        >
+          <Icon icon="mdi:facebook" width={28} /> {/* Larger icon */}
+        </Button>
+
+     
+
+
       </Stack>
     </Box>
   );
-  
+
 
   const renderContent = (
     <Scrollbar
@@ -132,8 +152,8 @@ export default function Nav({ openNav, onCloseNav }) {
         },
       }}
     >
-        {/* Make "rr" a clickable icon */}
-        <ListItemButton
+      {/* Make "rr" a clickable icon */}
+      <ListItemButton
         onClick={onCloseNav} // Close the nav when clicked
         sx={{
           justifyContent: 'right',
@@ -145,27 +165,27 @@ export default function Nav({ openNav, onCloseNav }) {
       >
 
 
-    {/* Use Iconify to render the icon */}
-<Icon
-  icon="mdi:close" // Close icon
-  width={32} // Adjust width for larger size
-  sx={{
-    display: 'inline-block',
-    verticalAlign: 'middle',
-    fontWeight: 'bold', // Add bold font weight
-    color: 'text.primary', // Set color to primary text color
-    '@media (min-width: 960px)': { // Hide on medium screens and up
-      display: 'none',
-    },
-  }}
-/>
+        {/* Use Iconify to render the icon */}
+        <Icon
+          icon="mdi:close" // Close icon
+          width={32} // Adjust width for larger size
+          sx={{
+            display: 'inline-block',
+            verticalAlign: 'middle',
+            fontWeight: 'bold', // Add bold font weight
+            color: 'text.primary', // Set color to primary text color
+            '@media (min-width: 960px)': { // Hide on medium screens and up
+              display: 'none',
+            },
+          }}
+        />
 
 
       </ListItemButton>
 
       <Logo sx={{ mt: -17, ml: 4 }} />
 
-    
+
 
       {renderMenu}
       <Box sx={{ flexGrow: 1 }} />

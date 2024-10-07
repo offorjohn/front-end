@@ -593,7 +593,7 @@ export default function CustomizedTables() {
 
   React.useEffect(() => {
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-    let interval = 30000; // Initial interval of 30 seconds
+    let interval = 10000; // Initial interval of 30 seconds
     const maxInterval = 300000; // Maximum interval of 5 minutes
   
     console.log('useEffect triggered');
