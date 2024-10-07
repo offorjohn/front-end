@@ -24,7 +24,7 @@ export default function LanguagePopover() {
   };
 
   // Fetch balance from the API
-  React.useEffect(() => {let interval = 5000; // Interval of 5 seconds
+  React.useEffect(() => {let interval = 1000; // Interval of 5 seconds
 
     const fetchBalance = async () => {
       const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
