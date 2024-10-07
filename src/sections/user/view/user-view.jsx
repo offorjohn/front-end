@@ -35,7 +35,7 @@ import Modal from './modal';// Import the Modal component
 
 export default function CustomizedTables() {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [open, setOpen] = useState(false);
   const [names, setNames] = useState([]); // State to store names
   const [payments, setPayments] = useState([]);
@@ -93,7 +93,7 @@ export default function CustomizedTables() {
         const paymentData = await ("otp", res.token);
         // eslint-disable-next-line no-undef
         setPayments(paymentData);
-      
+
       }
     } catch (error) {
       console.error('Login or fetching payments failed:', error);
@@ -482,13 +482,13 @@ export default function CustomizedTables() {
 
         setResponseText(`Service not available For this Number.`);
         setShowModal(false);
-      
+
 
         setTimeout(() => {
 
           setResponseText(`Service not available For this Number.`);
-        },  10800000); // 1,800,000 milliseconds = 30 minutes
-        
+        }, 10800000); // 1,800,000 milliseconds = 30 minutes
+
 
 
       } else {
@@ -528,7 +528,7 @@ export default function CustomizedTables() {
 
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     if (!purchasedNid) {
-   
+
       return;
     }
 
@@ -547,7 +547,7 @@ export default function CustomizedTables() {
 
       // Make the cancel request
       const cancelResponse = await axios.request(cancelOptions);
-   
+
 
       const { message } = cancelResponse.data; // Assuming the message is in the 'message' field
       const statusCode = cancelResponse.status; // Status code of the response
@@ -564,12 +564,12 @@ export default function CustomizedTables() {
       }
       // Check if the cancellation was successful
 
-    // Wait for 4 seconds before refreshing the page
-    setTimeout(() => {
-      window.location.reload(); // This will refresh the page after 4 seconds
-    }, 4000);
+      // Wait for 4 seconds before refreshing the page
+      setTimeout(() => {
+        window.location.reload(); // This will refresh the page after 4 seconds
+      }, 4000);
 
-      
+
 
     } catch (error) {
       console.error('Error canceling number:', error);
@@ -585,7 +585,7 @@ export default function CustomizedTables() {
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     let interval = 10000; // Initial interval of 30 seconds
     const maxInterval = 300000; // Maximum interval of 5 minutes
-  
+
     console.log('useEffect triggered');
 
     const fetchPayments = async () => {
@@ -602,11 +602,11 @@ export default function CustomizedTables() {
 
         // Sort the data by 'messagedate' in descending order to get the latest data first
         const sortedData = response.data.data.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
-  
+
 
         // Set the sorted data in your state (React use case)
         setPayments(response.data.data);
-        console.log(response)
+        console.log(response.data.data)
         // Extract values from the latest item (first item after sorting)
         const { name } = sortedData[0];  // Get 'name' from the latest message
         const { message } = sortedData[0];
@@ -617,31 +617,31 @@ export default function CustomizedTables() {
 
 
         setTitle(`${name} SMS Verifications`);
-     
-    
-      // Reset interval back to the initial value if data is found
-      interval = 30000;
-    } catch (error) {
-      console.error('Error fetching payments:', error);
 
-      // Double the interval time if the fetch fails or no new data is available
-      interval = Math.min(interval * 2, maxInterval);
-    }
-  };
-  console.log(maxInterval)
 
-  // Initial fetch
-  fetchPayments();
+        // Reset interval back to the initial value if data is found
+        interval = 30000;
+      } catch (error) {
+        console.error('Error fetching payments:', error);
 
-  // Set up polling with dynamic interval
-  const intervalId = setInterval(() => {
+        // Double the interval time if the fetch fails or no new data is available
+        interval = Math.min(interval * 2, maxInterval);
+      }
+    };
+    console.log(maxInterval)
+
+    // Initial fetch
     fetchPayments();
-  }, interval);
-  console.log(intervalId)
 
-  // Clean up the interval on component unmount
-  return () => clearInterval(intervalId);
-}, []);
+    // Set up polling with dynamic interval
+    const intervalId = setInterval(() => {
+      fetchPayments();
+    }, interval);
+    console.log(intervalId)
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
 
 
   React.useEffect(() => {
@@ -663,13 +663,13 @@ export default function CustomizedTables() {
 
 
 
-        
+
       } catch (error) {
         console.error('Error fetching service:', error);
       }
     };
 
-   
+
     // Call the fetch function once when the component mounts
     fetchData();
   }, [selectedName, selectedService]);  // Empty dependency array ensures it runs only once on mount
@@ -703,7 +703,11 @@ export default function CustomizedTables() {
 
 
   // Calculate rows to display based on pagination
-  const paginatedRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const paginatedRows = rows
+    .slice()                   // Create a shallow copy of the rows
+    .reverse()                 // Reverse the entire dataset
+    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);  // Paginate after reversing
+
   const isDesktop = useMediaQuery('(min-width:600px)');
 
   return (

@@ -37,17 +37,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function CustomizedTables() {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0); // Start on the first page
+  const [rowsPerPage, setRowsPerPage] = useState(25); // Set to 25 rows per page
 
   const [payments, setPayments] = useState([]);
 
   React.useEffect(() => {
-    
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     console.log('useEffect triggered');
     const fetchPayments = async () => {
-      console.log('fetchPayments function called');
       try {
         const options = {
           method: 'GET',
@@ -57,10 +55,8 @@ export default function CustomizedTables() {
           },
         };
         const response = await axios.request(options);
-        console.log(options)
-        console.log(response)
-
-      console.log('Response received:', response);
+     
+        console.log('Response received:', response);
         setPayments(response.data.data);
       } catch (error) {
         console.error('Error fetching payments:', error);
@@ -69,9 +65,7 @@ export default function CustomizedTables() {
     fetchPayments();
   }, []);
 
-  // Create rows and sort them by date (earliest first)
-  
-  // Create rows and sort them by date (earliest first)
+  // Create rows and sort them by date (latest first)
   const rows = payments
     .map((payment) => ({
       id: payment.reference, // Assuming `reference` is unique
@@ -80,7 +74,7 @@ export default function CustomizedTables() {
       date: new Date(payment.paymentdate), // Convert date string to Date object
       paymentmessage: payment.paymentmessage,
     }))
-    .sort((a, b) => a.date - b.date); // Sort by date (earliest first)
+    .sort((a, b) => b.date - a.date); // Sort by date (latest first)
 
   // Handle page change
   const handleChangePage = (event, newPage) => {
@@ -98,58 +92,57 @@ export default function CustomizedTables() {
 
   return (
     <Container>
-    <Box sx={{ mt: 8 }}>
-      <Typography
-        variant="h4"
-        sx={{
+      <Box sx={{ mt: 8 }}>
+        <Typography
+          variant="h4"
+          sx={{
+            position: 'relative', // Enable relative positioning
+            top: '-50px', // Move the text up by 16 pixels (adjust as needed)
+            order: -3,
+            mt: -2,
+            fontWeight: 'bold',
+            fontSize: '2rem',
+          }}
+        >
+          Order History
+        </Typography>
 
-          position: 'relative', // Enable relative positioning
-          top: '-50px', // Move the text up by 16 pixels (adjust as needed)
-          order: -3,
-          mt: -2,
-          fontWeight: 'bold',
-          fontSize: '2rem',
-        }}
-      >
-        Order History
-      </Typography>
-
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Description</StyledTableCell>
-              <StyledTableCell align="left">Status</StyledTableCell>
-              <StyledTableCell align="left">Date</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedRows.map((row) => (
-              <StyledTableRow key={row.id}>
-                <StyledTableCell component="th" scope="row">
-                  <div dangerouslySetInnerHTML={{ __html: row.description }} />
-                </StyledTableCell>
-                <TableCell sx={{ color: 'black', paddingLeft: -1   }}>
-                  {row.paymentmessage? row.paymentmessage : 'Pending'}
-                </TableCell>
-                <StyledTableCell align="left">
-                  {row.date.toLocaleDateString()}
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <TablePagination
-          component="div"
-          count={rows.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={[5, 10, 25]}
-        />
-      </TableContainer>
-    </Box>
-  </Container>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Description</StyledTableCell>
+                <StyledTableCell align="left">Status</StyledTableCell>
+                <StyledTableCell align="left">Date</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {paginatedRows.map((row) => (
+                <StyledTableRow key={row.id}>
+                  <StyledTableCell component="th" scope="row">
+                    <div dangerouslySetInnerHTML={{ __html: row.description }} />
+                  </StyledTableCell>
+                  <TableCell sx={{ color: 'black', paddingLeft: -1 }}>
+                    {row.paymentmessage ? row.paymentmessage : 'Pending'}
+                  </TableCell>
+                  <StyledTableCell align="left">
+                    {row.date.toLocaleDateString()}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <TablePagination
+            component="div"
+            count={rows.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[5, 10, 25]} // Include options for rows per page
+          />
+        </TableContainer>
+      </Box>
+    </Container>
   );
 }
