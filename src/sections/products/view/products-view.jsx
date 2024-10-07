@@ -332,8 +332,10 @@ export default function CustomizedTables() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const paginatedRows = rows
+  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+  .reverse();
 
-  const paginatedRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   const isDesktop = useMediaQuery('(min-width:600px)');
 
