@@ -55,8 +55,8 @@ export default function Nav({ openNav, onCloseNav }) {
           target="_blank"
           variant="contained"
           sx={{
-            width: 55, // Larger size
-            height: 50,
+            width: 47, // Larger size
+            height: 40,
             bgcolor: '#000', // Black background
             '&:hover': { bgcolor: '#1DA1F2' }, // Twitter blue on hover
             borderRadius: '50%', // Round button
@@ -76,15 +76,15 @@ export default function Nav({ openNav, onCloseNav }) {
           target="_blank"
           variant="contained"
           sx={{
-            width: 56, // Larger size
-            height: 50,
+            width: 47, // Larger size
+            height: 40,
             bgcolor: '#000', // Black background
             '&:hover': { bgcolor: '#0079B3' }, // Darker blue on hover
             borderRadius: '50%', // Round button
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '0.875rem',
+            fontSize: '0.375rem',
             minWidth: '2px',
           }}
         >
@@ -97,15 +97,15 @@ export default function Nav({ openNav, onCloseNav }) {
           target="_blank"
           variant="contained"
           sx={{
-            width: 60, // Rectangle shape (wider)
-            height: 50,
+            width: 47, // Larger size
+            height: 40,
             bgcolor: '#fff', // White background
             '&:hover': { bgcolor: '#E1306C' }, // Darker blue on hover
-            borderRadius: 2, // Slightly rounded corners
+            borderRadius: '50%', // Round buttons
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '0.875rem',
+            fontSize: '0.375rem',
             minWidth: '2px',
           }}
         >
@@ -118,15 +118,15 @@ export default function Nav({ openNav, onCloseNav }) {
           target="_blank"
           variant="contained"
           sx={{
-            width: 56, // Larger size
-            height: 50,
+            width: 47, // Larger size
+            height: 40,
             bgcolor: '#000', // Black background
             '&:hover': { bgcolor: '#145DBF' }, // Darker blue on hover
             borderRadius: '50%', // Round button
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '0.875rem',
+            fontSize: '0.375rem',
             minWidth: '2px',
           }}
         >

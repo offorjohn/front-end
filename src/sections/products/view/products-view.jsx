@@ -408,6 +408,7 @@ export default function CustomizedTables() {
                       value={selectedService}
                       onChange={handleChanges}
                       label="Service Name"
+                      fullWidth
                       MenuProps={{
                         PaperProps: {
                           style: { // Adjust this if needed
@@ -420,7 +421,7 @@ export default function CustomizedTables() {
                         <em style={{ fontSize: '18px' }}>Services</em>
                       </MenuItem>
                       {services.map((service) => (
-                        <MenuItem key={service.code} value={service.code}>
+                        <MenuItem key={service.code} value={service.code} style={{ fontSize: '18px', margin: '10px 0'}}>
                           {service.name}
                         </MenuItem>
                       ))}
