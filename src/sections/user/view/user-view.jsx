@@ -59,20 +59,10 @@ export default function CustomizedTables() {
   const [services, setServices] = React.useState([]);
   const [selectedService, setSelectedService] = React.useState('');
 
-
-
-
   const handleOpenModal = () => {
     setShowModal(true);
 
   }
-
-
-
-
-
-
-
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -663,20 +653,26 @@ export default function CustomizedTables() {
         url: 'https://otpninja.com/api/v1/getprice', headers: {
           'X-OTPNINJA-TOKEN': token // If required, use token in custom header
         },
-        params: { type: 'otp', servicecode: 'tx', countrycode: '17' }
+        params: { type: 'otp', servicecode: selectedService, countrycode: selectedName }
       };
 
       try {
         const response = await axios.request(options);
         setServ(response.data);  // Store the response data in the state
+        console.log(response.data)
+
+
+
+        
       } catch (error) {
         console.error('Error fetching service:', error);
       }
     };
 
+   
     // Call the fetch function once when the component mounts
     fetchData();
-  }, []);  // Empty dependency array ensures it runs only once on mount
+  }, [selectedName, selectedService]);  // Empty dependency array ensures it runs only once on mount
   // Create rows and sort them by date (earliest first)
 
 

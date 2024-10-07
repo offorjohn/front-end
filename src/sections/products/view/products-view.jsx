@@ -188,7 +188,7 @@ export default function CustomizedTables() {
           'X-OTPNINJA-TOKEN': token // If required, use token in custom header
         },
 
-        params: { type: 'otp', servicecode: 'tx', countrycode: '17' }
+        params: { type: 'mdn', servicecode: selectedService, countrycode: selectedName }
       };
 
       try {
@@ -202,7 +202,7 @@ export default function CustomizedTables() {
 
     // Call the fetch function once when the component mounts
     fetchData();
-  }, []);  // Empty dependency array ensures it runs only once on mount
+  }, [selectedName, selectedService]);  // Empty dependency array ensures it runs only once on mount
 
 
 
