@@ -61,7 +61,7 @@ export default function CustomizedTables() {
   const [, setModalType] = useState('success'); // 'success' or 'yellow' based on the response
 
   const [responseText, setResponseText] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
 
   const [uniqueNumbers, setUniqueNumbers] = useState([]);
