@@ -49,26 +49,31 @@ export default function Nav({ openNav, onCloseNav }) {
   const renderUpgrade = (
     <Box sx={{ px: 2, pb: 3, mt: 10, display: 'flex', justifyContent: 'center' }}>
       <Stack direction="row" spacing={1} >
-        {/* Twitter Button */}
         <Button
           href="https://www.twitter.com/in/your-profile"
           target="_blank"
           variant="contained"
           sx={{
-            width: 47, // Larger size
+            width: 47,
             height: 40,
-            bgcolor: '#000', // Black background
-            '&:hover': { bgcolor: '#1DA1F2' }, // Twitter blue on hover
-            borderRadius: '50%', // Round button
+            bgcolor: '#000',
+            '&:hover': { bgcolor: '#1DA1F2' },
+            borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '0.375rem',
             minWidth: '2px',
+            fontWeight: 'bold',
           }}
         >
-          <Icon icon="mdi:twitter" width={49} /> {/* Larger icon */}
+          <Icon
+            icon="mdi:twitter"
+            width={49}
+            style={{ fontWeight: 'bold' }} // Adjust this line
+          />
         </Button>
+
 
         {/* Telegram Button */}
         <Button
@@ -86,13 +91,14 @@ export default function Nav({ openNav, onCloseNav }) {
             justifyContent: 'center',
             fontSize: '0.375rem',
             minWidth: '2px',
+            fontWeight: 'bold',
           }}
         >
-          <Icon icon="mdi:telegram" width={30} /> {/* Larger icon */}
+          <Icon icon="mdi:telegram" width={30}       style={{ fontWeight: 'bold' }} /> {/* Larger icon */}
         </Button>
 
-           {/* Instagram Button */}
-           <Button
+        {/* Instagram Button */}
+        <Button
           href="https://www.instagram.com/your-profile"
           target="_blank"
           variant="contained"
@@ -107,9 +113,10 @@ export default function Nav({ openNav, onCloseNav }) {
             justifyContent: 'center',
             fontSize: '0.375rem',
             minWidth: '2px',
+            fontWeight: 'bold',
           }}
         >
-          <Icon icon="mdi:instagram" width={28}  color="#000"/> {/* Larger icon, Instagram color */}
+          <Icon icon="mdi:instagram" width={28} color="#000"       style={{ fontWeight: 'bold' }} /> {/* Larger icon, Instagram color */}
         </Button>
 
         {/* Facebook Button */}
@@ -128,12 +135,13 @@ export default function Nav({ openNav, onCloseNav }) {
             justifyContent: 'center',
             fontSize: '0.375rem',
             minWidth: '2px',
+            fontWeight: 'bold',
           }}
         >
-          <Icon icon="mdi:facebook" width={28} /> {/* Larger icon */}
+          <Icon icon="mdi:facebook" width={28}      style={{ fontWeight: 'bold' }}  /> {/* Larger icon */}
         </Button>
 
-     
+
 
 
       </Stack>
