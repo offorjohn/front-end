@@ -25,11 +25,17 @@ export default function Blog() {
 
   const [open, setOpen] = useState(false);
   const [selectedPaymentMode, setSelectedPaymentMode] = useState('');
+  
+  // Initialize currentPage to 1 (since MUI's Pagination is 1-based)
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage] = useState(5);
+  
+  // Set initial rowsPerPage to 25
+  const [rowsPerPage] = useState(25);
+  
   const [payments, setPayments] = useState([]);
   
   const [amount, setAmount] = useState('');
+  
   const handleChange = (event) => {
     setSelectedPaymentMode(event.target.value);
   };
@@ -64,10 +70,7 @@ export default function Blog() {
     }
   };
 
-
-
-
-  // Create rows and sort them by date (earliest first)
+  // Create rows and sort them by date (latest first)
   const rows = payments
     .map((payment) => ({
       id: payment.reference, // Assuming `reference` is unique
@@ -76,7 +79,7 @@ export default function Blog() {
       date: new Date(payment.paymentdate), // Convert date string to Date object
       paymentmessage: payment.paymentmessage,
     }))
-    .sort((a, b) => a.date - b.date); // Sort by date (earliest first)
+    .sort((a, b) => b.date - a.date); // Sort by date (latest first)
 
   const handleClose = () => {
     setOpen(false);
@@ -86,11 +89,8 @@ export default function Blog() {
     setOpen(true);
   };
 
- 
-
   React.useEffect(() => {
     const fetchPayments = async () => {
-        
       const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
       try {
         const options = {
@@ -102,7 +102,7 @@ export default function Blog() {
         };
         const response = await axios.request(options);
         setPayments(response.data.data);
-        console.log(response)
+        console.log(response);
       } catch (error) {
         console.error('Error fetching payments:', error);
       }
@@ -151,15 +151,12 @@ export default function Blog() {
           component="span"
           sx={{
             fontSize: { xs: '1rem', md: '0.875rem' },
-            color: '#00000',
+            color: '#000000',
             textAlign: { xs: 'center', md: 'left' },
             width: '100%',
             mt: 2,
-            
           }}
-          
         >
-          
           Enter the Amount (NGN)
         </Box>
 
@@ -181,12 +178,11 @@ export default function Blog() {
             label="Price"
             value={amount}
             onChange={handleAmountChange}
-       
           />
         </FormControl>
 
-        {/* Select Button */}
-        <Box component="span" sx={{ fontSize: { width: '10px', xs: '1rem', md: '0.875rem' }, color: '#00000', textAlign: { xs: 'center', md: 'left' }, width: '100%' }}>
+        {/* Select Payment Mode */}
+        <Box component="span" sx={{ fontSize: { xs: '1rem', md: '0.875rem' }, color: '#000000', textAlign: { xs: 'center', md: 'left' }, width: '100%' }}>
           Select Payment mode
         </Box>
         <FormControl sx={{ m: 1, minWidth: { xs: '90%', md: 460 } }}>
@@ -209,7 +205,7 @@ export default function Blog() {
         <Stack direction="row" spacing={2}>
           <Button
             variant="contained"
-             onClick={paymentMoney}
+            onClick={paymentMoney}
             sx={{
               minWidth: { xs: '90vw', md: 450 },
               mx: { xs: '5vw', md: 0 },
@@ -228,7 +224,6 @@ export default function Blog() {
                 ring: 'rgba(3, 105, 161)',
                 ringOffset: '2px',
               },
-          
             }}
           >
             Add Funds
@@ -240,7 +235,6 @@ export default function Blog() {
             order: -1,
             fontWeight: 'bold',
             fontSize: '2rem',
-            
           }}
         >
           Fund Wallet
@@ -344,8 +338,8 @@ export default function Blog() {
                   {row.amount}
                 </TableCell>
               
-                <TableCell sx={{ color: 'white', paddingLeft: 16   }}>
-                  {row.paymentmessage? row.paymentmessage : 'Pending'}
+                <TableCell sx={{ color: 'white', paddingLeft: 16 }}>
+                  {row.paymentmessage ? row.paymentmessage : 'Pending'}
                 </TableCell>
                 <TableCell sx={{ color: 'white', textAlign: 'left' }}>
                   {row.date.toLocaleDateString()}
@@ -368,6 +362,9 @@ export default function Blog() {
           count={Math.ceil(rows.length / rowsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
+          color="primary"
+          variant="outlined"
+          shape="rounded"
         />
       </TableContainer>
     </Box>
