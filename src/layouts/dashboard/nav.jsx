@@ -94,30 +94,30 @@ export default function Nav({ openNav, onCloseNav }) {
             fontWeight: 'bold',
           }}
         >
-          <Icon icon="mdi:telegram" width={30}       style={{ fontWeight: 'bold' }} /> {/* Larger icon */}
+          <Icon icon="mdi:telegram" width={40} style={{ fontWeight: 'bold' }} /> {/* Larger icon */}
         </Button>
-
         {/* Instagram Button */}
         <Button
           href="https://www.instagram.com/your-profile"
           target="_blank"
           variant="contained"
           sx={{
-            width: 47, // Larger size
-            height: 40,
+            width: 31, // Adjust width to make it rectangular
+            height: 40, // Keep height as is
             bgcolor: '#fff', // White background
-            '&:hover': { bgcolor: '#E1306C' }, // Darker blue on hover
-            borderRadius: '50%', // Round buttons
+            '&:hover': { bgcolor: '#E1306C' }, // Pink color on hover
+            borderRadius: '8px', // Slightly rounded corners for a rectangular shape
             display: 'flex',
+            minWidth: 50,
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '0.375rem',
-            minWidth: '2px',
+            fontSize: '0.875rem', // Adjust font size
             fontWeight: 'bold',
           }}
         >
-          <Icon icon="mdi:instagram" width={28} color="#000"       style={{ fontWeight: 'bold' }} /> {/* Larger icon, Instagram color */}
+          <Icon icon="mdi:instagram" width={32} color="#000" style={{ fontWeight: 'bold' }} /> {/* Adjust icon size if needed */}
         </Button>
+
 
         {/* Facebook Button */}
         <Button
@@ -138,7 +138,7 @@ export default function Nav({ openNav, onCloseNav }) {
             fontWeight: 'bold',
           }}
         >
-          <Icon icon="mdi:facebook" width={28}      style={{ fontWeight: 'bold' }}  /> {/* Larger icon */}
+          <Icon icon="mdi:facebook" width={28} style={{ fontWeight: 'bold' }} /> {/* Larger icon */}
         </Button>
 
 

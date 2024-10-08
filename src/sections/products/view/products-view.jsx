@@ -143,9 +143,7 @@ export default function CustomizedTables() {
         setUniqueNumbers(uniquePayments.map(payment => payment.number)); // Store only the unique numbers
 
         setPayments(uniquePayments); // Store only the unique payments
-        console.log(response.data)
-        console.log(options)
-        console.log(response)
+  
       } catch (error) {
         console.error('Error fetching payments:', error);
       }
