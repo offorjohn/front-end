@@ -534,6 +534,8 @@ export default function CustomizedTables() {
             <TableHead>
               <TableRow>
                 <StyledTableCell align="left">Number</StyledTableCell>
+                
+                <StyledTableCell align="left">Service</StyledTableCell>
 
                 <StyledTableCell align="left">Date</StyledTableCell>
                 <StyledTableCell align="left">Action</StyledTableCell>
@@ -544,6 +546,8 @@ export default function CustomizedTables() {
               {paginatedRows.map((row, rowIndex) => ( // Add rowIndex here
                 <StyledTableRow key={row.id}>
                   <StyledTableCell align="left">{row.number}</StyledTableCell>
+                  
+                  <StyledTableCell align="left">{row.name}</StyledTableCell>
 
                   <StyledTableCell align="left">{new Date(row.messagedate).toLocaleDateString()}</StyledTableCell>
                   <StyledTableCell align="left">
