@@ -64,7 +64,7 @@ export default function CustomizedTables() {
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [open, setOpen] = useState(false);
 
-  const [uniqueNumbers, setUniqueNumbers] = useState([]);
+  const [, setUniqueNumbers] = useState([]);
   const [serv, setServ] = useState(null);  // To store the single service object
   const [payments, setPayments] = useState([]);
   // eslint-disable-next-line no-unused-vars
@@ -143,7 +143,7 @@ export default function CustomizedTables() {
         setUniqueNumbers(uniquePayments.map(payment => payment.number)); // Store only the unique numbers
 
         setPayments(uniquePayments); // Store only the unique payments
-  
+
       } catch (error) {
         console.error('Error fetching payments:', error);
       }
@@ -274,8 +274,8 @@ export default function CustomizedTables() {
       // Update state with response data
       setResponseData(response.data);
 
-           
-      
+
+
       // Handle response based on message content
       if (response.data.message === 'Invalid service') {
         setResponseText('Service not available.');
@@ -284,14 +284,14 @@ export default function CustomizedTables() {
         setModalType('success'); // Adjust the modal type based on success
       }
 
-           // Check for successful purchase and trigger a page refresh in 3 seconds
-           if (response.data.message === 'Successfully purchased number') {
-            setTimeout(() => {
-              window.location.reload(); // Refresh the page
-            }, 3000); // 3 seconds
-          }
+      // Check for successful purchase and trigger a page refresh in 3 seconds
+      if (response.data.message === 'Successfully purchased number') {
+        setTimeout(() => {
+          window.location.reload(); // Refresh the page
+        }, 3000); // 3 seconds
+      }
 
-   
+
 
 
       setShowModal(true);
@@ -330,16 +330,25 @@ export default function CustomizedTables() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+
   const paginatedRows = rows
-  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-  .reverse();
+    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    .reverse();
+
+
 
 
   const isDesktop = useMediaQuery('(min-width:600px)');
 
+
+
   return (
+    
+
     <Container>
       {/* Modal Component */}
+      
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
@@ -421,7 +430,7 @@ export default function CustomizedTables() {
                         <em style={{ fontSize: '18px' }}>Services</em>
                       </MenuItem>
                       {services.map((service) => (
-                        <MenuItem key={service.code} value={service.code} style={{ fontSize: '18px', margin: '10px 0'}}>
+                        <MenuItem key={service.code} value={service.code} style={{ fontSize: '18px', margin: '10px 0' }}>
                           {service.name}
                         </MenuItem>
                       ))}
@@ -534,7 +543,7 @@ export default function CustomizedTables() {
             <TableHead>
               <TableRow>
                 <StyledTableCell align="left">Number</StyledTableCell>
-                
+
                 <StyledTableCell align="left">Service</StyledTableCell>
 
                 <StyledTableCell align="left">Date</StyledTableCell>
@@ -542,46 +551,46 @@ export default function CustomizedTables() {
 
               </TableRow>
             </TableHead>
+            
             <TableBody>
               {paginatedRows.map((row, rowIndex) => ( // Add rowIndex here
                 <StyledTableRow key={row.id}>
                   <StyledTableCell align="left">{row.number}</StyledTableCell>
-                  
+
                   <StyledTableCell align="left">{row.name}</StyledTableCell>
 
                   <StyledTableCell align="left">{new Date(row.messagedate).toLocaleDateString()}</StyledTableCell>
+                  
                   <StyledTableCell align="left">
-                    {/* Only show the number for this row based on its index */}
-                    {uniqueNumbers[rowIndex] && ( // Check if a number exists at the current index
-                      <div style={{ marginBottom: '8px' }}>
-                        <Button
-                          onClick={() => handleButtonClick(uniqueNumbers[rowIndex])} // Use the number for this row
-                          sx={{
-                            color: 'white',
+                    <div style={{ marginBottom: '8px' }}>
+                      <Button
+                        onClick={() => handleButtonClick(row.number)} // Use row.number directly
+                        sx={{
+                          color: 'white',
+                          backgroundColor: 'rgba(3, 105, 161)',
+                          boxShadow: 1,
+                          '&:hover': {
                             backgroundColor: 'rgba(3, 105, 161)',
-                            boxShadow: 1,
-                            '&:hover': {
-                              backgroundColor: 'rgba(3, 105, 161)',
-                            },
-                            '&:disabled': {
-                              backgroundColor: 'gray',
-                              color: 'darkgray',
-                              cursor: 'default',
-                            },
-                            '&:focus': {
-                              outline: 'none',
-                              ring: 'rgba(3, 105, 161)',
-                              ringOffset: '2px',
-                            },
-                          }}
-                          title={`Open ${uniqueNumbers[rowIndex]}`} // Tooltip to indicate the action
-                        >
-                          {/* Optionally, you can use an icon here if you want to provide a visual cue */}
-                          Open
-                          <span style={{ display: 'none' }}>Open {uniqueNumbers[rowIndex]}</span> {/* Hides the text visually */}
-                        </Button>
-                      </div>
-                    )}
+                          },
+                          '&:disabled': {
+                            backgroundColor: 'gray',
+                            color: 'darkgray',
+                            cursor: 'default',
+                          },
+                          '&:focus': {
+                            outline: 'none',
+                            ring: 'rgba(3, 105, 161)',
+                            ringOffset: '2px',
+                          },
+                        }}
+                        title={`Open ${row.number}`} // Tooltip to indicate the action
+                      >
+                        Open
+                        <span style={{ display: 'none' }}>
+                          Open {row.number}
+                        </span> {/* Hidden text for accessibility */}
+                      </Button>
+                    </div>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
