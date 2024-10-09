@@ -21,6 +21,20 @@ export default function AppView() {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
 
+    if (!token) {
+      setError('User is not authenticated.');
+      setLoading(false);
+      window.location.href = '../../login'; // Redirect to login page
+      return;
+    }
+
+    if (!token) {
+      setError('User is not authenticated.');
+      setLoading(false);
+      return;
+    }
+    
+
     const fetchData = async () => {
       const options = {
         method: 'GET',

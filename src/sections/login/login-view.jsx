@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import axios from 'axios';
-import { useState } from 'react'; // Make sure to import axios
+import { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -35,12 +35,10 @@ export default function LoginView() {
   const [error, setError] = useState('');
   const [, setData] = useState(null);
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     setError('');
-  
 
     try {
       const options = {
@@ -51,19 +49,15 @@ export default function LoginView() {
 
       const response = await axios.request(options);
 
-      console.log(response.data); // Log the response data after receiving it
-  
-      setData(response.data);  // Save response data to state
-      console.log(setData)
-  
-      // Save credentials to local storage
+      console.log(response.data);
+
+      setData(response.data);
       localStorage.setItem('loginResponse', JSON.stringify(response.data));
-      localStorage.setItem('email', email); // Save email
-      localStorage.setItem('password', password); // Save password
-      
-  
+      localStorage.setItem('email', email);
+      localStorage.setItem('password', password);
+
       if (response.data.token) {
-        router.push('/'); // Redirect on successful login
+        router.push('/');
       } else {
         setError('Login failed. Please check your credentials.');
       }
@@ -75,10 +69,8 @@ export default function LoginView() {
       setLoading(false);
     }
   };
-  
 
   return (
-    
     <Box
       sx={{
         ...bgGradient({
@@ -88,10 +80,11 @@ export default function LoginView() {
         height: 1,
       }}
     >
+      {/* Adjust the position of the logo */}
       <Logo
         sx={{
           position: 'fixed',
-          top: { xs: 16, md: 24 },
+          top: { xs: 40, md: 64 }, // Moved logo lower from the top
           left: { xs: 16, md: 24 },
         }}
       />
@@ -102,6 +95,7 @@ export default function LoginView() {
             p: 5,
             width: 1,
             maxWidth: 420,
+            boxShadow: theme.shadows[5], // Add some shadow for better visibility
           }}
         >
           <Typography variant="h4">Sign in to OtpNinja</Typography>
@@ -121,6 +115,7 @@ export default function LoginView() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 fullWidth
+                margin="normal" // Add margin for spacing
               />
 
               <TextField
@@ -139,6 +134,7 @@ export default function LoginView() {
                   ),
                 }}
                 fullWidth
+                margin="normal" // Add margin for spacing
               />
             </Stack>
 
@@ -201,8 +197,6 @@ export default function LoginView() {
           </Stack>
         </Card>
       </Stack>
-      
     </Box>
   );
-  
 }
