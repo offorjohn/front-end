@@ -131,12 +131,12 @@ export default function CustomizedTables() {
             index === self.findIndex((p) => p.number === payment.number)
         );
 
+         
 
-        // Access the numbers from uniquePayments
-        // eslint-disable-next-line no-shadow
-        const uniqueNumbers = uniquePayments.map(payment => payment.number);
 
-        console.log(uniqueNumbers); // Logs the array of unique numbers
+
+        console.log(uniquePayments); // Logs the array of unique numbers
+        
 
 
 

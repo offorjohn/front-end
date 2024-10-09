@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-nested-ternary */
 import axios from 'axios';
 import * as React from 'react';
@@ -47,6 +48,17 @@ const DedicatedPage = () => {
     }
   }, [phoneNumber]);
 
+  // Create unique senders data for the table, filtering out billing messages
+  const uniqueSenders = [];
+  const uniqueSenderSet = new Set();
+
+  data.forEach((item) => {
+    if (!uniqueSenderSet.has(item.sender) && !item.message.toLowerCase().includes('billing')) {
+      uniqueSenderSet.add(item.sender);
+      uniqueSenders.push(item); // Add the whole item if sender is unique and not a billing message
+    }
+  });
+
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
       {loading ? (
@@ -58,10 +70,10 @@ const DedicatedPage = () => {
           {data.length > 0 && (
             <Box
               sx={{
-                display: 'flex',            // Align two boxes side by side (optional for layout purposes)
-                justifyContent: 'center',   // Center the boxes horizontally
-                gap: '10px',                // Optional: spacing between the two boxes
-                marginBottom: '40px',      // Move the box up
+                display: 'flex', // Align two boxes side by side (optional for layout purposes)
+                justifyContent: 'center', // Center the boxes horizontally
+                gap: '10px', // Optional: spacing between the two boxes
+                marginBottom: '40px', // Move the box up
                 flexDirection: { xs: 'column', sm: 'row' }, // Stack on small screens
               }}
             >
@@ -71,8 +83,8 @@ const DedicatedPage = () => {
                   border: '3px solid #ccc', // Outer box border
                   padding: '20px',
                   borderRadius: '8px',
-                  width: { xs: '100%', sm: '30%' },  // Responsive width
-                  maxWidth: '400px',         // Maximum width for the outer box
+                  width: { xs: '100%', sm: '30%' }, // Responsive width
+                  maxWidth: '400px', // Maximum width for the outer box
                   display: 'inline-block',
                 }}
               >
@@ -86,14 +98,12 @@ const DedicatedPage = () => {
                   }}
                 >
                   <Typography variant="h6" gutterBottom>
-                    ✉  ©  {data[0].number}
+                    ✉ © {data[0].number}
                   </Typography>
                 </Box>
               </Box>
             </Box>
           )}
-
-
 
           {/* Table to display sender, message, and date */}
           <TableContainer component={Paper}>
@@ -106,18 +116,25 @@ const DedicatedPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.map((item, index) => (
+                {uniqueSenders.map((item, index) => (
                   <TableRow key={index}>
                     <TableCell>{item.sender}</TableCell>
                     <TableCell>
-                      {item.message.split('\n').map((line) => (
-                        <React.Fragment key={index}>
-                          {line}
-                          <br />
-                        </React.Fragment>
-                      ))}
-                    </TableCell>
+                      {/* Check if the message is in structured format */}
+                      {item.message.includes('sender') ? (
+                        (() => {
+                          // Parse the message string into an object
+                          const messageObject = JSON.parse(item.message.replace(/'/g, '"')); // Replace single quotes with double quotes
+                          const { sender, receiver } = messageObject; // Destructure the properties
 
+                          // Return a more readable format
+                          return `Sender: ${sender}, Receiver: ${receiver}`;
+                        })()
+                      ) : (
+                        // If the message is simple, return it as is
+                        item.message
+                      )}
+                    </TableCell>
                     <TableCell>{new Date(item.messagedate).toLocaleString()}</TableCell> {/* Format date */}
                   </TableRow>
                 ))}
