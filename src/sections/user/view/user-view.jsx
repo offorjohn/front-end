@@ -610,8 +610,6 @@ export default function CustomizedTables() {
         // Extract values from the latest item (first item after sorting)
         const { name } = sortedData[0];  // Get 'name' from the latest message
         const { message } = sortedData[0];
-        const arrayLength = sortedData.length;
-        console.log(`Array length: ${arrayLength}`);
 
         setResponseText(`Refreshes after 30 seconds... ${message}`);
 
@@ -991,7 +989,7 @@ export default function CustomizedTables() {
 
         {/* Table and Pagination */}
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <Table sx={{ minWidth: 10 }} aria-label="customized table">
             <TableHead>
               <TableRow>
                 <StyledTableCell align="left">Service</StyledTableCell>
