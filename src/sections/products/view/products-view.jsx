@@ -134,8 +134,6 @@ export default function CustomizedTables() {
          
 
 
-
-        console.log(uniquePayments); // Logs the array of unique numbers
         
 
 
@@ -165,8 +163,7 @@ export default function CustomizedTables() {
           },
 
         };
-        const responseServices = await axios.request(optionsServices);
-        console.log(responseServices);
+        const responseServices = await axios.request(optionsServices); 
         setServices(responseServices.data.data);
       } catch (error) {
         console.error('Error fetching services:', error);
@@ -308,7 +305,18 @@ export default function CustomizedTables() {
   };
 
 
-
+  const calculateRemainingDays = (messagedate) => {
+    const currentDate = new Date(); // Today's date
+    const purchaseDate = new Date(messagedate); // Date the rental/service started
+    
+    const timeDiff = currentDate - purchaseDate; // Difference in milliseconds
+    const daysPassed = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+  
+    const remainingDays = Math.max(30 - daysPassed, 0); // Calculate remaining days, ensure it doesn't go below 0
+  
+    return remainingDays === 0 ? 'Expired' : `${remainingDays} days left`; // Show "Expired" if remaining days is 0
+  };
+  
   // Create rows and sort them by date (earliest first)
   const rows = payments
     .map((payment) => ({
@@ -317,10 +325,10 @@ export default function CustomizedTables() {
       number: payment.number,
       messagedate: new Date(payment.messagedate), // Convert date string to Date object
       message: payment.message,
+      remainingDays: calculateRemainingDays(payment.messagedate) // Calculate remaining days
     }))
-    .sort((a, b) => a.messagedate - b.messagedate) // Sort by date (earliest first)
-
-
+    .sort((a, b) => a.messagedate - b.messagedate); // Sort by date (earliest first)
+  
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -545,6 +553,8 @@ export default function CustomizedTables() {
                 <StyledTableCell align="left">Number</StyledTableCell>
 
                 <StyledTableCell align="left">Service</StyledTableCell>
+                
+                <StyledTableCell align="left">Duration</StyledTableCell>
 
                 <StyledTableCell align="left">Date</StyledTableCell>
                 <StyledTableCell align="left">Action</StyledTableCell>
@@ -553,11 +563,12 @@ export default function CustomizedTables() {
             </TableHead>
             
             <TableBody>
-              {paginatedRows.map((row, rowIndex) => ( // Add rowIndex here
+              {paginatedRows.map((row) => ( // Add rowIndex here
                 <StyledTableRow key={row.id}>
                   <StyledTableCell align="left">{row.number}</StyledTableCell>
 
                   <StyledTableCell align="left">{row.name}</StyledTableCell>
+                  <StyledTableCell align="left">{row.remainingDays}</StyledTableCell> {/* Display remaining days */}
 
                   <StyledTableCell align="left">{new Date(row.messagedate).toLocaleDateString()}</StyledTableCell>
                   
