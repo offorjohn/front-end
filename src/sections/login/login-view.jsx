@@ -45,6 +45,7 @@ export default function LoginView() {
         method: 'POST',
         url: 'https://otpninja.com/api/v1/auth',
         data: { username: email, password },
+        
       };
 
       const response = await axios.request(options);
@@ -73,7 +74,7 @@ export default function LoginView() {
   return (
     <Box
       sx={{
-        ...bgGradient({
+        ...bgGradient({  
           color: alpha(theme.palette.background.default, 0.9),
           imgUrl: '/assets/background/overlay_4.jpg',
         }),

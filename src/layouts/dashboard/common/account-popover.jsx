@@ -25,7 +25,7 @@ const MENU_OPTIONS = [
   },
   {
     label: 'Settings',
-    icon: 'eva:settings-2-fill',
+    icon: 'eva:settings-1-fill',
   },
 ];
 
@@ -57,16 +57,13 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={account.photoURL}
+          src={account.photoURL || '/assets/images/avatars/avatar_9.jpg'} // Use custom avatar if photoURL is not available
           alt={account.displayName}
-          sx={{
-            width: 36,
-            height: 36,
-            border: (theme) => `solid 2px ${theme.palette.background.default}`,
-          }}
+         
         >
-          {account.displayName.charAt(0).toUpperCase()}
+          {account.photoURL ? null : account.displayName.charAt(0).toUpperCase()} {/* Show initials if no photo */}
         </Avatar>
+
       </IconButton>
 
       <Popover

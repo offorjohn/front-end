@@ -48,6 +48,7 @@ export default function AppView() {
         const response = await axios.request(options);
         setUsername(response.data.data[0]?.username || ''); // Extract username
       } catch (error) {
+        console.log(options)
         console.error('Error fetching profile:', error);
         setError('Failed to fetch profile.');
       }

@@ -90,8 +90,12 @@ export default function Blog() {
   };
 
   React.useEffect(() => {
-    const fetchPayments = async () => {
-      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    const fetchPayments = async () => {const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+      console.log('Token:', token);
+      if (!token) {
+        console.error('No token found. User may not be logged in.');
+      }
+      
       try {
         const options = {
           method: 'GET',
@@ -101,6 +105,7 @@ export default function Blog() {
           },
         };
         const response = await axios.request(options);
+        console.log(options)
         setPayments(response.data.data);
         console.log(response);
       } catch (error) {
