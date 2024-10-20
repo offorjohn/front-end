@@ -8,7 +8,7 @@ export default function TelegramIcon() {
   return (
     <Box
       component="a"
-      href="https://t.me/your-telegram-link" // Replace with your Telegram link
+      href="https://t.me/otpninjaofficial" // Replace with your Telegram link
       target="_blank"
       sx={{
         position: 'fixed',

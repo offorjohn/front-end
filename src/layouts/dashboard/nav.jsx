@@ -77,7 +77,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
         {/* Telegram Button */}
         <Button
-          href="https://t.me/your-profile"
+          href="https://t.me/otpninjaofficial"
           target="_blank"
           variant="contained"
           sx={{
@@ -98,7 +98,7 @@ export default function Nav({ openNav, onCloseNav }) {
         </Button>
         {/* Instagram Button */}
         <Button
-          href="https://www.instagram.com/your-profile"
+          href="https://www.instagram.com/otpninja"
           target="_blank"
           variant="contained"
           sx={{
@@ -121,7 +121,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
         {/* Facebook Button */}
         <Button
-          href="https://facebook.com/your-profile"
+          href="https://www.facebook.com/otpninja"
           target="_blank"
           variant="contained"
           sx={{
