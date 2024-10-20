@@ -50,7 +50,7 @@ export default function Nav({ openNav, onCloseNav }) {
     <Box sx={{ px: 2, pb: 3, mt: 10, display: 'flex', justifyContent: 'center' }}>
       <Stack direction="row" spacing={1} >
         <Button
-          href="https://www.twitter.com/in/your-profile"
+          href="https://x.com/otpninja"
           target="_blank"
           variant="contained"
           sx={{

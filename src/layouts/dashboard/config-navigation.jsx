@@ -47,14 +47,6 @@ const navConfig = [
   
  
 
-  {
-    
-
-    title: 'support',
-    path: '/credithistory',
-    icon: icon('ic_case'),
-
-  },
 
   
   {
