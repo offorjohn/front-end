@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // For navigating after logout
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -25,7 +26,7 @@ const MENU_OPTIONS = [
   },
   {
     label: 'Settings',
-    icon: 'eva:settings-1-fill',
+    icon: 'eva:settings-2-fill',
   },
 ];
 
@@ -33,6 +34,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const navigate = useNavigate(); // For routing to login page after logout
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -40,6 +42,18 @@ export default function AccountPopover() {
 
   const handleClose = () => {
     setOpen(null);
+  };
+
+  const handleLogout = () => {
+    // Clear authentication tokens or any user data stored in localStorage/sessionStorage
+    localStorage.removeItem('loginResponse');
+    localStorage.removeItem('email');
+    localStorage.removeItem('password');
+    
+    // You can also clear sessionStorage or other storage as needed
+
+    // Redirect to login page
+    navigate('/login');
   };
 
   return (
@@ -59,11 +73,9 @@ export default function AccountPopover() {
         <Avatar
           src={account.photoURL || '/assets/images/avatars/avatar_9.jpg'} // Use custom avatar if photoURL is not available
           alt={account.displayName}
-         
         >
           {account.photoURL ? null : account.displayName.charAt(0).toUpperCase()} {/* Show initials if no photo */}
         </Avatar>
-
       </IconButton>
 
       <Popover
@@ -103,7 +115,7 @@ export default function AccountPopover() {
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={handleLogout} // Call handleLogout on click
           sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
         >
           Logout

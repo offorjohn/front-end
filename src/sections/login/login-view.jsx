@@ -45,7 +45,7 @@ export default function LoginView() {
         method: 'POST',
         url: 'https://otpninja.com/api/v1/auth',
         data: { username: email, password },
-        
+
       };
 
       const response = await axios.request(options);
@@ -62,7 +62,7 @@ export default function LoginView() {
       } else {
         setError('Login failed. Please check your credentials.');
       }
-    // eslint-disable-next-line no-shadow
+      // eslint-disable-next-line no-shadow
     } catch (error) {
       console.error(error);
       setError('An error occurred. Please try again.');
@@ -74,7 +74,7 @@ export default function LoginView() {
   return (
     <Box
       sx={{
-        ...bgGradient({  
+        ...bgGradient({
           color: alpha(theme.palette.background.default, 0.9),
           imgUrl: '/assets/background/overlay_4.jpg',
         }),
@@ -103,7 +103,7 @@ export default function LoginView() {
 
           <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
             Don’t have an account?
-            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
+            <Link href="https://otpninja.com/register" variant="subtitle2" sx={{ ml: 0.5 }}>
               Get started
             </Link>
           </Typography>
