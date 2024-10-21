@@ -577,69 +577,100 @@ export default function CustomizedTables() {
   };
 
 
+// WebSocket setup and initial data fetch
+// eslint-disable-next-line consistent-return
+React.useEffect(() => {
+  const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+  const wsendpointBase = "wss://otpninja.com/inbox/";
 
-
-
-
-  React.useEffect(() => {
-    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-    let interval = 10000; // Initial interval of 30 seconds
-    const maxInterval = 300000; // Maximum interval of 5 minutes
-
-    console.log('useEffect triggered');
-
-    const fetchPayments = async () => {
-      console.log(fetchPayments);
+  if (token) {
+    // Initial data fetch using axios
+    const fetchInitialPayments = async () => {
       try {
         const options = {
           method: 'GET',
           url: 'https://otpninja.com/api/v1/listmessages?type=otp',
           headers: {
-            'X-OTPNINJA-TOKEN': token // If required, use token in custom header
-          },
+            'X-OTPNINJA-TOKEN': token // Use token for authentication
+          }
         };
+        
         const response = await axios.request(options);
 
         // Sort the data by 'messagedate' in descending order to get the latest data first
         const sortedData = response.data.data.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
 
+        // Update the state with the sorted data
+        setPayments(sortedData);
 
-        // Set the sorted data in your state (React use case)
-        setPayments(response.data.data);
-        console.log(response.data.data)
-        // Extract values from the latest item (first item after sorting)
-        const { name } = sortedData[0];  // Get 'name' from the latest message
-        const { message } = sortedData[0];
-
-        setResponseText(`Refreshes after 30 seconds... ${message}`);
-
-
+        // Extract and display information from the latest message
+        const { name, message } = sortedData[0];
+        setResponseText(`Latest message: ${message}`);
         setTitle(`${name} SMS Verifications`);
-
-
-        // Reset interval back to the initial value if data is found
-        interval = 30000;
       } catch (error) {
-        console.error('Error fetching payments:', error);
-
-        // Double the interval time if the fetch fails or no new data is available
-        interval = Math.min(interval * 2, maxInterval);
+        console.error('Error fetching initial payments:', error);
       }
     };
-    console.log(maxInterval)
 
-    // Initial fetch
-    fetchPayments();
+    fetchInitialPayments();
 
-    // Set up polling with dynamic interval
-    const intervalId = setInterval(() => {
-      fetchPayments();
-    }, interval);
-    console.log(intervalId)
+    // Create WebSocket connection
+    const wsendpoint = `${wsendpointBase}${token}/`;
+    const socket = new WebSocket(wsendpoint);
 
-    // Clean up the interval on component unmount
-    return () => clearInterval(intervalId);
-  }, []);
+    console.log('WebSocket connection initiated', wsendpoint);
+
+    // Handle WebSocket connection opening
+    socket.onopen = () => {
+      console.log('WebSocket connection opened');
+      setResponseText('Connected. Waiting for new messages...');
+    };
+
+  // Handle WebSocket messages
+socket.onmessage = (event) => {
+  console.log('WebSocket message received:', event.data);
+
+  // Parse the incoming message data (assuming it's JSON)
+  const data = JSON.parse(event.data);
+
+  // Sort the data by 'messagedate' in descending order
+  const sortedData = data.data?.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
+
+  if (sortedData && sortedData.length > 0) {
+    setPayments((prevPayments) => {
+      const mergedData = [...prevPayments, ...sortedData].filter((v, i, a) => a.findIndex(t => t.reference === v.reference) === i);
+      return mergedData.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
+    });
+
+    // Extract the latest message info
+    const { name, message } = sortedData[0]; // Get 'name' and 'message' from the latest message
+    setResponseText(`Latest message: ${message}`);
+    setTitle(`${name} SMS Verifications`);
+  } else {
+    setResponseText('No new messages received.');
+  }
+};
+
+
+    // Handle WebSocket errors
+    socket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+      setResponseText('WebSocket encountered an error.');
+    };
+
+    // Handle WebSocket connection closing
+    socket.onclose = () => {
+      console.log('WebSocket connection closed');
+      setResponseText('WebSocket connection closed.');
+    };
+
+    // Clean up the WebSocket connection on component unmount
+    return () => {
+      socket.close();
+    };
+  }
+}, []); // The empty dependency array ensures this runs once when the component mounts
+
 
 
   React.useEffect(() => {
