@@ -585,7 +585,7 @@ export default function CustomizedTables() {
     let interval = 30000; // Initial interval of 30 seconds
     const maxInterval = 300000; // Maximum interval of 5 minutes
 
-    console.log('Polling and WebSocket setup initiated');
+    console.log('ing && WebSocket setup initiated');
 
     const fetchPayments = async () => {
       try {
