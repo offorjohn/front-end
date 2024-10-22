@@ -78,6 +78,7 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
       if (responseText && responseText.trim() !== '') {
         setStoredResponseText(responseText);
       }
+      console.log(responseText)
       
       if (subphone && subphone.trim() !== '') {
         setStoredSubphone(subphone);

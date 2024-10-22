@@ -495,6 +495,8 @@ export default function CustomizedTables() {
         // Constructing a response message for modal
         setResponseText('waiting...  ');
         setSubPhone(`${number}`); // Set verification phone number
+       
+
 
         setTimeout(() => {
           // After 30 seconds, you can change the response text back to something else, or clear it
@@ -577,99 +579,107 @@ export default function CustomizedTables() {
   };
 
 
-// WebSocket setup and initial data fetch
-// eslint-disable-next-line consistent-return
-React.useEffect(() => {
-  const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-  const wsendpointBase = "wss://otpninja.com/inbox/";
+  // eslint-disable-next-line consistent-return
+  React.useEffect(() => {
+    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    let interval = 30000; // Initial interval of 30 seconds
+    const maxInterval = 300000; // Maximum interval of 5 minutes
 
-  if (token) {
-    // Initial data fetch using axios
-    const fetchInitialPayments = async () => {
+    console.log('Polling and WebSocket setup initiated');
+
+    const fetchPayments = async () => {
       try {
         const options = {
           method: 'GET',
           url: 'https://otpninja.com/api/v1/listmessages?type=otp',
           headers: {
-            'X-OTPNINJA-TOKEN': token // Use token for authentication
-          }
+            'X-OTPNINJA-TOKEN': token
+          },
         };
-        
         const response = await axios.request(options);
 
-        // Sort the data by 'messagedate' in descending order to get the latest data first
+        // Sort the data by 'messagedate' in descending order
         const sortedData = response.data.data.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
 
-        // Update the state with the sorted data
+        // Update state with the sorted data
         setPayments(sortedData);
 
         // Extract and display information from the latest message
         const { name, message } = sortedData[0];
         setResponseText(`Latest message: ${message}`);
         setTitle(`${name} SMS Verifications`);
+
+        // Reset interval back to the initial value if data is found
+        interval = 30000;
       } catch (error) {
-        console.error('Error fetching initial payments:', error);
+        console.error('Error fetching payments:', error);
+
+        // Increase the interval time if fetching fails
+        interval = Math.min(interval * 2, maxInterval);
       }
     };
 
-    fetchInitialPayments();
+    // Initial fetch
+    fetchPayments();
 
-    // Create WebSocket connection
-    const wsendpoint = `${wsendpointBase}${token}/`;
-    const socket = new WebSocket(wsendpoint);
+    // Polling mechanism with dynamic intervals
+    const intervalId = setInterval(() => {
+      fetchPayments();
+    }, interval);
 
-    console.log('WebSocket connection initiated', wsendpoint);
+    // WebSocket logic
+    const wsendpointBase = 'wss://otpninja.com/inbox/';
+    if (token) {
+      const wsendpoint = `${wsendpointBase}${token}/`;
+      const socket = new WebSocket(wsendpoint);
 
-    // Handle WebSocket connection opening
-    socket.onopen = () => {
-      console.log('WebSocket connection opened');
-      setResponseText('Connected. Waiting for new messages...');
-    };
+      console.log('WebSocket connection initiated', wsendpoint);
 
-  // Handle WebSocket messages
-socket.onmessage = (event) => {
-  console.log('WebSocket message received:', event.data);
+      socket.onopen = () => {
+        console.log('WebSocket connection opened');
+        setResponseText('Connected. Waiting for new messages...');
+      };
 
-  // Parse the incoming message data (assuming it's JSON)
-  const data = JSON.parse(event.data);
+      socket.onmessage = (event) => {
+        console.log('WebSocket message received:', event.data);
+        const data = JSON.parse(event.data);
 
-  // Sort the data by 'messagedate' in descending order
-  const sortedData = data.data?.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
+        // Sort the data by 'messagedate' in descending order
+        const sortedData = data.data?.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
 
-  if (sortedData && sortedData.length > 0) {
-    setPayments((prevPayments) => {
-      const mergedData = [...prevPayments, ...sortedData].filter((v, i, a) => a.findIndex(t => t.reference === v.reference) === i);
-      return mergedData.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
-    });
+        if (sortedData && sortedData.length > 0) {
+          setPayments((prevPayments) => {
+            // Merge WebSocket data with previous data, ensuring no duplicates
+            const mergedData = [...prevPayments, ...sortedData].filter((v, i, a) => a.findIndex(t => t.reference === v.reference) === i);
+            return mergedData.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
+          });
 
-    // Extract the latest message info
-    const { name, message } = sortedData[0]; // Get 'name' and 'message' from the latest message
-    setResponseText(`Latest message: ${message}`);
-    setTitle(`${name} SMS Verifications`);
-  } else {
-    setResponseText('No new messages received.');
-  }
-};
+          // Extract the latest message info
+          const { name, message } = sortedData[0];
+          setResponseText(`Latest message: ${message}`);
+          setTitle(`${name} SMS Verifications`);
+        } else {
+          setResponseText('No new messages received.');
+        }
+      };
 
+      socket.onerror = (error) => {
+        console.error('WebSocket error:', error);
+        setResponseText('WebSocket encountered an error.');
+      };
 
-    // Handle WebSocket errors
-    socket.onerror = (error) => {
-      console.error('WebSocket error:', error);
-      setResponseText('WebSocket encountered an error.');
-    };
+      socket.onclose = () => {
+        console.log('WebSocket connection closed');
+        setResponseText('WebSocket connection closed.');
+      };
 
-    // Handle WebSocket connection closing
-    socket.onclose = () => {
-      console.log('WebSocket connection closed');
-      setResponseText('WebSocket connection closed.');
-    };
-
-    // Clean up the WebSocket connection on component unmount
-    return () => {
-      socket.close();
-    };
-  }
-}, []); // The empty dependency array ensures this runs once when the component mounts
+      // Clean up WebSocket on unmount
+      return () => {
+        clearInterval(intervalId);
+        socket.close();
+      };
+    }
+  }, []); // Empty
 
 
 
@@ -705,11 +715,15 @@ socket.onmessage = (event) => {
   // Create rows and sort them by date (earliest first)
 
 
+  
+
+
   const rows = payments
     .map((payment) => ({
       id: payment.reference, // Assuming `reference` is unique
       name: payment.name,
-      number: payment.number,
+     
+    number: payment.number || subphone, // Add `subphone` if `payment.number` is missing
       messagedate: new Date(payment.messagedate), // Convert date string to Date object
       message: payment.message,
     }))
@@ -723,6 +737,7 @@ socket.onmessage = (event) => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+  
 
   // Handle rows per page change
   const handleChangeRowsPerPage = (event) => {
@@ -738,6 +753,10 @@ socket.onmessage = (event) => {
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);  // Paginate after reversing
 
   const isDesktop = useMediaQuery('(min-width:600px)');
+
+  
+  console.log(subphone);
+
 
   return (
     <Container>
@@ -759,6 +778,7 @@ socket.onmessage = (event) => {
         cancel={cancel}
         subtitle={subtitleText} // Dynamic subtitle
         subphone={subphone}
+        
         cost={cost}
         cancelM={cancelModal}
 
