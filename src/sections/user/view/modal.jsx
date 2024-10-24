@@ -166,17 +166,23 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
   };
   
 
-    // Early return to render an empty modal when conditions are met
-    if (!storedResponseText || storedResponseText.includes("Service not available")) {
-      return (
-        <Dialog open={isModalOpen} onClose={handleClose}>
-          <DialogContent>
-            Service Not Available
-            {/* Empty content */}
-          </DialogContent>
-        </Dialog>
-      );
-    }
+ // Early return to render the modal with the appropriate message
+if (!storedResponseText || storedResponseText.includes("Service not available for this number") || storedResponseText.includes("Insufficient balance")) {
+  return (
+    <Dialog open={isModalOpen} onClose={handleClose}>
+      <DialogContent>
+        {storedResponseText.includes("Service not available for this number") && (
+          <>Service Not Available For This Number</>
+        )}
+        {storedResponseText.includes("Insufficient balance") && (
+          <>Insufficient Balance</>
+        )}
+        {/* Empty content or other UI elements can go here */}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 
   return (
     <Dialog open={isModalOpen}>

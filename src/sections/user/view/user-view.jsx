@@ -51,7 +51,7 @@ export default function CustomizedTables() {
   const [selectedName, setSelectedName] = React.useState('');
   const [serv, setServ] = useState(null);  // To store the single service object
   const [maxWidth, setMaxWidth] = useState('sm');
-  const [subtitleText, setSubtitleText] = useState('Previous Verifications    ✔.');
+  const [subtitleText, setSubtitleText] = useState('');
   const [title, setTitle] = useState('PREVIOUS SMS Verifications')
   const [responseData, setResponseData] = useState(null);
   const [cancelModal, setCancelM] = useState('Request FulFilled. ✔')
@@ -408,121 +408,118 @@ export default function CustomizedTables() {
 
     fetchNames();
   }, []);
-
-
-
   const handleBuy = async () => {
     try {
       let showPrice = false;
-
+  
+      // Ensure both selectedName and selectedService are selected
       if (!selectedName || !selectedService) {
         alert("Please select both a country and a service before proceeding.");
-        showPrice = false; // Hide the price if either is not selected
+        showPrice = false; // Hide price
         return;
       }
-
+  
       showPrice = true; // Show the price if both are selected
-
-      // Display price based on the showPrice flag
+  
+      // Toggle the price display based on the showPrice flag
+      const priceElement = document.getElementById("price");
       if (showPrice) {
-        document.getElementById("price").style.display = "block"; // Show price
+        priceElement.style.display = "block"; // Show price
       } else {
-        document.getElementById("price").style.display = "none"; // Hide price
+        priceElement.style.display = "none"; // Hide price
       }
-
+  
       const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-
-
-
-
-      // Set up the request options using the second code snippet's structure
+  
+      // Prepare API request options
       const options = {
-
         method: 'POST',
         url: 'https://otpninja.com/api/v1/buynumber',
-
         headers: {
-          'X-OTPNINJA-TOKEN': token // If required, use token in custom header
+          'X-OTPNINJA-TOKEN': token
         },
         data: {
-          serviceid: selectedService,  // Use the selected service code
-          type: 'otp',                 // Use 'otp' as the type
-          countrycode: selectedName,    // Use the selected country code
+          serviceid: selectedService,
+          type: 'otp',
+          countrycode: selectedName,
           mode: 'live'
         }
       };
-
-
+  
       // Make the API request
       const response = await axios.request(options);
-
-
-
-
-      // Extract the 'nid' from the response data
-      const { nid } = response.data;
-      console.log(nid)
-      // Store the nid in the state for later use
-      setPurchasedNid(nid);
-      // Update state with response data
-      setResponseData(response.data);
-      // Extracting the number and price from response
-      const { number } = response.data;  // Accessing number from 'data'
-      const { service } = response.data
-      setLoading(true);
-      // Simulate a network request or some async operation
-      setTimeout(() => {
-        // Replace this with your actual async logic
-        setLoading(false);
-      }, 10000); // Simulate a 2-second delay
-
-
-      if (response.data.number === undefined) {
-
-
-        setResponseText(`Service not available For this Number.`);
-        setShowModal(false);
-
-
+  
+      // Handle the response
+      const { number, message, service, nid } = response.data;
+  
+      if (response.data.message === 'Invalid service') {
+        console.log(response.data.message)
+        // Handle undefined number scenario
+        setResponseText("Service not available for this number.");
+        setShowModal(true);
+  
         setTimeout(() => {
-
-          setResponseText(`Service not available For this Number.`);
-        }, 10800000); // 1,800,000 milliseconds = 30 minutes
-
-
-
+          setResponseText("Service not available for this number.");
+        }, 108000); // 3 hours
+      } else if (response.data.message === 'Insufficient balance') {
+        console.log(response.data)
+        // Handle insufficient balance scenario
+        setResponseText("Insufficient balance.");
+        setShowModal(true);
+  
+        setTimeout(() => {
+          setResponseText("Insufficient balance.");
+        }, 108000); // 3 hours
+      } else if (message === 'Invalid service') {
+        // Handle invalid service scenario
+        setResponseText("Invalid service.");
+        setShowModal(true);
+  
+        setTimeout(() => {
+          setResponseText("Invalid service.");
+        }, 10800000); // 3 hours
       } else {
-        // Constructing a response message for modal
-        setResponseText('waiting...  ');
-        setSubPhone(`${number}`); // Set verification phone number
-       
-
-
+        // Handle success case
+        setPurchasedNid(nid);
+        setResponseData(response.data);
+        setLoading(true);
+  
         setTimeout(() => {
-          // After 30 seconds, you can change the response text back to something else, or clear it
-          setResponseText(''); // Clears the message after 30 seconds
-        }, 30000); // 30,000 milliseconds = 30 seconds
-
-        // Set dynamic subtitle based on the received number
+          setLoading(false);
+        }, 10000); // Simulate a 10-second delay
+  
+        setResponseText('waiting...');
+        setSubPhone(`${number}`);
+        
+        // Show OTP refresh message after 30 seconds
+        setTimeout(() => {
+          setResponseText('OTP refreshes after 30 seconds. Please be patient.');
+  
+          // Keep the message for 10 more seconds
+          setTimeout(() => {
+            setResponseText('OTP refreshes after 30 seconds. Please be patient.');
+          }, 10000); // 10 seconds delay
+        }, 30000); // 30 seconds delay
+  
+        // Set dynamic subtitle and title based on the service
         setSubtitleText(`🔽 Waiting to receive an SMS from ${service}. Please note that services may take multiple attempts to succeed.`);
-        setTitle(`${service} SMS Verifications`)
+        setTitle(`${service} SMS Verifications`);
+        setResponseText('OTP refreshes after 30 seconds. Please be patient.');
         setCancelM('');
-        // Set dynamic response text
+        setShowModal(true); // Show modal
       }
-      console.log(service)
-      // Show the modal
-      setShowModal(true);
-
+      
     } catch (error) {
       console.error('Purchase error:', error); // Log the error for debugging
       setResponseText('Purchase failed. Please try again.');
       setModalType('yellow');
-
-
+      setShowModal(true); // Show error modal
     } finally {
+      // Close modal after processing (optional)
       handleClose();
     }
   };
+  
 
 
   // Function to cancel the purchased numberv
@@ -606,8 +603,9 @@ export default function CustomizedTables() {
 
         // Extract and display information from the latest message
         const { name, message } = sortedData[0];
-        setResponseText(`Latest message: ${message}`);
-        setTitle(`${name} SMS Verifications`);
+        setResponseText(`OTP... ${message}`);
+
+        console.log(name)
 
         // Reset interval back to the initial value if data is found
         interval = 30000;
@@ -656,7 +654,7 @@ export default function CustomizedTables() {
 
           // Extract the latest message info
           const { name, message } = sortedData[0];
-          setResponseText(`Latest message: ${message}`);
+          setResponseText(`Previous message: ${message}`);
           setTitle(`${name} SMS Verifications`);
         } else {
           setResponseText('No new messages received.');
@@ -670,7 +668,7 @@ export default function CustomizedTables() {
 
       socket.onclose = () => {
         console.log('WebSocket connection closed');
-        setResponseText('WebSocket connection closed.');
+        setResponseText('OTP Ninja LOADING...');
       };
 
       // Clean up WebSocket on unmount
@@ -715,15 +713,15 @@ export default function CustomizedTables() {
   // Create rows and sort them by date (earliest first)
 
 
-  
+
 
 
   const rows = payments
     .map((payment) => ({
       id: payment.reference, // Assuming `reference` is unique
       name: payment.name,
-     
-    number: payment.number || subphone, // Add `subphone` if `payment.number` is missing
+
+      number: payment.number || subphone, // Add `subphone` if `payment.number` is missing
       messagedate: new Date(payment.messagedate), // Convert date string to Date object
       message: payment.message,
     }))
@@ -737,7 +735,7 @@ export default function CustomizedTables() {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-  
+
 
   // Handle rows per page change
   const handleChangeRowsPerPage = (event) => {
@@ -754,7 +752,7 @@ export default function CustomizedTables() {
 
   const isDesktop = useMediaQuery('(min-width:600px)');
 
-  
+
   console.log(subphone);
 
 
@@ -778,7 +776,7 @@ export default function CustomizedTables() {
         cancel={cancel}
         subtitle={subtitleText} // Dynamic subtitle
         subphone={subphone}
-        
+
         cost={cost}
         cancelM={cancelModal}
 

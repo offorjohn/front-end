@@ -136,7 +136,7 @@ export default function AppView() {
                 }}
               >
                 <img
-                  src="/assets/icons/navbar/ic_wallet.svg"
+                  src="/assets/icons/navbar/ic_walllet.svg"
                   alt="wallet icon"
                   style={{ width: 24, height: 24, display: 'block' }} // Display block to center it
                 />
