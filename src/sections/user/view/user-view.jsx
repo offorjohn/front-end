@@ -411,16 +411,16 @@ export default function CustomizedTables() {
   const handleBuy = async () => {
     try {
       let showPrice = false;
-  
+
       // Ensure both selectedName and selectedService are selected
       if (!selectedName || !selectedService) {
         alert("Please select both a country and a service before proceeding.");
         showPrice = false; // Hide price
         return;
       }
-  
+
       showPrice = true; // Show the price if both are selected
-  
+
       // Toggle the price display based on the showPrice flag
       const priceElement = document.getElementById("price");
       if (showPrice) {
@@ -428,9 +428,9 @@ export default function CustomizedTables() {
       } else {
         priceElement.style.display = "none"; // Hide price
       }
-  
+
       const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-  
+
       // Prepare API request options
       const options = {
         method: 'POST',
@@ -445,19 +445,19 @@ export default function CustomizedTables() {
           mode: 'live'
         }
       };
-  
+
       // Make the API request
       const response = await axios.request(options);
-  
+
       // Handle the response
       const { number, message, service, nid } = response.data;
-  
+
       if (response.data.message === 'Invalid service') {
         console.log(response.data.message)
         // Handle undefined number scenario
         setResponseText("Service not available for this number.");
         setShowModal(true);
-  
+
         setTimeout(() => {
           setResponseText("Service not available for this number.");
         }, 108000); // 3 hours
@@ -466,7 +466,7 @@ export default function CustomizedTables() {
         // Handle insufficient balance scenario
         setResponseText("Insufficient balance.");
         setShowModal(true);
-  
+
         setTimeout(() => {
           setResponseText("Insufficient balance.");
         }, 108000); // 3 hours
@@ -474,7 +474,7 @@ export default function CustomizedTables() {
         // Handle invalid service scenario
         setResponseText("Invalid service.");
         setShowModal(true);
-  
+
         setTimeout(() => {
           setResponseText("Invalid service.");
         }, 10800000); // 3 hours
@@ -483,24 +483,25 @@ export default function CustomizedTables() {
         setPurchasedNid(nid);
         setResponseData(response.data);
         setLoading(true);
-  
+
         setTimeout(() => {
           setLoading(false);
         }, 10000); // Simulate a 10-second delay
-  
+
         setResponseText('waiting...');
         setSubPhone(`${number}`);
-        
+
         // Show OTP refresh message after 30 seconds
         setTimeout(() => {
           setResponseText('OTP refreshes after 30 seconds. Please be patient.');
-  
-          // Keep the message for 10 more seconds
+
+          // Keep the message for 5 more seconds
           setTimeout(() => {
             setResponseText('OTP refreshes after 30 seconds. Please be patient.');
-          }, 10000); // 10 seconds delay
-        }, 30000); // 30 seconds delay
-  
+          }, 5 * 1000); // 5 seconds delay
+        }, 20 * 1000); // 20 seconds delay
+
+
         // Set dynamic subtitle and title based on the service
         setSubtitleText(`🔽 Waiting to receive an SMS from ${service}. Please note that services may take multiple attempts to succeed.`);
         setTitle(`${service} SMS Verifications`);
@@ -508,7 +509,7 @@ export default function CustomizedTables() {
         setCancelM('');
         setShowModal(true); // Show modal
       }
-      
+
     } catch (error) {
       console.error('Purchase error:', error); // Log the error for debugging
       setResponseText('Purchase failed. Please try again.');
@@ -519,7 +520,7 @@ export default function CustomizedTables() {
       handleClose();
     }
   };
-  
+
 
 
   // Function to cancel the purchased numberv
