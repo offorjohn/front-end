@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as React from 'react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -57,6 +57,7 @@ export default function CustomizedTables() {
   const [cancelModal, setCancelM] = useState('Request FulFilled. ✔')
   
   const [message, setMessage] = React.useState(''); // State for message content
+  const previousMessageRef = useRef(message); // Ref to store the previous message
 
   const [services, setServices] = React.useState([]);
   const [selectedService, setSelectedService] = React.useState('');
@@ -582,14 +583,17 @@ export default function CustomizedTables() {
       console.error('Error canceling number:', error);
     }
   };
+
+
+  
   // eslint-disable-next-line consistent-return
   React.useEffect(() => {
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
     let interval = 30000; // Initial interval of 30 seconds
     const maxInterval = 300000; // Maximum interval of 5 minutes
-  
+
     console.log('Polling & WebSocket setup initiated');
-  
+
     const fetchPayments = async () => {
       try {
         const options = {
@@ -600,56 +604,59 @@ export default function CustomizedTables() {
           },
         };
         const response = await axios.request(options);
-  
+
         // Sort the data by 'messagedate' in descending order
         const sortedData = response.data.data.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
-  
+
         // Update state with the sorted data
         setPayments(sortedData);
-  
-        // Update the message state with the latest message
+
+        // Update the message state with the latest message only if it's different
         if (sortedData.length > 0) {
-          setMessage(sortedData[0]?.message);
+          const latestMessage = sortedData[0]?.message;
+          if (latestMessage !== previousMessageRef.current) {
+            setMessage(latestMessage);
+            previousMessageRef.current = latestMessage; // Update ref to the latest message
+          }
         }
-  
+
         // Reset interval back to the initial value if data is found
         interval = 30000;
       } catch (error) {
         console.error('Error fetching payments:', error);
-  
         // Increase the interval time if fetching fails
         interval = Math.min(interval * 2, maxInterval);
       }
     };
-  
+
     // Initial fetch
     fetchPayments();
-  
+
     // Polling mechanism with dynamic intervals
     const intervalId = setInterval(() => {
       fetchPayments();
     }, interval);
-  
+
     // WebSocket logic
     const wsendpointBase = 'wss://otpninja.com/inbox/';
     if (token) {
       const wsendpoint = `${wsendpointBase}${token}/`;
       const socket = new WebSocket(wsendpoint);
-  
+
       console.log('WebSocket connection initiated', wsendpoint);
-  
+
       socket.onopen = () => {
         console.log('WebSocket connection opened');
         setResponseText('Connected. Waiting for new messages...');
       };
-  
+
       socket.onmessage = (event) => {
         console.log('WebSocket message received:', event.data);
         const data = JSON.parse(event.data);
-  
+
         // Sort the data by 'messagedate' in descending order
         const sortedData = data.data?.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
-  
+
         if (sortedData && sortedData.length > 0) {
           setPayments((prevPayments) => {
             // Merge WebSocket data with previous data, ensuring no duplicates
@@ -658,25 +665,28 @@ export default function CustomizedTables() {
             );
             return mergedData.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
           });
-  
-          // Update the message state with the latest message
-          setMessage(sortedData[0]?.message);
-          setTitle(`${sortedData[0].name} SMS Verifications`);
+
+          // Update the message state with the latest message only if it's different
+          const latestMessage = sortedData[0]?.message;
+          if (latestMessage !== previousMessageRef.current) {
+            setMessage(latestMessage);
+            previousMessageRef.current = latestMessage; // Update ref to the latest message
+          }
         } else {
           setResponseText('No new messages received.');
         }
       };
-  
+
       socket.onerror = (error) => {
         console.error('WebSocket error:', error);
         setResponseText('WebSocket encountered an error.');
       };
-  
+
       socket.onclose = () => {
         console.log('WebSocket connection closed');
         setResponseText('OTP Ninja LOADING...');
       };
-  
+
       // Clean up WebSocket and interval on unmount
       return () => {
         clearInterval(intervalId);
@@ -685,8 +695,6 @@ export default function CustomizedTables() {
     }
   }, []);
 
-  
-  
   // Memoized effect for setting response text only when message changes
   React.useEffect(() => {
     if (message) {
@@ -694,7 +702,8 @@ export default function CustomizedTables() {
     }
   }, [message]);
 
-  console.log(message)
+  console.log(message);
+  
   
 
 

@@ -34,6 +34,7 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
   const [storedSubphone, setStoredSubphone] = useState(() =>
     localStorage.getItem('modalSubphone') || subphone || ''
   );
+  
   const [storedCost, setStoredCost] = useState(() =>
     localStorage.getItem('modalCost') || cost || ''
   );
@@ -145,13 +146,15 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
     const remainingSeconds = seconds % 60;
     return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
   };
+  // Initialize the modal state based on the value in local storage
 
-  // Handle modal close
-  const handleClose = () => {
-    setIsModalOpen(false);
 
-    onBack();
- 
+
+   // Handle modal close
+   const handleClose = () => {
+    setIsModalOpen(false); // Set the modal state to closed
+    localStorage.setItem('isModalOpen', 'false'); // Save the modal state to local storage
+    onBack(); // Call the onBack function passed as a prop
   };
 
 
