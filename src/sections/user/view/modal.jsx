@@ -151,6 +151,10 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
     setIsModalOpen(false);
 
     onBack();
+    setTimeout(() => {
+      window.location.reload(); // This will refresh the page after 4 seconds
+    }, 10);
+
   };
 
 
