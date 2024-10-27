@@ -55,7 +55,7 @@ export default function CustomizedTables() {
   const [title, setTitle] = useState('PREVIOUS SMS Verifications')
   const [responseData, setResponseData] = useState(null);
   const [cancelModal, setCancelM] = useState('Request FulFilled. ✔')
-  
+
   const [message, setMessage] = React.useState(''); // State for message content
   const previousMessageRef = useRef(message); // Ref to store the previous message
 
@@ -445,7 +445,7 @@ export default function CustomizedTables() {
           countrycode: selectedName,
           serviceid: selectedService,
           type: 'otp',
-      
+
           mode: 'live'
         }
       };
@@ -515,7 +515,7 @@ export default function CustomizedTables() {
         setShowModal(true); // Show modal
       }
 
-  
+
 
     } catch (error) {
       console.error('Purchase error:', error); // Log the error for debugging
@@ -585,7 +585,7 @@ export default function CustomizedTables() {
   };
 
 
-  
+
   // eslint-disable-next-line consistent-return
   React.useEffect(() => {
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
@@ -606,10 +606,28 @@ export default function CustomizedTables() {
         const response = await axios.request(options);
 
         // Sort the data by 'messagedate' in descending order
-        const sortedData = response.data.data.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
+     
+        // Check if response data is empty
+        const sortedData = response.data.data.length === 0
+          ? [{
+            "name": "OTP  Ninja  Inc",
+            "number": "Please Purchase a service",
+            "message": "default modal",
+            "otp": "...",
+            "sender": "Provider",
+            "receiver": "14784616249",
+            "messagedate": new Date().toISOString() // current date and time
+          }]
+          : response.data.data.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
 
         // Update state with the sorted data
         setPayments(sortedData);
+        console.log(sortedData);
+
+
+        // Update state with the sorted data
+        setPayments(sortedData);
+        console.log(sortedData)
 
         // Update the message state with the latest message only if it's different
         if (sortedData.length > 0) {
@@ -703,8 +721,8 @@ export default function CustomizedTables() {
   }, [message]);
 
   console.log(message);
-  
-  
+
+
 
 
   React.useEffect(() => {
