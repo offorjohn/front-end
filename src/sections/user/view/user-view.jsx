@@ -1800,7 +1800,7 @@ acd: 'net',
       setResponseText(repeatedResponseText);
     }
   } else {
-    setResponseText('No new messages received.');
+    setResponseText('Waiting to recieve Otp......');
   }
 };
 
@@ -1828,7 +1828,7 @@ acd: 'net',
       if (noNewMessagesCount < 3) {
         setResponseText(`OTP... ${message}`);
       } else {
-        setResponseText(`Refreshes after 30 seconds... ${message}`);
+        setResponseText('Refreshes after 30 seconds Please be patient...');
       }
     }
   }, [message, noNewMessagesCount]);
