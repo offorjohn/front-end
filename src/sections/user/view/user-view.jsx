@@ -1011,7 +1011,7 @@ export default function CustomizedTables() {
     ka: "Shopee",
     ze: "Shpock",
     sbw: "siberianwellness",
-    bw: "Signal",
+    bw: "signal",
     fs: "sikayetvar",
     np: "Siply",
     eo: "Sizeer",
@@ -1316,6 +1316,7 @@ export default function CustomizedTables() {
     hj: "ru",
 
     vb: "ru",
+    bw: "org",
     uc: "ru",
     qp: "ru",
     aas: "ru",
