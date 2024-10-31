@@ -64,8 +64,8 @@ export default function CustomizedTables() {
 
 
 
-// Declare a state variable to count the number of times the latest message has been the same
-const [noNewMessagesCount, setNoNewMessagesCount] = useState(0);
+  // Declare a state variable to count the number of times the latest message has been the same
+  const [noNewMessagesCount, setNoNewMessagesCount] = useState(0);
 
 
   const handleOpenModal = () => {
@@ -1293,7 +1293,7 @@ const [noNewMessagesCount, setNoNewMessagesCount] = useState(0);
 
     we: "ru",
     ja: "io",
-    
+
     gk: 'ru',
     io: "ru",
     js: "ru",
@@ -1327,34 +1327,34 @@ const [noNewMessagesCount, setNoNewMessagesCount] = useState(0);
     qp: "ru",
     aas: "ru",
     vv: "net",
-    
+
     afc: 'id',
 
     uo: 'ir',
-  wd: 'ph',
+    wd: 'ph',
     lc: "it",
     uq: "ru",
     bh: "ru",
     ajc: "ru",
 
     adu: "cz",
-    
+
     kd: 'ru',
     eh: "org",
     fa: "ru",
-    
+
     ko: 'id',
     agh: 'ch',
     ain: "ru",
 
-    
+
     aly: 'id',
-   abd: 'ch',
-  zn: 'pl',
-  zu: 'th',
-   bl: 'th',
- ri: 'org',
-  uv: 'tech',
+    abd: 'ch',
+    zn: 'pl',
+    zu: 'th',
+    bl: 'th',
+    ri: 'org',
+    uv: 'tech',
 
 
     acp: 'my',
@@ -1367,40 +1367,40 @@ const [noNewMessagesCount, setNoNewMessagesCount] = useState(0);
     vo: 'uk',
 
     abo: "de",
-    
+
     agq: 'in',
 
     yn: 'pl',
     eb: "de",
-    
+
     aeo: 'id',
     br: "ru",
     yo: 'vc',
     adt: "at",
     jr: "ru",
     lz: "app",
-    
-   ai: 'io',
 
-   td: 'finance',
+    ai: 'io',
 
-   gr_rd: 'io',
-acd: 'net',
-  adv: 'co',
+    td: 'finance',
 
-   amn: 'org',
+    gr_rd: 'io',
+    acd: 'net',
+    adv: 'co',
 
-   ax: 'br',
+    amn: 'org',
 
-   acu: 'live',
+    ax: 'br',
 
-   yf: 'ru',
-   acz: 'co',
+    acu: 'live',
 
-   cf_id: 'io',
-   ael: 'io',
+    yf: 'ru',
+    acz: 'co',
 
-   zx: 'io',
+    cf_id: 'io',
+    ael: 'io',
+
+    zx: 'io',
     lp: 'it',
     alv: "app",
     hu: "net",
@@ -1717,7 +1717,7 @@ acd: 'net',
           },
         };
         const response = await axios.request(options);
-        
+
         // Sort and process the response data
         const sortedData = response.data.data.length === 0
           ? [{
@@ -1730,7 +1730,7 @@ acd: 'net',
             "messagedate": new Date().toISOString() // current date and time
           }]
           : response.data.data.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
-        
+
         setPayments(sortedData);
 
         // Update message state if it's different
@@ -1752,13 +1752,13 @@ acd: 'net',
 
     // Initial fetch
     fetchPayments();
-    
+
 
     // Polling mechanism only when modal is open
     if (showModal) {
       intervalId = setInterval(() => {
         fetchPayments();
-      }, 30000); // 30 seconds
+      }, 15000); // 30 seconds
     }
 
     // WebSocket logic
@@ -1787,22 +1787,22 @@ acd: 'net',
             return mergedData.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
           });
 
-        
-    const latestMessage = sortedData[0]?.message;
-    if (latestMessage !== previousMessageRef.current) {
-      setMessage(latestMessage);
-      previousMessageRef.current = latestMessage;
-      setNoNewMessagesCount(0); // Reset count for new message
-      setResponseText('Connected. Waiting for new messages...'); // Update response text for new message
-    } else {
-      // Set response text to be displayed multiple times
-      const repeatedResponseText = 'Connected. Waiting for new messages... '.repeat(1); // Repeat 3 times
-      setResponseText(repeatedResponseText);
-    }
-  } else {
-    setResponseText('Waiting to recieve Otp......');
-  }
-};
+
+          const latestMessage = sortedData[0]?.message;
+          if (latestMessage !== previousMessageRef.current) {
+            setMessage(latestMessage);
+            previousMessageRef.current = latestMessage;
+            setNoNewMessagesCount(0); // Reset count for new message
+            setResponseText('Connected. Waiting for new messages...'); // Update response text for new message
+          } else {
+            // Set response text to be displayed multiple times
+            const repeatedResponseText = 'Connected. Waiting for new messages... '.repeat(1); // Repeat 3 times
+            setResponseText(repeatedResponseText);
+          }
+        } else {
+          setResponseText('Waiting to recieve Otp......');
+        }
+      };
 
       socket.onerror = (error) => {
         console.error('WebSocket error:', error);
