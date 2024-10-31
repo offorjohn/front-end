@@ -373,9 +373,9 @@ export default function CustomizedTables() {
     aha: 'angelone',
     agh: 'anibis',
     alg: 'ankama',
-    ot: 'apostaganha',
+    ot: 'Any Other',
     pm: 'aol',
-    ml: 'aposta-ganha',
+    ml: 'apostaganha',
     wx: 'apple',
     gk: 'apteka',
     rq: 'apteka',
@@ -1694,16 +1694,11 @@ acd: 'net',
     }
   };
 
-
-
   // eslint-disable-next-line consistent-return
   React.useEffect(() => {
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-    let interval = 30000; // Initial interval of 30 seconds
-    const maxInterval = 300000; // Maximum interval of 5 minutes
-
-    console.log('ing & WebSocket setup initiated');
-
+    console.log('Polling & WebSocket setup initiated');
+  
     const fetchPayments = async () => {
       try {
         const options = {
@@ -1714,124 +1709,85 @@ acd: 'net',
           },
         };
         const response = await axios.request(options);
-
-        // Sort the data by 'messagedate' in descending order
-
-        // Check if response data is empty
+  
+        // Sort and check if response data is empty
         const sortedData = response.data.data.length === 0
           ? [{
-            "name": "OTP  Ninja  Inc",
-            "number": "Please Purchase a service",
-            "message": "default modal",
-            "otp": "...",
-            "sender": "Provider",
-            "receiver": "14784616249",
-            "messagedate": new Date().toISOString() // current date and time
-          }]
+              "name": "OTP Ninja Inc",
+              "number": "Please Purchase a service",
+              "message": "default modal",
+              "otp": "...",
+              "sender": "Provider",
+              "receiver": "14784616249",
+              "messagedate": new Date().toISOString()
+            }]
           : response.data.data.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
-
-        // Update state with the sorted data
+  
         setPayments(sortedData);
-
-
-        // Update state with the sorted data
-        setPayments(sortedData);
-        console.log(sortedData)
-
-        // Update the message state with the latest message only if it's different
         if (sortedData.length > 0) {
           const latestMessage = sortedData[0]?.message;
-          if (latestMessage !== previousMessageRef.current) {
-            setMessage(latestMessage);
-            previousMessageRef.current = latestMessage; // Update ref to the latest message
-          }
+          setMessage(latestMessage);
+          previousMessageRef.current = latestMessage;
         }
-
-        // Reset interval back to the initial value if data is found
-        interval = 30000;
       } catch (error) {
         console.error('Error fetching payments:', error);
-        // Increase the interval time if fetching fails
-        interval = Math.min(interval * 2, maxInterval);
       }
     };
-
-    // Initial fetch
+  
+    // Initial fetch only
     fetchPayments();
-
-    // Polling mechanism with dynamic intervals
-    const intervalId = setInterval(() => {
-      fetchPayments();
-    }, interval);
-
-    // WebSocket logic
+  
+    // WebSocket connection setup
     const wsendpointBase = 'wss://otpninja.com/inbox/';
     if (token) {
       const wsendpoint = `${wsendpointBase}${token}/`;
       const socket = new WebSocket(wsendpoint);
-
-      console.log('WebSocket connection initiated', wsendpoint);
-
+  
       socket.onopen = () => {
-        console.log('WebSocket connection opened');
+        console.log('WebSocket connection opened:', wsendpoint);
         setResponseText('Connected. Waiting for new messages...');
       };
-
+  
       socket.onmessage = (event) => {
         console.log('WebSocket message received:', event.data);
         const data = JSON.parse(event.data);
-
-        // Sort the data by 'messagedate' in descending order
+  
         const sortedData = data.data?.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
-
         if (sortedData && sortedData.length > 0) {
           setPayments((prevPayments) => {
-            // Merge WebSocket data with previous data, ensuring no duplicates
             const mergedData = [...prevPayments, ...sortedData].filter(
               (v, i, a) => a.findIndex((t) => t.reference === v.reference) === i
             );
             return mergedData.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
           });
-
-          // Update the message state with the latest message only if it's different
+  
           const latestMessage = sortedData[0]?.message;
           if (latestMessage !== previousMessageRef.current) {
             setMessage(latestMessage);
-            previousMessageRef.current = latestMessage; // Update ref to the latest message
+            previousMessageRef.current = latestMessage;
           }
         } else {
           setResponseText('No new messages received.');
         }
       };
-
+  
       socket.onerror = (error) => {
         console.error('WebSocket error:', error);
         setResponseText('WebSocket encountered an error.');
       };
-
+  
       socket.onclose = () => {
         console.log('WebSocket connection closed');
         setResponseText('OTP Ninja LOADING...');
       };
-
-      // Clean up WebSocket and interval on unmount
+  
+      // Clean up WebSocket on unmount
       return () => {
-        clearInterval(intervalId);
         socket.close();
       };
     }
   }, []);
-
-  // Memoized effect for setting response text only when message changes
-  React.useEffect(() => {
-    if (message) {
-      setResponseText(`OTP... ${message}`);
-    }
-  }, [message]);
-
-  console.log(message);
-
-
+  
 
 
   React.useEffect(() => {
