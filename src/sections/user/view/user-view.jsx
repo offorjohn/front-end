@@ -1828,7 +1828,7 @@ acd: 'net',
       if (noNewMessagesCount < 3) {
         setResponseText(`OTP... ${message}`);
       } else {
-        setResponseText('No new messages received.');
+        setResponseText(`Refreshes after 30 seconds ${message}`);
       }
     }
   }, [message, noNewMessagesCount]);
