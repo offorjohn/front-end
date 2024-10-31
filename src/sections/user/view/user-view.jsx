@@ -62,6 +62,12 @@ export default function CustomizedTables() {
   const [services, setServices] = React.useState([]);
   const [selectedService, setSelectedService] = React.useState('');
 
+
+
+// Declare a state variable to count the number of times the latest message has been the same
+const [noNewMessagesCount, setNoNewMessagesCount] = useState(0);
+
+
   const handleOpenModal = () => {
     setShowModal(true);
 
@@ -1733,6 +1739,10 @@ acd: 'net',
           if (latestMessage !== previousMessageRef.current) {
             setMessage(latestMessage);
             previousMessageRef.current = latestMessage; // Update ref to the latest message
+            setNoNewMessagesCount(0); // Reset count for new message
+          } else {
+            // Increment the count for identical messages
+            setNoNewMessagesCount((count) => count + 1);
           }
         }
       } catch (error) {
@@ -1742,6 +1752,7 @@ acd: 'net',
 
     // Initial fetch
     fetchPayments();
+    
 
     // Polling mechanism only when modal is open
     if (showModal) {
@@ -1780,6 +1791,10 @@ acd: 'net',
           if (latestMessage !== previousMessageRef.current) {
             setMessage(latestMessage);
             previousMessageRef.current = latestMessage;
+            setNoNewMessagesCount(0); // Reset count for new message
+          } else {
+            // Increment the count for identical messages
+            setNoNewMessagesCount((count) => count + 1);
           }
         } else {
           setResponseText('No new messages received.');
@@ -1803,15 +1818,19 @@ acd: 'net',
     }
   }, [showModal]); // Run effect when showModal changes
 
-  // Memoized effect for setting response text only when message changes
+
+  // Memoized effect for setting response text based on message count
   React.useEffect(() => {
     if (message) {
-      setResponseText(`OTP... ${message}`);
+      if (noNewMessagesCount < 3) {
+        setResponseText(`OTP... ${message}`);
+      } else {
+        setResponseText('No new messages received.');
+      }
     }
-  }, [message]);
+  }, [message, noNewMessagesCount]);
 
-  console.log(message)
-
+  console.log(message);
 
 
   React.useEffect(() => {
