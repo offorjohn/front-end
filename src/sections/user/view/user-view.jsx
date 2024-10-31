@@ -1787,19 +1787,22 @@ acd: 'net',
             return mergedData.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
           });
 
-          const latestMessage = sortedData[0]?.message;
-          if (latestMessage !== previousMessageRef.current) {
-            setMessage(latestMessage);
-            previousMessageRef.current = latestMessage;
-            setNoNewMessagesCount(0); // Reset count for new message
-          } else {
-            // Increment the count for identical messages
-            setNoNewMessagesCount((count) => count + 1);
-          }
-        } else {
-          setResponseText('No new messages received.');
-        }
-      };
+        
+    const latestMessage = sortedData[0]?.message;
+    if (latestMessage !== previousMessageRef.current) {
+      setMessage(latestMessage);
+      previousMessageRef.current = latestMessage;
+      setNoNewMessagesCount(0); // Reset count for new message
+      setResponseText('Connected. Waiting for new messages...'); // Update response text for new message
+    } else {
+      // Set response text to be displayed multiple times
+      const repeatedResponseText = 'Connected. Waiting for new messages... '.repeat(1); // Repeat 3 times
+      setResponseText(repeatedResponseText);
+    }
+  } else {
+    setResponseText('No new messages received.');
+  }
+};
 
       socket.onerror = (error) => {
         console.error('WebSocket error:', error);
@@ -1808,7 +1811,7 @@ acd: 'net',
 
       socket.onclose = () => {
         console.log('WebSocket connection closed');
-        setResponseText('OTP Ninja LOADING...');
+        setResponseText(`'Otp.. ${message}`);
       };
 
       return () => {
@@ -1816,7 +1819,7 @@ acd: 'net',
         socket.close();
       };
     }
-  }, [showModal]); // Run effect when showModal changes
+  }, [message, showModal]); // Run effect when showModal changes
 
 
   // Memoized effect for setting response text based on message count
