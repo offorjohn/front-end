@@ -1793,7 +1793,10 @@ export default function CustomizedTables() {
             setMessage(latestMessage);
             previousMessageRef.current = latestMessage;
             setNoNewMessagesCount(0); // Reset count for new message
-            setResponseText('Connected. Waiting for new messages...'); // Update response text for new message
+            setTimeout(() => {
+              // After 20 seconds, you can update responseText if needed
+              setResponseText('Connected. Waiting for new messages...');
+            }, 7200000);
           } else {
             // Set response text to be displayed multiple times
             const repeatedResponseText = 'Connected. Waiting for new messages... '.repeat(1); // Repeat 3 times
