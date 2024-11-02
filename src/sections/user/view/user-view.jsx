@@ -671,7 +671,7 @@ export default function CustomizedTables() {
     sp: 'HappyFresh',
     au: 'Haraj',
     agp: 'Hdfcbank',
-    gx: 'gx.games',
+    gx: 'gamesir',
     akp: 'Her',
     en: 'Hermes',
     vx: 'hepsiburada',
@@ -1418,7 +1418,6 @@ export default function CustomizedTables() {
     ml: 'bet',
     rw: 'org',
 
-    Miexprs: 'au',
     vb: "ru",
     bw: "org",
     uc: "ru",
@@ -1503,7 +1502,6 @@ export default function CustomizedTables() {
 
 
     ajz: 'ca',
-    meex: 'pk',
     mcr: 'kz',
     tj: 'in',
 
@@ -1513,6 +1511,9 @@ export default function CustomizedTables() {
     amt: 'in',
     ji: 'ua',
 
+    
+
+    Miexprs: 'au',
     age: 'hk',
     ce: 'ru',
 
@@ -1588,7 +1589,7 @@ export default function CustomizedTables() {
     grsrd: 'ru',
     als: 'uk',
     full: 'pt',
-    gx: 'ir',
+    gx: 'hk',
     jd: 'br',
     hm: 'org',
 
