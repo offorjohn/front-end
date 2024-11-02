@@ -381,10 +381,10 @@ export default function CustomizedTables() {
     alg: 'ankama',
     ot: 'apostaganha',
     pm: 'aol',
-    ml: 'aposta-ganha',
+    ml: 'apostaganha',
     wx: 'apple',
     gk: 'apteka',
-    rq: 'apteka',
+    rq: 'gosvet',
     aco: 'ar.lens',
     abt: 'arenaplus',
     hs: 'asda',
@@ -440,7 +440,7 @@ export default function CustomizedTables() {
     akq: 'blank-street',
     fk: 'blibli',
     bz: 'blizzard',
-    rw: 'bls-spain',
+    rw: 'rwjbh',
     qn: 'blued',
     ajr: 'boku',
     tx: 'bolt',
@@ -671,7 +671,7 @@ export default function CustomizedTables() {
     sp: 'HappyFresh',
     au: 'Haraj',
     agp: 'Hdfcbank',
-    gx: 'hepsiburada',
+    gx: 'gx.games',
     akp: 'Her',
     en: 'Hermes',
     vx: 'hepsiburada',
@@ -813,7 +813,7 @@ export default function CustomizedTables() {
     he: 'Mewt',
     mc: 'MiChat',
     mm: 'Microsoft',
-    Miexprs: 'expressmediaeg',
+    Miexprs: 'expressmedia.org',
     mgrs: 'Migros',
     ey: 'miloan',
     op: 'miratorg',
@@ -1055,7 +1055,7 @@ export default function CustomizedTables() {
     vj: "Stormgain",
     ahj: "Strato",
     nu: "nu-stripe",
-    aiv: "subito",
+    aiv: "aivinc",
     lc: "subito",
     aca: "Sunlight",
     acq: "suntecgroup",
@@ -1345,13 +1345,13 @@ export default function CustomizedTables() {
     gb: "ai",
     it: 'app',
     yv: 'ir',
-   
-       agi: 'hr',
-     xz: "gold",
-   
-       cm: "edu",
-   
-       ace: "az",
+
+    agi: 'hr',
+    xz: "gold",
+
+    cm: "edu",
+
+    ace: "az",
 
     ahw: "cz",
     xc: "cz",
@@ -1408,13 +1408,17 @@ export default function CustomizedTables() {
     ar: "ru",
 
     afl: "ru",
-    bj: "ru",
+
     sh: "ru",
     fq: "ru",
 
     sk: "gr",
     hj: "ru",
 
+    ml: 'bet',
+    rw: 'org',
+
+    Miexprs: 'au',
     vb: "ru",
     bw: "org",
     uc: "ru",
@@ -1486,7 +1490,7 @@ export default function CustomizedTables() {
 
     ax: 'br',
     bl: 'tv',
-    dd: 'chat',
+
 
     sb: 'ru',
     ox: 'cz',
@@ -1726,6 +1730,7 @@ export default function CustomizedTables() {
 
     fetchNames();
   }, []);
+
   const handleBuy = async () => {
     try {
       let showPrice = false;
