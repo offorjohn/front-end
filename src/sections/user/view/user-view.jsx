@@ -813,7 +813,7 @@ export default function CustomizedTables() {
     he: 'Mewt',
     mc: 'MiChat',
     mm: 'Microsoft',
-    Miexprs: 'expressmessdia.org',
+    Miexprs: 'expressmedia.org',
     mgrs: 'Migros',
     ey: 'miloan',
     op: 'miratorg',
