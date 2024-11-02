@@ -813,7 +813,6 @@ export default function CustomizedTables() {
     he: 'Mewt',
     mc: 'MiChat',
     mm: 'Microsoft',
-    Miexprs: 'acnc.gov',
     mgrs: 'Migros',
     ey: 'miloan',
     op: 'miratorg',
@@ -1513,7 +1512,6 @@ export default function CustomizedTables() {
 
     
 
-    Miexprs: 'au',
     age: 'hk',
     ce: 'ru',
 
