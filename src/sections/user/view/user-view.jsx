@@ -1630,7 +1630,10 @@ export default function CustomizedTables() {
     // Debugging: Check the logo filename after mapping
     console.log("Mapped Logo Filename:", logoFilename);
 
-    if (!logoFilename) return ''; // Return empty if no logo is found for the code
+    if (!logoFilename)
+      // Return the logo URL if found, otherwise return the serviceCode text
+      return logoFilename || serviceCode;
+    ; // Return empty if no logo is found for the code
 
     // Determine the domain type based on the serviceDomainMap or default to 'com'
     const domainType = serviceDomainMap[serviceCode.toLowerCase()] || 'com';
