@@ -2068,18 +2068,27 @@ export default function CustomizedTables() {
   }, [message, showModal]); // Run effect when showModal changes
 
 
-  // Memoized effect for setting response text based on message count
-  React.useEffect(() => {
-    if (message) {
+// Memoized effect for setting response text based on message count
+React.useEffect(() => {
+  if (message) {
+    // Check if the message indicates insufficient funds or service not available
+    if (message.includes("Insufficient balance")) {
+      setResponseText("Insufficient Balance");
+    } else if (message.includes("Service not available for this number")) {
+      setResponseText("Service Not Available For This Number");
+    } else {
+      // Existing logic for setting OTP message based on new message count
+      // eslint-disable-next-line no-lonely-if
       if (noNewMessagesCount < 3) {
         setResponseText(`OTP... ${message}`);
       } else {
-        setResponseText('Refreshes after 30 seconds Please be patient...');
+        setResponseText('Refreshes after 30 seconds. Please be patient...');
       }
     }
-  }, [message, noNewMessagesCount]);
+  }
+}, [message, noNewMessagesCount]);
 
-  console.log(message);
+console.log(message);
 
 
   React.useEffect(() => {
