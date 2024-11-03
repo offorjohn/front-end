@@ -170,7 +170,31 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
   };
   
 
+// State for controlling the visibility of the modal with specific messages
+const [, setMessageTimer] = useState(null);
  // Early return to render the modal with the appropriate message
+
+// Effect to handle the modal timing
+// eslint-disable-next-line consistent-return
+useEffect(() => {
+  if (isModalOpen && 
+      (storedResponseText.includes("Service not available for this number") || 
+      storedResponseText.includes("Insufficient balance"))) {
+    
+    // Start a 5-second timer
+    const timerId = setTimeout(() => {
+      setIsModalOpen(false); // Close the modal after 5 seconds
+      onClose(); // Optionally call the onClose prop
+    }, 5000);
+
+    setMessageTimer(timerId); // Save timer ID for cleanup
+
+    // Cleanup function to clear the timer
+    return () => clearTimeout(timerId);
+  }
+}, [isModalOpen, storedResponseText, onClose]);
+
+// Early return to render the modal with the appropriate message
 if (!storedResponseText || storedResponseText.includes("Service not available for this number") || storedResponseText.includes("Insufficient balance")) {
   return (
     <Dialog open={isModalOpen} onClose={handleClose}>
@@ -181,7 +205,7 @@ if (!storedResponseText || storedResponseText.includes("Service not available fo
         {storedResponseText.includes("Insufficient balance") && (
           <>Insufficient Balance</>
         )}
-        {/* Empty content or other UI elements can go here */}
+        {/* Other UI elements can go here */}
       </DialogContent>
     </Dialog>
   );
