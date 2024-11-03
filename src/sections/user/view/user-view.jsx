@@ -1868,9 +1868,16 @@ export default function CustomizedTables() {
       setModalType('yellow');
       setShowModal(true); // Show error modal
     } finally {
+      setLoading(true);
+      // Simulate a network request or some async operation
+      setTimeout(() => {
+        setLoading(false);
+        // Here you can handle the buy logic after the loading is done
+      }, 5000); // 5 seconds
+    };
       // Close modal after processing (optional)
       handleClose();
-    }
+    
   };
 
 
