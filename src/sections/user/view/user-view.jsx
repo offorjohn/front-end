@@ -51,9 +51,11 @@ export default function CustomizedTables() {
   const [selectedName, setSelectedName] = React.useState('');
   const [serv, setServ] = useState(null);  // To store the single service object
   const [maxWidth, setMaxWidth] = useState('sm');
+
   const [subtitleText, setSubtitleText] = useState('');
   const [title, setTitle] = useState('PREVIOUS SMS Verifications')
   const [responseData, setResponseData] = useState(null);
+
   const [cancelModal, setCancelM] = useState('Request FulFilled. ✔')
 
   const [message, setMessage] = React.useState(''); // State for message content
@@ -1664,11 +1666,23 @@ export default function CustomizedTables() {
     setMaxWidth(event.target.value);
   };
 
-  const handleChanges = (event) => {
+  const handleChanges = async (event) => {
     const {
       target: { value },
     } = event;
+
     setSelectedService(value);
+
+    try {
+      // Simulate a network request (replace with actual fetching logic if needed)
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate delay
+      // Here, you could make another API call to fetch details based on selected service
+      // const response = await axios.get(`/api/service/${value}`);
+    } catch (error) {
+      console.error('Error loading service:', error);
+    } finally {
+      setLoading(false); // Stop loading after the fetch
+    }
   };
 
 
@@ -1691,6 +1705,7 @@ export default function CustomizedTables() {
     const fetchNames = async () => {
 
       const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+
       try {
         const optionsCountries = {
           method: 'GET',
@@ -1706,10 +1721,13 @@ export default function CustomizedTables() {
           method: 'GET',
           url: 'https://otpninja.com/api/v1/listservices?type=otp',  // Example service endpoint
 
+
           headers: {
             'X-OTPNINJA-TOKEN': token // If required, use token in custom header
           },
         };
+        setLoading(true); // Start loading
+
 
         // Fetch countries and services in parallel
         const [responseCountries, responseServices] = await Promise.all([
@@ -1723,11 +1741,17 @@ export default function CustomizedTables() {
 
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        // Ensure loading state is true for at least 5 seconds
+        setTimeout(() => {
+          setLoading(false); // Stop loading after 5 seconds
+        }, 5000);
       }
     };
-
     fetchNames();
   }, []);
+
+
 
   const handleBuy = async () => {
     try {
@@ -1767,6 +1791,9 @@ export default function CustomizedTables() {
           mode: 'live'
         }
       };
+
+      // Start loading
+      setLoading(true);
 
       // Make the API request
       const response = await axios.request(options);
@@ -2297,7 +2324,7 @@ export default function CustomizedTables() {
                   </FormControl>
                 </Box>
 
-                {/* Price Section */}
+                {/* service Section */}
                 <Box sx={{ width: '250px', maxWidth: '100%' }}>
                   <DialogContentText>✉ Select Services</DialogContentText>
 
@@ -2309,42 +2336,55 @@ export default function CustomizedTables() {
                     }}
                   >
                     <InputLabel id="service-label">Service Name</InputLabel>
-                    <Select
-                      labelId="service-label"  // Ensure this matches the InputLabel's id
-                      id="service-select"  // Unique id for the Select component
-                      value={selectedService}  // Use the selectedService state variable here
-                      onChange={handleChanges}  // Handler to update the selected service
-                      label="Service Name"  // Correct label prop
-                      fullWidth
-
-                      MenuProps={{
-                        PaperProps: {
-                          style: { // Adjust this if needed
-                            width: 400,     // Set the desired width for the dropdown menu
+                    <Box sx={{ position: 'relative', width: '100%' }}>
+                      <Select
+                        labelId="service-label"
+                        id="service-select"
+                        value={selectedService}
+                        onChange={handleChanges}
+                        label="Service Name"
+                        fullWidth
+                        MenuProps={{
+                          PaperProps: {
+                            style: {
+                              width: 400, // Set the desired width for the dropdown menu
+                            },
                           },
-                        },
-                      }}
-                    >
-                      <MenuItem value="">
-                        <em style={{ fontSize: '18px' }}>Services</em>
-                      </MenuItem>
-                      {services.map((service) => (
-                        <MenuItem key={service.code} value={service.code} style={{ fontSize: '18px', margin: '10px 0' }}>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <img
-                              src={getServiceLogoUrl(service.code)}
-                              alt={`Logo of ${service.name}`}
-                              style={{ width: 24, height: 24, marginRight: 8 }}
-                            />
-                            {service.name}
-                          </div>
+                        }}
+                      >
+                        <MenuItem value="">
+                          <em style={{ fontSize: '18px' }}>Services</em>
                         </MenuItem>
-                      ))}
-                    </Select>
+                        {services.map((service) => (
+                          <MenuItem key={service.code} value={service.code} style={{ fontSize: '18px', margin: '10px 0' }}>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                              <img
+                                src={getServiceLogoUrl(service.code)} // Ensure this function exists
+                                alt={`Logo of ${service.name}`}
+                                style={{ width: 24, height: 24, marginRight: 8 }}
+                              />
+                              {service.name}
+                            </div>
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      {loading && (
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            zIndex: 1, // Ensure it appears on top
+                          }}
+                        >
+                          <CircularProgress size={24} />
+                        </Box>
+                      )}
+                    </Box>
                   </FormControl>
-
-
                 </Box>
+
 
                 <Box sx={{ width: '250px', maxWidth: '100%' }}>
                   <DialogContentText>Prices</DialogContentText>
