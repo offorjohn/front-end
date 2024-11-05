@@ -1807,6 +1807,7 @@ export default function CustomizedTables() {
         // Handle undefined number scenario
         setResponseText("Service not available for this number.");
         setShowModal(true);
+        handleClose(); // Call the handleClose function
 
         setTimeout(() => {
           setResponseText("Service not available for this number.");
@@ -1816,7 +1817,7 @@ export default function CustomizedTables() {
         // Handle insufficient balance scenario
         setResponseText("Insufficient balance.");
         setShowModal(true);
-
+        handleClose(); // Call the handleClose function
         setTimeout(() => {
           setResponseText("Insufficient balance.");
         }, 108000); // 3 hours
@@ -2072,10 +2073,9 @@ export default function CustomizedTables() {
 React.useEffect(() => {
   if (message) {
     // Check if the message indicates insufficient funds or service not available
-    if (message.includes("Insufficient balance")) {
-      setResponseText("Insufficient Balance");
-    } else if (message.includes("Service not available for this number")) {
-      setResponseText("Service Not Available For This Number");
+    if (message.includes("Insufficient balance") || message.includes("Service not available for this number")) {
+  
+      handleClose(); // Call the handleClose function
     } else {
       // Existing logic for setting OTP message based on new message count
       // eslint-disable-next-line no-lonely-if
@@ -2089,6 +2089,7 @@ React.useEffect(() => {
 }, [message, noNewMessagesCount]);
 
 console.log(message);
+
 
 
   React.useEffect(() => {

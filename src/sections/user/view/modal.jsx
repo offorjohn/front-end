@@ -184,7 +184,7 @@ useEffect(() => {
     // Start a 5-second timer
     const timerId = setTimeout(() => {
       setIsModalOpen(false); // Close the modal after 5 seconds
-      onClose(); // Optionally call the onClose prop
+  
     }, 5000);
 
     setMessageTimer(timerId); // Save timer ID for cleanup
