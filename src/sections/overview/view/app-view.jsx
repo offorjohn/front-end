@@ -1,6 +1,10 @@
 /* eslint-disable no-shadow */
 import axios from 'axios';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'react-toastify/dist/ReactToastify.css';
 import React, { useState, useEffect } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { toast, ToastContainer } from 'react-toastify';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -14,9 +18,9 @@ export default function AppView() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
   const [username, setUsername] = useState(''); // State for username
   const [balance, setBalance] = useState(0); // State for balance
+
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
@@ -24,89 +28,79 @@ export default function AppView() {
     if (!token) {
       setError('User is not authenticated.');
       setLoading(false);
-      window.location.href = '../../login'; // Redirect to login page
+      window.location.href = '../../home'; // Redirect to home page
       return;
     }
-
-    if (!token) {
-      setError('User is not authenticated.');
-      setLoading(false);
-      return;
-    }
-    
 
     const fetchData = async () => {
-      const options = {
-        method: 'GET',
-        url: 'https://otpninja.com/api/v1/getprofile',
-        headers: {
-          'X-OTPNINJA-TOKEN': token, // If required, use token in custom header
-        },
-      };
-
       try {
-        const response = await axios.request(options);
-        setUsername(response.data.data[0]?.username || ''); // Extract username
-      } catch (error) {
-        console.log(options)
-        console.error('Error fetching profile:', error);
-        setError('Failed to fetch profile.');
-      }
+        // Fetch profile data
+        const profileResponse = await axios.get('https://otpninja.com/api/v1/getprofile', {
+          headers: { 'X-OTPNINJA-TOKEN': token },
+        });
 
-      // Fetch total numbers from the /listnumbers endpoints
-      try {
-        const mdnResponse = await axios.get('https://otpninja.com/api/v1/listnumbers?type=mdn', {
-          headers: {
-            'X-OTPNINJA-TOKEN': token,
+        // Set username from profile data
+        setUsername(profileResponse.data.data[0]?.username || '');
+
+        // Show success toast once the user is authenticated and the data is fetched
+        toast.success(`Welcome back ${profileResponse.data.data[0]?.username || 'User'}!`, {
+          position: "top-right",
+          autoClose: 7000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            backgroundColor: 'green', // Set background color to green
+            color: 'white', // Set text color to white (to ensure contrast)
+            fontWeight: 'bold', // Optional: make text bold for better visibility
           },
+        });
+
+        // Fetch total numbers
+        const mdnResponse = await axios.get('https://otpninja.com/api/v1/listnumbers?type=mdn', {
+          headers: { 'X-OTPNINJA-TOKEN': token },
         });
         const otpResponse = await axios.get('https://otpninja.com/api/v1/listnumbers?type=otp', {
-          headers: {
-            'X-OTPNINJA-TOKEN': token,
-          },
+          headers: { 'X-OTPNINJA-TOKEN': token },
         });
 
-        // Extract unique numbers from the data array using Set
         const uniqueMDNNumbers = [...new Set(mdnResponse.data.data.map(item => item.number))];
         const uniqueOTPNumbers = [...new Set(otpResponse.data.data.map(item => item.number))];
 
-        // Get the count of unique numbers
         const totalMDN = uniqueMDNNumbers.length;
         const totalOTP = uniqueOTPNumbers.length;
 
-        // Update data with total counts
         setData([
           { title: 'Total Rentals Numbers', total: totalMDN, color: 'primary', icon: 'ic_globe' },
           { title: 'Total Verification Numbers', total: totalOTP, color: 'secondary', icon: 'ic_flag' },
         ]);
-      } catch (error) {
-        console.error('Error fetching total numbers:', error);
-        setError('Failed to fetch total numbers.');
-      }
 
-      // Fetch balance from /getbalance endpoint
-      try {
+        // Fetch balance data
         const balanceResponse = await axios.get('https://otpninja.com/api/v1/getbalance', {
-          headers: {
-            'X-OTPNINJA-TOKEN': token,
-          },
+          headers: { 'X-OTPNINJA-TOKEN': token },
         });
-
         setBalance(balanceResponse.data.balance); // Assuming the API returns a `balance` field
-      } catch (error) {
-        console.error('Error fetching balance:', error);
-        setError('Failed to fetch balance.');
+
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError('Failed to fetch data.');
       } finally {
-        setLoading(false); // Ensure loading is set to false after fetch
+        setLoading(false); // Set loading to false after all requests are done
       }
     };
 
-    // Call the fetch function once when the component mounts
     fetchData();
-  }, []); // Empty dependency array ensures it runs only once on mount
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
 
   if (loading) {
-    return <Typography>Loading...</Typography>;
+    return (
+      <div>
+        <Typography>Loading...</Typography>
+        <ToastContainer /> {/* Add ToastContainer here to display notifications */}
+      </div>
+    );
   }
 
   if (error) {
@@ -116,7 +110,7 @@ export default function AppView() {
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        {username ? `Hi, Welcome back ${username} 👋` : 'Hi, Welcome back 👋'} {/* Display username if available */}
+        {username ? `Hi, Welcome back ${username} 👋` : 'Hi, Welcome back 👋'}
       </Typography>
 
       <Grid container spacing={4} justifyContent="center">
@@ -130,15 +124,15 @@ export default function AppView() {
               <div
                 style={{
                   backgroundColor: 'hsl(201, 95%, 60%)',
-                  padding: '8px', // Add padding for spacing
-                  borderRadius: '50%', // Make it circular
-                  display: 'inline-block', // Ensure it's inline
+                  padding: '8px',
+                  borderRadius: '50%',
+                  display: 'inline-block',
                 }}
               >
                 <img
                   src="/assets/icons/navbar/ic_walllet.svg"
                   alt="wallet icon"
-                  style={{ width: 24, height: 24, display: 'block' }} // Display block to center it
+                  style={{ width: 24, height: 24, display: 'block' }}
                 />
               </div>
             }
@@ -156,20 +150,19 @@ export default function AppView() {
                   <div
                     style={{
                       backgroundColor: 'hsl(201, 95%, 60%)',
-                      padding: '8px', // Add padding for spacing
-                      borderRadius: '50%', // Make it circular
-                      display: 'inline-block', // Ensure it's inline
+                      padding: '8px',
+                      borderRadius: '50%',
+                      display: 'inline-block',
                     }}
                   >
-                    {/* Dynamically set the icon based on the `item.icon` value */}
                     <img
                       src={
                         item.icon
                           ? `/assets/icons/navbar/${item.icon}.svg`
-                          : '/assets/icons/navbar/ic_default.svg' // Fallback icon
+                          : '/assets/icons/navbar/ic_default.svg'
                       }
                       alt={item.icon ? `${item.icon} icon` : 'default icon'}
-                      style={{ width: 24, height: 24, display: 'block' }} // Display block to center it
+                      style={{ width: 24, height: 24, display: 'block' }}
                     />
                   </div>
                 }
@@ -177,6 +170,8 @@ export default function AppView() {
             </Grid>
           ))}
       </Grid>
+
+      <ToastContainer /> {/* Ensure ToastContainer is in the render method */}
     </Container>
   );
 }

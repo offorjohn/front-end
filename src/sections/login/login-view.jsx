@@ -50,8 +50,6 @@ export default function LoginView() {
 
       const response = await axios.request(options);
 
-      console.log(response.data);
-
       setData(response.data);
       localStorage.setItem('loginResponse', JSON.stringify(response.data));
       localStorage.setItem('email', email);
@@ -61,6 +59,7 @@ export default function LoginView() {
         router.push('/');
       } else {
         setError('Login failed. Please check your credentials.');
+        
       }
       // eslint-disable-next-line no-shadow
     } catch (error) {

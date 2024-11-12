@@ -13,8 +13,11 @@ const BlogPage = lazy(() => import('src/pages/blog'));
 const UserPage = lazy(() => import('src/pages/user'));
 const LoginPage = lazy(() => import('src/pages/login'));
 const ProductsPage = lazy(() => import('src/pages/products'));
-const OrderPage =  lazy(() => import('src/pages/order'))
-const DedicatedPage =  lazy(() => import('src/pages/dedicated'))
+const OrderPage =  lazy(() => import('src/pages/order'));
+const DedicatedPage =  lazy(() => import('src/pages/dedicated'));
+
+const HomePage = lazy(() => import('src/pages/home')); // Lazy load HomePage
+
 
 
 // ----------------------------------------------------------------------
@@ -39,6 +42,10 @@ export default function Router() {
    
       ],
     },
+    {
+      path: 'home',
+      element: <HomePage />, // Route for the homepage
+    }, 
     {
       path: 'login',
       element: <LoginPage />,

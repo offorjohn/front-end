@@ -19,6 +19,8 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: 'eva:home-fill',
+
+    route: '../../home', // Set the route for the Home option
   },
   {
     label: 'Profile',
@@ -54,6 +56,12 @@ export default function AccountPopover() {
 
     // Redirect to login page
     navigate('/login');
+  };
+
+  const handleMenuClick = (route) => {
+    // Navigate to the clicked menu option's route
+    navigate(route);
+    handleClose(); // Close the popover after clicking
   };
 
   return (
@@ -104,8 +112,9 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
+       
         {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
+          <MenuItem key={option.label} onClick={() => handleMenuClick(option.route)}>
             {option.label}
           </MenuItem>
         ))}
