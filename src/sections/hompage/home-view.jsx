@@ -81,18 +81,7 @@ export default function HomeView() {
                         zIndex: 999, // Ensure the menu appears on top of other elements
                     }}
                 >
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            color: 'text.primary',
-                            fontWeight: 600,
-                            marginBottom: 1,
-                            textAlign: 'center',
-                            fontSize: '1.1rem',
-                        }}
-                    >
-                        Menu
-                    </Typography>
+                   
 
                     {/* Menu Items */}
                     <Box
