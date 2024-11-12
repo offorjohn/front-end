@@ -8,6 +8,7 @@ import { useTheme } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 // eslint-disable-next-line import/no-unresolved
 import { bgGradient } from 'src/theme/css';
@@ -81,7 +82,7 @@ export default function HomeView() {
                         zIndex: 999, // Ensure the menu appears on top of other elements
                     }}
                 >
-                   
+
 
                     {/* Menu Items */}
                     <Box
@@ -159,7 +160,7 @@ export default function HomeView() {
             />
 
             {/* Main content */}
-            <Stack alignItems="center" justifyContent="center" sx={{ height: 'auto', px: 3, pt: 17 }}>
+            <Stack alignItems="center" justifyContent="center" sx={{ height: 'auto', px: 5, pt: 8 }}>
                 <Typography variant="h2" sx={{ color: 'text.primary', mb: 3, fontWeight: 'bold' }}>
                     Welcome to OTP NINJA
                 </Typography>
@@ -175,7 +176,7 @@ export default function HomeView() {
                     }}
                 />
 
-                <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                <Typography variant="body1" sx={{ px: 2, color: 'text.secondary' }}>
                     Your one-stop solution for OTP generation and management.
                 </Typography>
                 {/* Call to Action Buttons for Login and Register */}
@@ -202,8 +203,8 @@ export default function HomeView() {
                         variant="outlined"
                         color="primary"
                         size="large"
-                            // eslint-disable-next-line no-return-assign
-                            onClick={() => window.location.href = 'https://otpninja.com/register'} // Redirect to external URL
+                        // eslint-disable-next-line no-return-assign
+                        onClick={() => window.location.href = 'https://otpninja.com/register'} // Redirect to external URL
                         sx={{
                             padding: '10px 20px',
                             fontWeight: 600,
@@ -219,13 +220,101 @@ export default function HomeView() {
                     </Button>
                 </Stack>
 
-
-                <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                        Explore our features:
+                <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{
+                        mt: 4,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        position: 'relative',
+                        px: 3,
+                        height: 'auto', // Ensure the Stack takes the full height of the content
+                    }}
+                >
+                    {/* Text Content with Background Color */}
+                    <Typography
+                        variant="body1"
+                        sx={{
+                            px: 2, // Padding for text inside the box
+                            py: 1, // Vertical padding for the background box
+                            backgroundColor: 'primary.main', // Background color like the button's primary color
+                            color: 'white', // Text color to contrast the background
+                            fontWeight: 'bold',
+                            borderRadius: 2, // Rounded corners for the background
+                            zIndex: 1, // Text should stay on top of the background
+                        }}
+                    >
+                        Explore our features
                     </Typography>
                 </Stack>
+                
+     
+
+{/* ButtonGroup with Buttons */}
+<Stack
+    direction="row"
+    spacing={2}
+    sx={{
+        mt: 4,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+        px: 3,
+        height: 'auto',
+    }}
+>
+    <ButtonGroup
+        variant="contained"
+        aria-label="Basic button group"
+        sx={{
+            display: 'flex',
+            flexDirection: 'row',  // Ensure buttons are horizontally aligned
+            gap: 2,  // Add space between buttons
+        }}
+    >
+        <Button
+            sx={{
+                fontWeight: 600,
+                transition: 'background-color 0.3s, transform 0.3s',
+                '&:hover': {
+                    backgroundColor: theme.palette.primary.light,
+                    transform: 'scale(1.05)',
+                },
+            }}
+        >
+            One
+        </Button>
+        <Button
+            sx={{
+                fontWeight: 600,
+                transition: 'background-color 0.3s, transform 0.3s',
+                '&:hover': {
+                    backgroundColor: theme.palette.primary.light,
+                    transform: 'scale(1.05)',
+                },
+            }}
+        >
+            Two
+        </Button>
+        <Button
+            sx={{
+                fontWeight: 600,
+                transition: 'background-color 0.3s, transform 0.3s',
+                '&:hover': {
+                    backgroundColor: theme.palette.primary.light,
+                    transform: 'scale(1.05)',
+                },
+            }}
+        >
+            Three
+        </Button>
+    </ButtonGroup>
+</Stack>
+
+
             </Stack>
+
 
             {/* Include the Telegram Icon at the bottom */}
             <TelegramIcon />
