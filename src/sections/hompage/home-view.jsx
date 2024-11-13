@@ -1,14 +1,17 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook from React Router
 
+import { keyframes } from '@emotion/react';
+
 import Box from '@mui/material/Box';
-import { Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
+import { Grid, Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import ButtonGroup from '@mui/material/ButtonGroup'; // Import keyframes for custom animations
 
 // eslint-disable-next-line import/no-unresolved
 import { bgGradient } from 'src/theme/css';
@@ -32,6 +35,12 @@ export default function HomeView() {
         setIsMenuOpen(!isMenuOpen);
     };
 
+
+    // Define the animation for the button group
+    const moveLeftToRight = keyframes`
+0% { transform: translateX(-100%); }
+100% { transform: translateX(0); }
+`;
     // Function to navigate to the Register or Login page
     const handleMenuClick = (page) => {
         if (page === 'login') {
@@ -248,72 +257,146 @@ export default function HomeView() {
                         Explore our features
                     </Typography>
                 </Stack>
-                
-     
-
-{/* ButtonGroup with Buttons */}
-<Stack
-    direction="row"
-    spacing={2}
-    sx={{
-        mt: 4,
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'relative',
-        px: 3,
-        height: 'auto',
-    }}
->
-    <ButtonGroup
-        variant="contained"
-        aria-label="Basic button group"
-        sx={{
-            display: 'flex',
-            flexDirection: 'row',  // Ensure buttons are horizontally aligned
-            gap: 2,  // Add space between buttons
-        }}
-    >
-        <Button
-            sx={{
-                fontWeight: 600,
-                transition: 'background-color 0.3s, transform 0.3s',
-                '&:hover': {
-                    backgroundColor: theme.palette.primary.light,
-                    transform: 'scale(1.05)',
-                },
-            }}
-        >
-            One
-        </Button>
-        <Button
-            sx={{
-                fontWeight: 600,
-                transition: 'background-color 0.3s, transform 0.3s',
-                '&:hover': {
-                    backgroundColor: theme.palette.primary.light,
-                    transform: 'scale(1.05)',
-                },
-            }}
-        >
-            Two
-        </Button>
-        <Button
-            sx={{
-                fontWeight: 600,
-                transition: 'background-color 0.3s, transform 0.3s',
-                '&:hover': {
-                    backgroundColor: theme.palette.primary.light,
-                    transform: 'scale(1.05)',
-                },
-            }}
-        >
-            Three
-        </Button>
-    </ButtonGroup>
-</Stack>
 
 
+
+
+                <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{
+                        mt: 9,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        position: 'relative',
+                        px: 3,
+                        width: '134%',
+                    }}
+                >
+                    <ButtonGroup
+                        variant="contained"
+                        aria-label="Basic button group"
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            gap: 2,
+                            justifyContent: 'space-evenly',
+                            maxWidth: '1200px',
+                            width: '100%',
+                            animation: `${moveLeftToRight} 2s ease-out`,
+                        }}
+                    >
+                        <Grid
+                            container
+                            spacing={4}
+                            sx={{
+                                width: '120%',
+                                justifyContent: 'center',
+                                flexDirection: {
+                                    xs: 'row',  // Side by side on mobile
+                                    sm: 'row',  // Side by side on small screens
+                                    md: 'row',  // Ensure row on medium screens and larger
+                                },
+                            }}
+                        >
+                            {/* Image 1 */}
+                            <Grid item xs={4} sm={6} md={4}>
+                                <Box
+                                    sx={{
+                                        maxWidth: 200,  // Default size for larger screens
+                                        width: '130%',  // Ensure it takes up full width of the container
+                                        height: 'auto',
+                                        transition: 'transform 0.3s, opacity 0.3s',
+                                        '&:hover': {
+                                            transform: 'scale(1.05)',  // Normal hover effect
+                                            opacity: 0.9,
+                                        },
+                                        // Mobile-specific styles
+                                        '@media (max-width: 600px)': {
+                                            maxWidth: '300px',  // Make the image larger on mobile
+                                        },
+                                    }}
+                                >
+                                    <img
+                                        src="/assets/background/Vector.png"
+                                        alt="Custom Logo"
+                                        style={{
+                                            width: '100%',
+                                            borderRadius: '8px',
+                                        }}
+                                    />
+                                </Box>
+                            </Grid>
+
+                            {/* Image 2 */}
+                            <Grid item xs={4} sm={6} md={4}>
+                                <Box
+                                    sx={{
+                                        maxWidth: 200,  // Default size for larger screens
+                                        width: '130%',  // Ensure it takes up full width of the container
+                                        height: 'auto',
+                                        transition: 'transform 0.3s, opacity 0.3s',
+                                        '&:hover': {
+                                            transform: 'scale(1.05)',  // Normal hover effect
+                                            opacity: 0.9,
+                                        },
+                                        // Mobile-specific styles
+                                        '@media (max-width: 600px)': {
+                                            maxWidth: '300px',  // Make the image larger on mobile
+                                        },
+                                    }}
+                                >
+                                    <img
+                                        src="/assets/background/jon.JPG"
+                                        alt="Custom Logo"
+                                        style={{
+                                            width: '100%',
+                                            borderRadius: '8px',
+                                        }}
+                                    />
+                                </Box>
+                            </Grid>
+
+                            {/* Image 3 */}
+                            <Grid item xs={4} sm={6} md={4}>
+                                <Box
+                                    sx={{
+                                        maxWidth: 200,  // Default size for larger screens
+                                        width: '130%',  // Ensure it takes up full width of the container
+                                        height: 'auto',
+                                        transition: 'transform 0.3s, opacity 0.3s',
+                                        '&:hover': {
+                                            transform: 'scale(1.05)',  // Normal hover effect
+                                            opacity: 0.9,
+                                        },
+                                        // Mobile-specific styles
+                                        '@media (max-width: 600px)': {
+                                            maxWidth: '300px',  // Make the image larger on mobile
+                                        },
+                                    }}
+                                >
+                                    <img
+                                        src="/assets/background/jon.JPG"
+                                        alt="Custom Logo"
+                                        style={{
+                                            width: '100%',
+                                            borderRadius: '8px',
+                                        }}
+                                    />
+                                </Box>
+                            </Grid>
+
+                            
+                        </Grid>
+
+                        
+
+                    </ButtonGroup>
+                </Stack>
             </Stack>
+
+
+
 
 
             {/* Include the Telegram Icon at the bottom */}
