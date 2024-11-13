@@ -263,15 +263,17 @@ export default function HomeView() {
 
                 <Stack
                     direction="row"
-                    spacing={2}
+                    spacing={4}
                     sx={{
                         mt: 9,
                         justifyContent: 'center',
                         alignItems: 'center',
                         position: 'relative',
                         px: 5,
-
                         width: '134%',
+                        backgroundColor: 'transparent',  // Transparent background
+                        backdropFilter: 'none', // Ensure no blur effect or glass effect
+                        boxShadow: 'none', // Remove any shadows or unwanted visual effects
                     }}
                 >
                     <ButtonGroup
@@ -280,18 +282,20 @@ export default function HomeView() {
                         sx={{
                             display: 'flex',
                             flexDirection: 'row',
-                            gap: 2,
+                            gap: 4,
                             justifyContent: 'space-evenly',
                             maxWidth: '800px',
                             width: '100%',
                             animation: `${moveLeftToRight} 2s ease-out`,
+                            backgroundColor: 'transparent',  // Ensure no background color
+                            backdropFilter: 'none', // Remove any potential backdrop filters
+                            boxShadow: 'none', // Remove any shadows
                         }}
                     >
                         <Grid
                             container
                             spacing={4}
                             sx={{
-
                                 width: '120%',
                                 justifyContent: 'center',
                                 flexDirection: {
@@ -299,34 +303,52 @@ export default function HomeView() {
                                     sm: 'row',  // Side by side on small screens
                                     md: 'row',  // Ensure row on medium screens and larger
                                 },
+                                backgroundColor: 'transparent',  // No background color
+                                backdropFilter: 'none',  // Remove blur effects
+                                boxShadow: 'none', // Ensure no shadows are applied
                             }}
                         >
                             {/* Image 1 */}
                             <Grid item xs={4} sm={6} md={4}>
                                 <Box
                                     sx={{
-                                        maxWidth: 200,  // Default size for larger screens
-                                        width: '130%',  // Ensure it takes up full width of the container
+                                        maxWidth: 200,
+                                        width: '130%',
                                         height: 'auto',
                                         transition: 'transform 0.3s, opacity 0.3s',
                                         '&:hover': {
-                                            transform: 'scale(1.05)',  // Normal hover effect
+                                            transform: 'scale(1.05)',
                                             opacity: 0.9,
                                         },
-                                        // Mobile-specific styles
                                         '@media (max-width: 600px)': {
-                                            maxWidth: '300px',  // Make the image larger on mobile
+                                            maxWidth: '500px',  // Larger image on mobile
                                         },
+                                        backgroundColor: 'transparent',  // Ensure no background color here
+                                        backdropFilter: 'none',  // Remove glass effect or blur
                                     }}
                                 >
                                     <img
-                                        src="/assets/background/Vector.png"
+                                        src="/assets/background/tele.jpg"
                                         alt="Custom Logo"
                                         style={{
-                                            width: '100%',
+                                            width: '130%',
                                             borderRadius: '8px',
                                         }}
                                     />
+                                    {/* Text container */}
+                                    <Box
+                                        sx={{
+                                            display: {
+                                                xs: 'none',
+                                                sm: 'block',
+                                            },
+                                            color: 'grey',
+                                            mt: 2,
+                                            fontWeight: 'bold',
+                                        }}
+                                    >
+                                        Your one-time verification code is <span style={{ color: 'black' }}>456-123</span>
+                                    </Box>
                                 </Box>
                             </Grid>
 
@@ -334,22 +356,23 @@ export default function HomeView() {
                             <Grid item xs={4} sm={6} md={4}>
                                 <Box
                                     sx={{
-                                        maxWidth: 200,  // Default size for larger screens
-                                        width: '130%',  // Ensure it takes up full width of the container
+                                        maxWidth: 200,
+                                        width: '130%',
                                         height: 'auto',
                                         transition: 'transform 0.3s, opacity 0.3s',
                                         '&:hover': {
-                                            transform: 'scale(1.05)',  // Normal hover effect
+                                            transform: 'scale(1.05)',
                                             opacity: 0.9,
                                         },
-                                        // Mobile-specific styles
                                         '@media (max-width: 600px)': {
-                                            maxWidth: '300px',  // Make the image larger on mobile
+                                            maxWidth: '300px',  // Larger image on mobile
                                         },
+                                        backgroundColor: 'transparent',  // No background color
+                                        backdropFilter: 'none',  // Remove blur effect
                                     }}
                                 >
                                     <img
-                                        src="/assets/background/jon.JPG"
+                                        src="/assets/background/cc.jpg"
                                         alt="Custom Logo"
                                         style={{
                                             width: '100%',
@@ -363,22 +386,23 @@ export default function HomeView() {
                             <Grid item xs={4} sm={6} md={4}>
                                 <Box
                                     sx={{
-                                        maxWidth: 200,  // Default size for larger screens
-                                        width: '130%',  // Ensure it takes up full width of the container
+                                        maxWidth: 200,
+                                        width: '130%',
                                         height: 'auto',
                                         transition: 'transform 0.3s, opacity 0.3s',
                                         '&:hover': {
-                                            transform: 'scale(1.05)',  // Normal hover effect
+                                            transform: 'scale(1.05)',
                                             opacity: 0.9,
                                         },
-                                        // Mobile-specific styles
                                         '@media (max-width: 600px)': {
-                                            maxWidth: '300px',  // Make the image larger on mobile
+                                            maxWidth: '300px',  // Larger image on mobile
                                         },
+                                        backgroundColor: 'transparent',  // No background color
+                                        backdropFilter: 'none',  // Remove blur effect
                                     }}
                                 >
                                     <img
-                                        src="/assets/background/jon.JPG"
+                                        src="/assets/background/pree.jpg"
                                         alt="Custom Logo"
                                         style={{
                                             width: '100%',
@@ -387,14 +411,10 @@ export default function HomeView() {
                                     />
                                 </Box>
                             </Grid>
-
-
                         </Grid>
-
-
-
                     </ButtonGroup>
                 </Stack>
+
             </Stack>
 
 
