@@ -269,7 +269,8 @@ export default function HomeView() {
                         justifyContent: 'center',
                         alignItems: 'center',
                         position: 'relative',
-                        px: 3,
+                        px: 5,
+
                         width: '134%',
                     }}
                 >
@@ -281,7 +282,7 @@ export default function HomeView() {
                             flexDirection: 'row',
                             gap: 2,
                             justifyContent: 'space-evenly',
-                            maxWidth: '1200px',
+                            maxWidth: '800px',
                             width: '100%',
                             animation: `${moveLeftToRight} 2s ease-out`,
                         }}
@@ -290,6 +291,7 @@ export default function HomeView() {
                             container
                             spacing={4}
                             sx={{
+
                                 width: '120%',
                                 justifyContent: 'center',
                                 flexDirection: {
@@ -386,10 +388,10 @@ export default function HomeView() {
                                 </Box>
                             </Grid>
 
-                            
+
                         </Grid>
 
-                        
+
 
                     </ButtonGroup>
                 </Stack>
