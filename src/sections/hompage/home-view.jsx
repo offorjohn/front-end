@@ -7,16 +7,18 @@ import { keyframes } from '@emotion/react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { Grid, Button } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ButtonGroup from '@mui/material/ButtonGroup'; // Import keyframes for custom animations
 
+
+// Assuming you have a Logo component imported c
+
 // eslint-disable-next-line import/no-unresolved
 import { bgGradient } from 'src/theme/css';
 
-// Assuming you have a Logo component imported correctly
 // eslint-disable-next-line import/no-unresolved
 import Logo from 'src/components/logo';
 
@@ -41,6 +43,8 @@ export default function HomeView() {
 0% { transform: translateX(-100%); }
 100% { transform: translateX(0); }
 `;
+
+// eslint-disable-next-line no-shadow
     // Function to navigate to the Register or Login page
     const handleMenuClick = (page) => {
         if (page === 'login') {
@@ -260,17 +264,21 @@ export default function HomeView() {
 
 
 
-
                 <Stack
                     direction="row"
-                    spacing={4}
+                    spacing={2}
                     sx={{
                         mt: 9,
                         justifyContent: 'center',
                         alignItems: 'center',
                         position: 'relative',
                         px: 5,
-                        width: '134%',
+                        width: {
+                            xs: '135%', // 134% width on small screens (xs)
+                            sm: '134%', // Maintain on small screens if needed
+                            md: '100%', // 100% width on medium screens and larger
+                            lg: '100%', // 100% width on large screens
+                        },
                         backgroundColor: 'transparent',  // Transparent background
                         backdropFilter: 'none', // Ensure no blur effect or glass effect
                         boxShadow: 'none', // Remove any shadows or unwanted visual effects
@@ -435,7 +443,32 @@ export default function HomeView() {
                         marginBottom: '20px',
                     }}
                 />
-
+ <Grid container spacing={2} sx={{ mt: 3 }}>
+            {/* Item 1 */}
+            <Grid item xs={12} sm={6} md={6} lg={6}>
+                <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
+                    <Typography>Item 1</Typography>
+                </Box>
+            </Grid>
+            {/* Item 2 */}
+            <Grid item xs={12} sm={6} md={6} lg={6}>
+                <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
+                    <Typography>Item 2</Typography>
+                </Box>
+            </Grid>
+            {/* Item 3 */}
+            <Grid item xs={12} sm={6} md={6} lg={6}>
+                <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
+                    <Typography>Item 3</Typography>
+                </Box>
+            </Grid>
+            {/* Item 4 */}
+            <Grid item xs={12} sm={6} md={6} lg={6}>
+                <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
+                    <Typography>Item 4</Typography>
+                </Box>
+            </Grid>
+        </Grid>
 
 
 
@@ -447,6 +480,7 @@ export default function HomeView() {
 
             {/* Include the Telegram Icon at the bottom */}
             <TelegramIcon />
+
         </Box>
     );
 }
