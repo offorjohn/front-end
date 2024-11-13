@@ -415,6 +415,30 @@ export default function HomeView() {
                     </ButtonGroup>
                 </Stack>
 
+
+                <Typography variant="body1" sx={{ px: 5, pt: 8, color: 'text.secondary' }}>
+                    <span style={{ color: 'rgba(3, 105, 161)', fontWeight: 'bold' }}>
+                        Why OTP Ninja
+                    </span>
+                </Typography>
+
+
+
+
+                {/* Image Logo Below the Text */}
+                <img
+                    src="/assets/background/your-icon.svg"
+                    alt="OTP NINJA Logo"
+                    style={{
+                        maxWidth: '200px',
+                        width: '100%',
+                        marginBottom: '20px',
+                    }}
+                />
+
+
+
+
             </Stack>
 
 
