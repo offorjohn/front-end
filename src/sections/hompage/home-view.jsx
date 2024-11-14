@@ -443,7 +443,7 @@ export default function HomeView() {
                     }}
                 />
 
-                <Grid container spacing={2} sx={{ mt: 3, pl: { xs: 0, sm: 0, md: 38 } }}>
+                <Grid container spacing={2} sx={{ mt: 3, pl: { xs: 0, sm: 0, md: 20 } }}>
 
 
 
@@ -480,7 +480,7 @@ export default function HomeView() {
                                             fontWeight: 'bold',
                                             pl: { xs: 1, sm: 3, md: 3 },
                                             '@media (max-width: 600px)': {  // Targeting mobile
-                                                marginTop: '20px',  // Move the text down a little on mobile if needed
+                                                marginTop: '37px',  // Move the text down a little on mobile if needed
                                             }
                                         }}
                                     >
@@ -615,7 +615,7 @@ export default function HomeView() {
                                             fontWeight: 'bold',
                                             pl: { xs: 1, sm: 3, md: 3 },
                                             '@media (max-width: 600px)': {  // Targeting mobile
-                                                marginTop: '20px',  // Move the text down a little on mobile if needed
+                                                marginTop: '37px',  // Move the text down a little on mobile if needed
                                             }
                                         }}
                                     >
@@ -686,7 +686,7 @@ export default function HomeView() {
                                             fontWeight: 'bold',
                                             pl: { xs: 1, sm: 3, md: 3 },
                                             '@media (max-width: 600px)': {  // Targeting mobile
-                                                marginTop: '20px',  // Move the text down a little on mobile if needed
+                                                marginTop: '37px',  // Move the text down a little on mobile if needed
                                             }
                                         }}
                                     >Dedicated Support
