@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { React, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook from React Router
+import { Link, useNavigate } from 'react-router-dom'; // Import the useNavigate hook from React Router
 
 import { keyframes } from '@emotion/react';
 
@@ -43,6 +43,16 @@ export default function HomeView() {
 0% { transform: translateX(-100%); }
 100% { transform: translateX(0); }
 `;
+
+    const beat = keyframes`
+  0% { transform: scale(1); }
+  25% { transform: scale(1.1); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+`;
+
+
 
     // eslint-disable-next-line no-shadow
     // Function to navigate to the Register or Login page
@@ -723,9 +733,65 @@ export default function HomeView() {
 
                 </Grid>
 
+                <Typography variant="h3" sx={{ color: 'text.primary', mb: 3, fontWeight: 'bold' }}>
+                    Ready to buy a number?
+                </Typography>
+
+                {/* Image Logo Below the Text */}
+                <img
+                    src="/assets/background/your-icon.svg"
+                    alt="OTP NINJA Logo"
+                    style={{
+                        maxWidth: '200px',
+                        width: '100%',
+                        marginBottom: '20px',
+                    }}
+                />
+
+
+                <Typography variant="body1" sx={{ px: 2, color: 'text.secondary', fontWeight: 'bold' }}>
+                    Simplify your verification process with OTPNinja quality numbers.
+                    Get started now for hassle-free account security.
+                </Typography>
+
+                <Typography
+                    variant="body1"
+                    sx={{
+                        px: 2, // Padding for text inside the box
+                        py: 1, // Vertical padding for the background box
+                        backgroundColor: 'primary.main', // Background color like the button's primary color
+                        color: 'white', // Text color to contrast the background
+                        fontWeight: 'bold',
+                        animation: `${beat} 7s ease-in-out infinite`,
+
+                        borderRadius: 2, // Rounded corners for the background
+                        zIndex: 1, // Text should stay on top of the background
+                        marginTop: '16px', // Add margin to move it down a little
+                    }}
+                >
+                    <Link to="https://otpninja.com/register" style={{ textDecoration: 'none', color: 'white' }}>
+                        Get Started Now
+                    </Link>
+                </Typography>
+
+                <Typography
+                    variant="h3"
+                    sx={{
+                        color: 'text.primary',
+                        mb: 3,
+                        fontWeight: 'bold',
+                        mt: { xs: 7, sm: 7, md: 8 },
+                        transform: { xs: 'translateX(30px)', sm: 'none' }, // Move to the left on mobile, no change on larger screens
+                    }}
+                >
+                    What our users say About Us!
+                </Typography>
+
 
 
             </Stack>
+
+
 
 
 
