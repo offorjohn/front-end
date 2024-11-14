@@ -275,7 +275,7 @@ export default function HomeView() {
                         px: 5,
                         width: {
                             xs: '100%', // 134% width on small screens (xs)
-                            sm: '100%', // Maintain on small screens if needed
+                            sm: '116%', // Maintain on small screens if needed
                             md: '100%', // 100% width on medium screens and larger
                             lg: '100%', // 100% width on large screens
                         },
