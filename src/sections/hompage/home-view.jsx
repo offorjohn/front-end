@@ -44,7 +44,7 @@ export default function HomeView() {
 100% { transform: translateX(0); }
 `;
 
-// eslint-disable-next-line no-shadow
+    // eslint-disable-next-line no-shadow
     // Function to navigate to the Register or Login page
     const handleMenuClick = (page) => {
         if (page === 'login') {
@@ -304,7 +304,7 @@ export default function HomeView() {
                             container
                             spacing={4}
                             sx={{
-                                width: '120%',
+                                width: '100%',
                                 justifyContent: 'center',
                                 flexDirection: {
                                     xs: 'row',  // Side by side on mobile
@@ -443,32 +443,32 @@ export default function HomeView() {
                         marginBottom: '20px',
                     }}
                 />
- <Grid container spacing={2} sx={{ mt: 3 }}>
-            {/* Item 1 */}
-            <Grid item xs={12} sm={6} md={6} lg={6}>
-                <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
-                    <Typography>Item 1</Typography>
-                </Box>
-            </Grid>
-            {/* Item 2 */}
-            <Grid item xs={12} sm={6} md={6} lg={6}>
-                <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
-                    <Typography>Item 2</Typography>
-                </Box>
-            </Grid>
-            {/* Item 3 */}
-            <Grid item xs={12} sm={6} md={6} lg={6}>
-                <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
-                    <Typography>Item 3</Typography>
-                </Box>
-            </Grid>
-            {/* Item 4 */}
-            <Grid item xs={12} sm={6} md={6} lg={6}>
-                <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
-                    <Typography>Item 4</Typography>
-                </Box>
-            </Grid>
-        </Grid>
+                <Grid container spacing={2} sx={{ mt: 3 }}>
+                    {/* Item 1 */}
+                    <Grid item xs={12} sm={6} md={6} lg={6}>
+                        <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
+                            <Typography>Item 1</Typography>
+                        </Box>
+                    </Grid>
+                    {/* Item 2 */}
+                    <Grid item xs={12} sm={6} md={6} lg={6}>
+                        <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
+                            <Typography>Item 2</Typography>
+                        </Box>
+                    </Grid>
+                    {/* Item 3 */}
+                    <Grid item xs={12} sm={6} md={6} lg={6}>
+                        <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
+                            <Typography>Item 3</Typography>
+                        </Box>
+                    </Grid>
+                    {/* Item 4 */}
+                    <Grid item xs={12} sm={6} md={6} lg={6}>
+                        <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
+                            <Typography>Item 4</Typography>
+                        </Box>
+                    </Grid>
+                </Grid>
 
 
 
