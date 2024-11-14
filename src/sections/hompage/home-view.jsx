@@ -442,31 +442,285 @@ export default function HomeView() {
                         marginBottom: '20px',
                     }}
                 />
-                <Grid container spacing={2} sx={{ mt: 3 }}>
-                    {/* Item 1 */}
+
+                <Grid container spacing={2} sx={{ mt: 3, pl: { xs: 0, sm: 0, md: 38 } }}>
+
+
+
                     <Grid item xs={12} sm={6} md={6} lg={6}>
-                        <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
-                            <Typography>Item 1</Typography>
+                        <Box
+                            sx={{
+                                p: 2,
+                                borderRadius: 1,
+                                display: 'flex',
+                                alignItems: 'center',
+                                // Move the component up only on mobile screens (max-width: 600px)
+                                '@media (max-width: 600px)': {
+                                    marginTop: '-50px', // Adjust this value as needed for mobile
+                                }
+                            }}
+                        >
+                            {/* Image Logo */}
+                            <img
+                                src="/assets/background/Icon.png"
+                                alt="OTP NINJA Logo"
+                                style={{
+                                    maxWidth: '75px',
+                                    width: '30%',
+                                    marginBottom: '5px',
+                                    marginTop: '-60px',  // You can also tweak this if needed on mobile
+                                }}
+                            />
+
+                            <Grid container direction="column" spacing={2}>
+                                {/* Main content goes here */}
+                                <Grid item>
+                                    <Typography
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            pl: { xs: 1, sm: 3, md: 3 },
+                                            '@media (max-width: 600px)': {  // Targeting mobile
+                                                marginTop: '20px',  // Move the text down a little on mobile if needed
+                                            }
+                                        }}
+                                    >
+                                        Reliable Protection
+                                    </Typography>
+                                </Grid>
+
+                                <Grid item>
+                                    <Box sx={{ p: 2, borderRadius: 1, mt: 1 }}>
+                                        <Typography
+                                            sx={{
+                                                display: 'block',
+                                                '@media (min-width: 1200px)': {
+                                                    width: '70%',
+                                                    whiteSpace: 'normal',
+                                                },
+                                                '@media (max-width: 1199px)': {
+                                                    width: '130%',
+                                                    marginLeft: '-4px',
+
+                                                    marginTop: '-28px', // Adjust this value as needed for mobile
+                                                },
+                                            }}
+                                        >
+                                            Our SMS verification with one-time use non-VoIP phone numbers ensure your online accounts stay safe.
+                                        </Typography>
+                                    </Box>
+                                </Grid>
+                            </Grid>
                         </Box>
                     </Grid>
-                    {/* Item 2 */}
+
+
+
                     <Grid item xs={12} sm={6} md={6} lg={6}>
-                        <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
-                            <Typography>Item 2</Typography>
+                        <Box
+                            sx={{
+                                p: 2,
+                                borderRadius: 1,
+                                display: 'flex',
+                                alignItems: 'center',
+                                // Move the component up only on mobile screens (max-width: 600px)
+                                '@media (max-width: 600px)': {
+                                    marginTop: '-50px', // Adjust this value as needed for mobile
+                                }
+                            }}
+                        >
+                            {/* Image Logo */}
+                            <img
+                                src="/assets/background/Ico.png"
+                                alt="OTP NINJA Logo"
+                                style={{
+                                    maxWidth: '75px',
+                                    width: '30%',
+                                    marginBottom: '5px',
+                                    marginTop: '-60px',  // You can also tweak this if needed on mobile
+                                }}
+                            />
+
+                            <Grid container direction="column" spacing={2}>
+                                {/* Main content goes here */}
+                                <Grid item>
+                                    <Typography
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            pl: { xs: 1, sm: 3, md: 3 },
+                                            '@media (max-width: 600px)': {  // Targeting mobile
+                                                marginTop: '20px',  // Move the text down a little on mobile if needed
+                                            }
+                                        }}
+                                    >Versatile Compatibility
+                                    </Typography>
+                                </Grid>
+
+                                <Grid item>
+                                    <Box sx={{ p: 2, borderRadius: 1, mt: 1 }}>
+                                        <Typography
+                                            sx={{
+                                                display: 'block',
+                                                '@media (min-width: 1200px)': {
+                                                    width: '70%',
+                                                    whiteSpace: 'normal',
+                                                },
+                                                '@media (max-width: 1199px)': {
+                                                    width: '130%',
+                                                    marginLeft: '-4px',
+
+                                                    marginTop: '-28px', // Adjust this value as needed for mobile
+                                                },
+                                            }}
+                                        >
+                                            OTP Ninja adapts to various platforms
+                                            effortlessly, ensuring compatibility and
+                                            ease of use for all users
+                                        </Typography>
+                                    </Box>
+                                </Grid>
+                            </Grid>
                         </Box>
                     </Grid>
-                    {/* Item 3 */}
+
                     <Grid item xs={12} sm={6} md={6} lg={6}>
-                        <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
-                            <Typography>Item 3</Typography>
+                        <Box
+                            sx={{
+                                p: 2,
+                                borderRadius: 1,
+                                display: 'flex',
+                                alignItems: 'center',
+                                // Move the component up only on mobile screens (max-width: 600px)
+                                '@media (max-width: 600px)': {
+                                    marginTop: '-50px', // Adjust this value as needed for mobile
+                                }
+                            }}
+                        >
+                            {/* Image Logo */}
+                            <img
+                                src="/assets/background/Icons.png"
+                                alt="OTP NINJA Logo"
+                                style={{
+                                    maxWidth: '75px',
+                                    width: '30%',
+                                    marginBottom: '5px',
+                                    marginTop: '-60px',  // You can also tweak this if needed on mobile
+                                }}
+                            />
+
+                            <Grid container direction="column" spacing={2}>
+                                {/* Main content goes here */}
+                                <Grid item>
+                                    <Typography
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            pl: { xs: 1, sm: 3, md: 3 },
+                                            '@media (max-width: 600px)': {  // Targeting mobile
+                                                marginTop: '20px',  // Move the text down a little on mobile if needed
+                                            }
+                                        }}
+                                    >
+                                        Lightning-Fast Verification
+                                    </Typography>
+                                </Grid>
+
+                                <Grid item>
+                                    <Box sx={{ p: 2, borderRadius: 1, mt: 1 }}>
+                                        <Typography
+                                            sx={{
+                                                display: 'block',
+                                                '@media (min-width: 1200px)': {
+                                                    width: '70%',
+                                                    whiteSpace: 'normal',
+                                                },
+                                                '@media (max-width: 1199px)': {
+                                                    width: '130%',
+                                                    marginLeft: '-4px',
+
+                                                    marginTop: '-28px', // Adjust this value as needed for mobile
+                                                },
+                                            }}
+                                        >
+                                            OTP Ninja offers rapid SMS service,
+                                            streamlining your verification process
+                                            without sacrificing security.
+                                        </Typography>
+                                    </Box>
+                                </Grid>
+                            </Grid>
                         </Box>
                     </Grid>
-                    {/* Item 4 */}
+
+
+
+
                     <Grid item xs={12} sm={6} md={6} lg={6}>
-                        <Box sx={{ p: 2, border: '1px solid', borderRadius: 1 }}>
-                            <Typography>Item 4</Typography>
+                        <Box
+                            sx={{
+                                p: 2,
+                                borderRadius: 1,
+                                display: 'flex',
+                                alignItems: 'center',
+                                // Move the component up only on mobile screens (max-width: 600px)
+                                '@media (max-width: 600px)': {
+                                    marginTop: '-50px', // Adjust this value as needed for mobile
+                                }
+                            }}
+                        >
+                            {/* Image Logo */}
+                            <img
+                                src="/assets/background/Ic.png"
+                                alt="OTP NINJA Logo"
+                                style={{
+                                    maxWidth: '75px',
+                                    width: '30%',
+                                    marginBottom: '5px',
+                                    marginTop: '-60px',  // You can also tweak this if needed on mobile
+                                }}
+                            />
+
+                            <Grid container direction="column" spacing={2}>
+                                {/* Main content goes here */}
+                                <Grid item>
+                                    <Typography
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            pl: { xs: 1, sm: 3, md: 3 },
+                                            '@media (max-width: 600px)': {  // Targeting mobile
+                                                marginTop: '20px',  // Move the text down a little on mobile if needed
+                                            }
+                                        }}
+                                    >Dedicated Support
+                                    </Typography>
+                                </Grid>
+
+                                <Grid item>
+                                    <Box sx={{ p: 2, borderRadius: 1, mt: 1 }}>
+                                        <Typography
+                                            sx={{
+                                                display: 'block',
+                                                '@media (min-width: 1200px)': {
+                                                    width: '70%',
+                                                    whiteSpace: 'normal',
+                                                },
+                                                '@media (max-width: 1199px)': {
+                                                    width: '130%',
+                                                    marginLeft: '-4px',
+
+                                                    marginTop: '-28px', // Adjust this value as needed for mobile
+                                                },
+                                            }}
+                                        >
+                                            OTP Ninja provides dedicated assistance
+                                            for any questions or concerns, ensuring a
+                                            hassle-free experience.
+                                        </Typography>
+                                    </Box>
+                                </Grid>
+                            </Grid>
                         </Box>
                     </Grid>
+
+
                 </Grid>
 
 
@@ -480,6 +734,6 @@ export default function HomeView() {
             {/* Include the Telegram Icon at the bottom */}
             <TelegramIcon />
 
-        </Box>
+        </Box >
     );
 }
