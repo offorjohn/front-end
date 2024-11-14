@@ -274,8 +274,8 @@ export default function HomeView() {
                         position: 'relative',
                         px: 5,
                         width: {
-                            xs: '135%', // 134% width on small screens (xs)
-                            sm: '134%', // Maintain on small screens if needed
+                            xs: '100%', // 134% width on small screens (xs)
+                            sm: '100%', // Maintain on small screens if needed
                             md: '100%', // 100% width on medium screens and larger
                             lg: '100%', // 100% width on large screens
                         },
@@ -304,7 +304,7 @@ export default function HomeView() {
                             container
                             spacing={4}
                             sx={{
-                                width: '100%',
+                                width: '120%',
                                 justifyContent: 'center',
                                 flexDirection: {
                                     xs: 'row',  // Side by side on mobile
