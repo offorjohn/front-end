@@ -154,7 +154,7 @@ export default function HomeView() {
 
                 <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>OTPNINJA saved me so much time and
                     headache. No more waiting for codes
-                    
+
                     methods. Their service is quick,
                     efficient, and trustworthy.</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -945,12 +945,21 @@ export default function HomeView() {
                 >
                     What our users say About Us!
                 </Typography>
-
                 <Grid container spacing={2} sx={{
                     flexDirection: { xs: 'column', sm: 'row' },  // Stack vertically on mobile (xs), horizontally on larger screens (sm and above)
                     justifyContent: 'center',  // Center the cards on larger screens
                 }}>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        lg={3}
+                        xl={3}
+                        sx={{
+                            ml: { xs: '-16px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
+                        }}
+                    >
                         <Box sx={{
                             minWidth: 317,
                             width: '100%',  // Take full width of its parent container
@@ -959,7 +968,17 @@ export default function HomeView() {
                         </Box>
                     </Grid>
 
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        lg={3}
+                        xl={3}
+                        sx={{
+                            ml: { xs: '-16px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
+                        }}
+                    >
                         <Box sx={{
                             minWidth: 317,
                             width: '100%',
@@ -967,8 +986,17 @@ export default function HomeView() {
                             <Card variant="outlined">{cards}</Card>
                         </Box>
                     </Grid>
-
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        lg={3}
+                        xl={3}
+                        sx={{
+                            ml: { xs: '-16px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
+                        }}
+                    >
                         <Box sx={{
                             minWidth: 317,
                             width: '100%',
