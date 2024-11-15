@@ -5,12 +5,16 @@ import { Link, useNavigate } from 'react-router-dom'; // Import the useNavigate 
 import { keyframes } from '@emotion/react';
 
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import { Grid, Button } from '@mui/material';
+import Button from '@mui/material/Button';
+import { Grid, Avatar, } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
 import ButtonGroup from '@mui/material/ButtonGroup'; // Import keyframes for custom animations
 
 
@@ -36,6 +40,161 @@ export default function HomeView() {
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+
+    const card = (
+        <>
+
+            <CardContent>
+                <Typography gutterBottom sx={{ color: 'rgb(245 158 11 / var(--tw-text-opacity, 1))', fontSize: 18 }}>
+                    ★★★★★
+                </Typography>
+
+                <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>OTPNINJA made verifying my accounts
+                    a breeze! Their quality numbers
+                    worked like a charm, and I felt much
+                    more secure online. Highly
+                    recommended!.</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {/* Avatar Image */}
+                    <Avatar
+                        alt="Profile Image"
+                        src="/assets/background/wwe.jpg" // Replace with the actual path to your image
+                        sx={{ width: 40, height: 40, marginRight: 2 }} // Adjust the size of the avatar
+                    />
+
+                    {/* Typography Text */}
+                    <Typography variant="body2" fontWeight='bold'>
+                        Offor Daniella.
+                        <br />
+                    </Typography>
+                </Box>
+            </CardContent>
+
+
+            <CardActions>
+
+
+
+                <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                        textTransform: 'none',
+                        padding: '6px 12px',
+                        marginLeft: '16px' // Adjust the margin to move the button to the right
+                    }}
+                >
+                    Ambassador
+                </Button>
+            </CardActions>
+        </>
+    );
+
+    const cards = (
+        <>
+
+            <CardContent>
+                <Typography gutterBottom sx={{ color: 'rgb(245 158 11 / var(--tw-text-opacity, 1))', fontSize: 18 }}>
+                    ★★★★★
+                </Typography>
+
+                <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>OTPNINJA saved me so much time and
+                    headache. No more
+                    dealing with sketchy verification
+                    methods. Their service is quick,
+                    efficient, and trustworthy.!</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {/* Avatar Image */}
+                    <Avatar
+                        alt="Profile Image"
+                        src="/assets/background/wwt.jpg" // Replace with the actual path to your image
+                        sx={{ width: 40, height: 40, marginRight: 2 }} // Adjust the size of the avatar
+                    />
+
+                    {/* Typography Text */}
+                    <Typography variant="body2" fontWeight='bold'>
+                        Mercedes.
+                        <br />
+                    </Typography>
+                </Box>
+            </CardContent>
+
+
+
+
+            <CardActions>
+
+
+
+                <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                        textTransform: 'none',
+                        padding: '6px 12px',
+                        marginLeft: '16px' // Adjust the margin to move the button to the right
+                    }}
+                >
+                    User
+                </Button>
+            </CardActions>
+        </>
+    );
+
+    const cars = (
+        <>
+
+            <CardContent>
+                <Typography gutterBottom sx={{ color: 'rgb(245 158 11 / var(--tw-text-opacity, 1))', fontSize: 18 }}>
+                    ★★★★★
+                </Typography>
+
+                <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>OTPNINJA saved me so much time and
+                    headache. No more waiting for codes
+                    
+                    methods. Their service is quick,
+                    efficient, and trustworthy.</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {/* Avatar Image */}
+                    <Avatar
+                        alt="Profile Image"
+                        src="/assets/background/www.jpg" // Replace with the actual path to your image
+                        sx={{ width: 40, height: 40, marginRight: 2 }} // Adjust the size of the avatar
+                    />
+
+                    {/* Typography Text */}
+                    <Typography variant="body2" fontWeight='bold'>
+                        John.
+                        <br />
+                    </Typography>
+                </Box>
+            </CardContent>
+
+
+
+
+            <CardActions>
+
+
+
+                <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                        textTransform: 'none',
+                        padding: '6px 12px',
+                        marginLeft: '16px' // Adjust the margin to move the button to the right
+                    }}
+                >
+                    User
+                </Button>
+            </CardActions>
+        </>
+    );
 
 
     // Define the animation for the button group
@@ -786,6 +945,43 @@ export default function HomeView() {
                 >
                     What our users say About Us!
                 </Typography>
+
+                <Grid container spacing={2} sx={{
+                    flexDirection: { xs: 'column', sm: 'row' },  // Stack vertically on mobile (xs), horizontally on larger screens (sm and above)
+                    justifyContent: 'center',  // Center the cards on larger screens
+                }}>
+                    <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                        <Box sx={{
+                            minWidth: 317,
+                            width: '100%',  // Take full width of its parent container
+                        }}>
+                            <Card variant="outlined">{card}</Card>
+                        </Box>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                        <Box sx={{
+                            minWidth: 317,
+                            width: '100%',
+                        }}>
+                            <Card variant="outlined">{cards}</Card>
+                        </Box>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+                        <Box sx={{
+                            minWidth: 317,
+                            width: '100%',
+                        }}>
+                            <Card variant="outlined">{cars}</Card>
+                        </Box>
+                    </Grid>
+
+
+
+                    {/* Add more Grid items as needed */}
+                </Grid>
+
 
 
 
