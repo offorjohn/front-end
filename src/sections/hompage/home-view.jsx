@@ -908,9 +908,9 @@ export default function HomeView() {
                 />
 
 
-                <Typography variant="body1" sx={{ px: 2, color: 'text.secondary', fontWeight: 'bold' }}>
+                <Typography variant="body1" sx={{ px: 4, color: 'text.secondary', fontWeight: 'bold' }}>
                     Simplify your verification process with OTPNinja quality numbers.
-                    Get started now for hassle-free account security.
+                    Get started now for hassle-free account Security.
                 </Typography>
 
                 <Typography
