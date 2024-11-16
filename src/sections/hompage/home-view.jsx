@@ -15,7 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import ButtonGroup from '@mui/material/ButtonGroup'; // Import keyframes for custom animations
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 
 // Assuming you have a Logo component imported c
@@ -197,6 +197,7 @@ export default function HomeView() {
     );
 
 
+
     // Define the animation for the button group
     const moveLeftToRight = keyframes`
 0% { transform: translateX(-100%); }
@@ -227,11 +228,12 @@ export default function HomeView() {
     const LeftSidebar = () => (
         <Box
             sx={{
-                height: '10vh',
+                height: '7.6vh',
+                marginTop: '-6px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'flex-end',
-                paddingRight: 2,
+                paddingRight: 3,
             }}
         >
             <IconButton
@@ -240,7 +242,7 @@ export default function HomeView() {
                     fontSize: 40,
                     fontWeight: 'bold',
                     position: 'relative',
-                    top: -5,
+                    top: 18,
                     // Hide hamburger menu on larger screens (md and above)
                     display: { xs: 'block', md: 'none' }, // Show only on xs (mobile) screens
                 }}
@@ -335,8 +337,7 @@ export default function HomeView() {
             {/* Logo */}
             <Logo
                 sx={{
-                    position: 'fixed',
-                    top: { xs: 55, md: 64 },
+                    top: { xs: 35, md: 44 },
                     left: { xs: 16, md: 24 },
                 }}
             />
@@ -485,7 +486,7 @@ export default function HomeView() {
                             }}
                         >
                             {/* Image 1 */}
-                            <Grid item xs={4} sm={6} md={4}>
+                            <Grid item xs={4} sm={4} md={4}>
                                 <Box
                                     sx={{
                                         maxWidth: 200,
@@ -529,7 +530,7 @@ export default function HomeView() {
                             </Grid>
 
                             {/* Image 2 */}
-                            <Grid item xs={4} sm={6} md={4}>
+                            <Grid item xs={4} sm={4} md={4}>
                                 <Box
                                     sx={{
                                         maxWidth: 200,
@@ -559,7 +560,7 @@ export default function HomeView() {
                             </Grid>
 
                             {/* Image 3 */}
-                            <Grid item xs={4} sm={6} md={4}>
+                            <Grid item xs={4} sm={4} md={4}>
                                 <Box
                                     sx={{
                                         maxWidth: 200,
@@ -1009,6 +1010,52 @@ export default function HomeView() {
 
                     {/* Add more Grid items as needed */}
                 </Grid>
+
+
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: { xs: 'column', md: 'row' },  // Stack items in a column on xs, row on md and up
+                        justifyContent: { xs: 'center', md: 'space-between' }, // Center on xs, space-between on md
+                        alignItems: 'center', // Vertically center items on xs, align items left/right on larger screens
+                        fontWeight: 'bold',
+                        width: '100%',
+                        mt: 4,
+                        p: 2,
+                        borderTop: '1px solid #ccc',
+                        backgroundColor: '#f9f9f9',
+                        gap: { xs: 2, md: 5 }, // Spacing between items
+                    }}
+                >
+
+                    {/* Logo */}
+                    <Logo
+                        sx={{
+                            order: { xs: 0, md: 0 }, // Ensure logo comes first on mobile (xs), later on larger screens
+                            mb: { xs: -4, md: -10 }, // Add margin bottom on mobile to create spacing between logo and text
+                        }}
+                    />
+
+                    {/* Text Items in a Row on Medium Screens and Larger */}
+                    <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 5 }}>
+                        <Box>About</Box>
+                        <Box>Privacy Policy</Box>
+                        <Box>Terms of Service</Box>
+                    </Box>
+
+                    {/* Text Items in Column on Small Screens */}
+                    <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 2, flexDirection: 'row', textAlign: 'center' }}>
+                        <Box>About</Box>
+                        <Box>Privacy Policy</Box>
+                        <Box>Terms of Service</Box>
+                    </Box>
+
+                    <Box>© 2024 Otp Ninja</Box>
+
+                </Box>
+
+
 
 
 
