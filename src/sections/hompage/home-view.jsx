@@ -46,6 +46,8 @@ export default function HomeView() {
 
     const [isMenuOpe, setIsMenuOpe] = useState(true);
 
+    const [showTelepop, setShowTelepop] = useState(false);
+
     // Update the time every minute (since we don't need seconds)
     useEffect(() => {
         const interval = setInterval(() => {
@@ -54,6 +56,19 @@ export default function HomeView() {
 
         return () => clearInterval(interval); // Clean up on unmount
     }, []);
+
+    // eslint-disable-next-line consistent-return
+    useEffect(() => {
+        if (isMenuOpe) {
+            const timer = setTimeout(() => {
+                setShowTelepop(true);
+            }, 5000); // Delay of 5 seconds
+
+            // Cleanup the timer if the component unmounts or isMenuOpe changes
+            return () => clearTimeout(timer);
+        }
+        setShowTelepop(false); // Hide if menu is not open
+    }, [isMenuOpe]);
 
 
     // Toggle the menu visibility
@@ -1272,9 +1287,11 @@ export default function HomeView() {
             </Stack>
 
 
-
-            {/* Conditionally render the FloatingTelepop component */}
-            {isMenuOpe && <FloatingTelepop />}
+            {isMenuOpe && showTelepop && (
+        <div className={`floating-telepop ${showTelepop ? 'show' : 'hide'}`}>
+          <FloatingTelepop />
+        </div>
+      )}
 
 
 
@@ -1283,4 +1300,4 @@ export default function HomeView() {
 
         </Box >
     );
-}
+} 
