@@ -210,7 +210,7 @@ export default function HomeView() {
                                 marginBottom: 2, // Optional: Add some space below for separation
                             }}
                         >
-                            Hello,👋 welcome to Textplug, the best SMS verification site.
+                            Hello,👋 welcome to, the best SMS verification site.
                             If you have any issue or you need assistance, we are always active! What can we help you with??
                             <br />
                         </Typography>
@@ -263,7 +263,7 @@ export default function HomeView() {
             sx={{
                 position: 'fixed', // Fixed position
                 bottom: { xs: '140px', sm: '120px', md: '190px' }, // Adjust based on screen size
-                right: '36px', // Adjust distance from the right side
+                right: '3px', // Adjust distance from the right side
                 zIndex: 9999, // Ensure it's above other content
                 borderRadius: '16px', // Optional: round the corners
                 boxShadow: 3, // Optional: add shadow to make the box stand out
@@ -271,7 +271,7 @@ export default function HomeView() {
 
             }}
         >
-            <Card variant="outlined" sx={{ xs: '20px', width: '400px' }}
+            <Card variant="outlined" sx={{ xs: '20px', width: '360px' }}
 
 
                 onClick={toggleMen}  // Toggle the menu on click
@@ -680,7 +680,7 @@ export default function HomeView() {
                             }}
                         >
                             {/* Image 1 */}
-                            <Grid item xs={4} sm={4} md={4}>
+                            <Grid item xs={3} sm={3} md={4}>
                                 <Box
                                     sx={{
                                         maxWidth: 200,
@@ -1142,7 +1142,7 @@ export default function HomeView() {
                         mb: 3,
                         fontWeight: 'bold',
                         mt: { xs: 7, sm: 7, md: 9 },
-                        transform: { xs: 'translateX(4px)', sm: 'none' }, // Move to the left on mobile, no change on larger screens
+                        transform: { xs: 'translateX(22px)', sm: 'none' }, // Move to the left on mobile, no change on larger screens
                     }}
                 >
                     What our users say About Us!
@@ -1160,7 +1160,7 @@ export default function HomeView() {
                         lg={3}
                         xl={3}
                         sx={{
-                            ml: { xs: '10px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
+                            ml: { xs: '-29px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
                         }}
                     >
                         <Box sx={{
@@ -1179,7 +1179,7 @@ export default function HomeView() {
                         lg={3}
                         xl={3}
                         sx={{
-                            ml: { xs: '10px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
+                            ml: { xs: '-29px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
                         }}
                     >
                         <Box sx={{
@@ -1197,7 +1197,7 @@ export default function HomeView() {
                         lg={3}
                         xl={3}
                         sx={{
-                            ml: { xs: '10px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
+                            ml: { xs: '-29px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
                         }}
                     >
                         <Box sx={{
