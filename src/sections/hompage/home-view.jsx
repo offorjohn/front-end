@@ -893,7 +893,14 @@ export default function HomeView() {
 
                 </Grid>
 
-                <Typography variant="h3" sx={{ color: 'text.primary', mb: 3, fontWeight: 'bold' }}>
+                <Typography
+                    variant="h3"
+                    sx={{
+                        color: 'text.primary',
+                        mb: { xs: 5, md: 10 }, // Smaller margin on xs, larger margin on md and up
+                        fontWeight: 'bold'
+                    }}
+                >
                     Ready to buy a number?
                 </Typography>
 
@@ -904,12 +911,12 @@ export default function HomeView() {
                     style={{
                         maxWidth: '200px',
                         width: '100%',
-                        marginBottom: '20px',
+                        marginBottom: '15px',
                     }}
                 />
 
 
-                <Typography variant="body1" sx={{ px: 4, color: 'text.secondary', fontWeight: 'bold' }}>
+                <Typography variant="body1" sx={{ px: 4, color: 'text.secondary', fontWeight: 'bold', mb: { xs: 3, md: 10 }  }}>
                     Simplify your verification process with OTPNinja quality numbers.
                     Get started now for hassle-free account Security.
                 </Typography>
@@ -929,7 +936,7 @@ export default function HomeView() {
                         marginTop: '16px', // Add margin to move it down a little
                     }}
                 >
-                    <Link to="https://otpninja.com/register" style={{ textDecoration: 'none', color: 'white' }}>
+                    <Link to="https://otpninja.com/register" style={{  textDecoration: 'none', color: 'white', mb: { xs: 8, md: 10 } }}>    
                         Get Started Now
                     </Link>
                 </Typography>
@@ -940,13 +947,14 @@ export default function HomeView() {
                         color: 'text.primary',
                         mb: 3,
                         fontWeight: 'bold',
-                        mt: { xs: 7, sm: 7, md: 8 },
+                        mt: { xs: 7, sm: 7, md: 9 },
                         transform: { xs: 'translateX(30px)', sm: 'none' }, // Move to the left on mobile, no change on larger screens
                     }}
                 >
                     What our users say About Us!
                 </Typography>
                 <Grid container spacing={2} sx={{
+                      mt: { xs: 7, sm: 7, md: 9 },
                     flexDirection: { xs: 'column', sm: 'row' },  // Stack vertically on mobile (xs), horizontally on larger screens (sm and above)
                     justifyContent: 'center',  // Center the cards on larger screens
                 }}>
@@ -1021,7 +1029,8 @@ export default function HomeView() {
                         alignItems: 'center', // Vertically center items on xs, align items left/right on larger screens
                         fontWeight: 'bold',
                         width: '100%',
-                        mt: 4,
+                      
+                        mt: { xs: 7, sm: 7, md: 15 },
                         p: 2,
                         borderTop: '1px solid #ccc',
                         backgroundColor: '#f9f9f9',
