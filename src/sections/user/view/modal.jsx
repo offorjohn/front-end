@@ -28,7 +28,6 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
     localStorage.getItem('modalResponseText') || responseText || ''
   );
 
-  console.log(responseText)
 
 
   const [storedSubphone, setStoredSubphone] = useState(() =>
@@ -85,7 +84,6 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
         setStoredSubphone(subphone);
         setTimer('600'); // Set the timer to 10 minutes (600 seconds)
       }
-      console.log(subphone)
 
       if (cancel && cancel.trim() !== '') {
         setTimer(''); // Set the timer to 10 minutes (600 seconds)

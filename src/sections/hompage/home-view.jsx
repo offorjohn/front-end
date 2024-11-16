@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import the useNavigate hook from React Router
 
+import { Icon } from '@iconify/react';
 import { keyframes } from '@emotion/react';
 
 import Box from '@mui/material/Box';
@@ -13,6 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -28,18 +30,53 @@ import Logo from 'src/components/logo';
 
 import TelegramIcon from '../../layouts/dashboard/common/telegram';  // Adjust path accordingly
 
+
+
 // ----------------------------------------------------------------------
 
 export default function HomeView() {
     const theme = useTheme();
     const navigate = useNavigate();  // Initialize the useNavigate hook
 
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const [time, setTime] = useState(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+
+
+    const [isMenuOpe, setIsMenuOpe] = useState(true);
+
+    // Update the time every minute (since we don't need seconds)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+        }, 60000); // Update every minute (60000 ms)
+
+        return () => clearInterval(interval); // Clean up on unmount
+    }, []);
+
 
     // Toggle the menu visibility
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+    const toggleMen = () => {
+        setIsMenuOpe(!isMenuOpe);
+    };
+
+
+
+    // Clear the email and password from localStorage when the page loads
+    useEffect(() => {    // Clear authentication tokens or any user data stored in localStorage/sessionStorage
+        localStorage.removeItem('loginResponse');
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
+
+        // You can also clear sessionStorage or other storage as needed
+
+    }, [navigate]); // Empty array ensures this runs only once on mount
+
 
 
     const card = (
@@ -90,6 +127,158 @@ export default function HomeView() {
                 </Button>
             </CardActions>
         </>
+    );
+
+
+
+
+    const telepop = (
+        <>
+            {/* Close Icon positioned at the top right */}
+            <Box sx={{ position: 'relative' }}>
+                <IconButton
+                    sx={{
+                        position: 'absolute',
+                        top: 1,  // Adjust the position of the icon
+                        right: 5, // Adjust the position of the icon
+                        color: 'gray', // Optional: Change color of close icon
+                        width: 90,
+                        fontWeight: 'bold',
+
+                        fontSize: 30, // Increase font size to make the icon bigger
+                    }}
+                >
+                    <CloseIcon sx={{ fontSize: 50 }} />
+                </IconButton>
+
+                <CardContent>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ position: 'relative', display: 'inline-block', }}>
+                            <Avatar
+                                alt="Profile Image"
+                                src="/assets/background/wwe.jpg" // Replace with the actual path to your image
+                                sx={{
+                                    width: 40,
+                                    height: 40,
+                                    marginRight: 2,
+                                }}
+                            />
+                            {/* Green Dot */}
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    bottom: 3,
+                                    right: 11,
+                                    width: 14,
+
+                                    height: 14,
+                                    backgroundColor: 'green',
+                                    borderRadius: '50%',
+                                    border: '2px solid white', // Optional: adds a white border around the dot
+                                }}
+                            />
+                        </Box>
+                        <Typography variant="body2" sx={{ fontSize: '1.3rem' }} // Even bigger text
+                            fontWeight="bold">
+
+                            OTP NINJA CHAT
+
+                        </Typography>
+                    </Box>
+                    <Typography sx={{ color: 'text.secondary', mb: 1.5, marginLeft: 7 }}>
+                        Support
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary', mb: 1.5, marginLeft: 20 }}>
+                        {time} {/* Display the current time */}
+                    </Typography>
+
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Avatar
+                            alt="Profile Image"
+                            src="/assets/background/wwe.jpg" // Replace with the actual path to your image
+                            sx={{ mt: -14, width: 40, height: 40, marginRight: 3 }} // Adjust the size of the avatar
+                        />
+                        <Typography
+                            variant="body2"
+                            fontWeight="bold"
+                            sx={{
+                                padding: 2, // Add space inside the border
+                                border: '1px solid #ddd', // Light border color
+                                borderRadius: '16px', // Rounded corners
+                                boxShadow: 2, // Optional: Adds a subtle shadow for the "card" effect
+                                maxWidth: '80%', // Optional: Limit the width, so it's not too wide
+                                marginBottom: 2, // Optional: Add some space below for separation
+                            }}
+                        >
+                            Hello,👋 welcome to Textplug, the best SMS verification site.
+                            If you have any issue or you need assistance, we are always active! What can we help you with??
+                            <br />
+                        </Typography>
+
+
+
+
+
+                    </Box>
+
+                </CardContent>
+
+
+                <Typography sx={{ mb: 1.5, marginLeft: 19, fontWeight: 'bold' }}>
+                    Start Chat with:
+                </Typography>
+
+                <CardActions>
+
+
+                    <Button
+                        size="small"
+                        variant="contained"
+
+                        href="https://t.me/otpninja" // Replace with your Telegram link
+
+                        sx={{
+                            width: '390px', // Set the width of the button
+                            backgroundColor: '#0088cc',
+                            margin: '0 auto', // Centers the button horizontally
+                            display: 'flex', // Use flexbox to align the content
+                            alignItems: 'center', // Vertically center the content (icon and text)
+                            justifyContent: 'center', // Horizontally center the content
+                            padding: '6px 12px', // Optional: add some padding for spacing
+                        }}
+                    >
+                        <Icon icon="mdi:telegram" width={40} style={{ fontWeight: 'bold' }} />
+                        Telegram
+                    </Button>
+                </CardActions>
+            </Box>
+        </>
+    );
+
+    // Fixed position floating box for telepop
+    // eslint-disable-next-line react/no-unstable-nested-components
+    const FloatingTelepop = () => (
+
+        <Box
+            sx={{
+                position: 'fixed', // Fixed position
+                bottom: { xs: '140px', sm: '120px', md: '190px' }, // Adjust based on screen size
+                right: '36px', // Adjust distance from the right side
+                zIndex: 9999, // Ensure it's above other content
+                borderRadius: '16px', // Optional: round the corners
+                boxShadow: 3, // Optional: add shadow to make the box stand out
+                width: 'auto', // You can remove this or set a specific width, like '250px' or '300px'
+
+            }}
+        >
+            <Card variant="outlined" sx={{ xs: '20px', width: '400px' }}
+
+
+                onClick={toggleMen}  // Toggle the menu on click
+            > {/* Increase width here */}
+                {telepop}
+            </Card>
+        </Box>
     );
 
     const cards = (
@@ -424,11 +613,16 @@ export default function HomeView() {
                             backgroundColor: 'primary.main', // Background color like the button's primary color
                             color: 'white', // Text color to contrast the background
                             fontWeight: 'bold',
+                            animation: `${beat} 7s ease-in-out infinite`,
+
                             borderRadius: 2, // Rounded corners for the background
                             zIndex: 1, // Text should stay on top of the background
+                            marginTop: '16px', // Add margin to move it down a little
                         }}
                     >
-                        Explore our features
+                        <Link to="https://otpninja.com/register" style={{ textDecoration: 'none', color: 'white', mb: { xs: 8, md: 10 } }}>
+                            Explore Our Feautures
+                        </Link>
                     </Typography>
                 </Stack>
 
@@ -916,7 +1110,7 @@ export default function HomeView() {
                 />
 
 
-                <Typography variant="body1" sx={{ px: 4, color: 'text.secondary', fontWeight: 'bold', mb: { xs: 3, md: 10 }  }}>
+                <Typography variant="body1" sx={{ px: 4, color: 'text.secondary', fontWeight: 'bold', mb: { xs: 3, md: 10 } }}>
                     Simplify your verification process with OTPNinja quality numbers.
                     Get started now for hassle-free account Security.
                 </Typography>
@@ -936,7 +1130,7 @@ export default function HomeView() {
                         marginTop: '16px', // Add margin to move it down a little
                     }}
                 >
-                    <Link to="https://otpninja.com/register" style={{  textDecoration: 'none', color: 'white', mb: { xs: 8, md: 10 } }}>    
+                    <Link to="https://otpninja.com/register" style={{ textDecoration: 'none', color: 'white', mb: { xs: 8, md: 10 } }}>
                         Get Started Now
                     </Link>
                 </Typography>
@@ -948,14 +1142,14 @@ export default function HomeView() {
                         mb: 3,
                         fontWeight: 'bold',
                         mt: { xs: 7, sm: 7, md: 9 },
-                        transform: { xs: 'translateX(30px)', sm: 'none' }, // Move to the left on mobile, no change on larger screens
+                        transform: { xs: 'translateX(4px)', sm: 'none' }, // Move to the left on mobile, no change on larger screens
                     }}
                 >
                     What our users say About Us!
                 </Typography>
-                <Grid container spacing={2} sx={{
-                      mt: { xs: 7, sm: 7, md: 9 },
-                    flexDirection: { xs: 'column', sm: 'row' },  // Stack vertically on mobile (xs), horizontally on larger screens (sm and above)
+                <Grid container spacing={3} sx={{
+                    mt: { xs: 7, sm: 7, md: 9 },
+                    flexDirection: { sm: 'row' },  // Stack vertically on mobile (xs), horizontally on larger screens (sm and above)
                     justifyContent: 'center',  // Center the cards on larger screens
                 }}>
                     <Grid
@@ -966,7 +1160,7 @@ export default function HomeView() {
                         lg={3}
                         xl={3}
                         sx={{
-                            ml: { xs: '-16px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
+                            ml: { xs: '10px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
                         }}
                     >
                         <Box sx={{
@@ -985,7 +1179,7 @@ export default function HomeView() {
                         lg={3}
                         xl={3}
                         sx={{
-                            ml: { xs: '-16px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
+                            ml: { xs: '10px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
                         }}
                     >
                         <Box sx={{
@@ -1003,7 +1197,7 @@ export default function HomeView() {
                         lg={3}
                         xl={3}
                         sx={{
-                            ml: { xs: '-16px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
+                            ml: { xs: '10px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
                         }}
                     >
                         <Box sx={{
@@ -1016,8 +1210,14 @@ export default function HomeView() {
 
 
 
+
+
+
+
                     {/* Add more Grid items as needed */}
                 </Grid>
+
+
 
 
 
@@ -1029,7 +1229,7 @@ export default function HomeView() {
                         alignItems: 'center', // Vertically center items on xs, align items left/right on larger screens
                         fontWeight: 'bold',
                         width: '100%',
-                      
+
                         mt: { xs: 7, sm: 7, md: 15 },
                         p: 2,
                         borderTop: '1px solid #ccc',
@@ -1073,7 +1273,8 @@ export default function HomeView() {
 
 
 
-
+            {/* Conditionally render the FloatingTelepop component */}
+            {isMenuOpe && <FloatingTelepop />}
 
 
 
