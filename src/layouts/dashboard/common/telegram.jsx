@@ -43,7 +43,7 @@ export default function TelegramIcon() {
           color: '#fff', // Icon color
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)', // Add a slight shadow for better visibility
           transition: 'all 0.3s ease',
-          animation: 'growShrink 2s ease-in-out infinite', // Apply the grow and shrink animation
+          animation: 'growShrink 1s ease-in-out infinite', // Apply the grow and shrink animation
           '&:hover': {
             backgroundColor: '#007ab8', // Darken the color on hover
             transform: 'scale(1.1)', // Slightly enlarge the icon on hover

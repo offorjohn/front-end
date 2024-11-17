@@ -18,6 +18,12 @@ const DedicatedPage =  lazy(() => import('src/pages/dedicated'));
 
 const HomePage = lazy(() => import('src/pages/home')); // Lazy load HomePage
 
+const AboutPage = lazy(() => import('src/pages/about')); 
+
+
+
+
+
 
 
 // ----------------------------------------------------------------------
@@ -50,10 +56,14 @@ export default function Router() {
       path: 'login',
       element: <LoginPage />,
     },
+    {
+      path: 'about',
+      element: < AboutPage/>
+    },
  
     {
       path: '*',
-      element: <Navigate to="/404" replace />,
+      element: <Navigate to="home" replace />,
     },
   ]);
 

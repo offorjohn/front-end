@@ -54,7 +54,7 @@ export default function Header({ onOpenNav }) {
         boxShadow: 'none',
         height: HEADER.H_MOBILE,
         zIndex: theme.zIndex.appBar + 1,
-        ...bgBlur({
+        ...bgBlur({ 
           color: theme.palette.background.default,
         }),
         transition: theme.transitions.create(['height'], {

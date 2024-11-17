@@ -239,7 +239,7 @@ export default function HomeView() {
                 </CardContent>
 
 
-                <Typography sx={{ mb: 1.5, marginLeft: 19, fontWeight: 'bold' }}>
+                <Typography sx={{ mb: 1.5, marginLeft: 15, fontWeight: 'bold' }}>
                     Start Chat with:
                 </Typography>
 
@@ -1223,12 +1223,6 @@ export default function HomeView() {
                         </Box>
                     </Grid>
 
-
-
-
-
-
-
                     {/* Add more Grid items as needed */}
                 </Grid>
 
@@ -1246,7 +1240,7 @@ export default function HomeView() {
                         width: '100%',
 
                         mt: { xs: 7, sm: 7, md: 15 },
-                        p: 2,
+                        p: 1,
                         borderTop: '1px solid #ccc',
                         backgroundColor: '#f9f9f9',
                         gap: { xs: 2, md: 5 }, // Spacing between items
@@ -1257,20 +1251,24 @@ export default function HomeView() {
                     <Logo
                         sx={{
                             order: { xs: 0, md: 0 }, // Ensure logo comes first on mobile (xs), later on larger screens
-                            mb: { xs: -4, md: -10 }, // Add margin bottom on mobile to create spacing between logo and text
+                            mb: { xs: -2, md: -10 }, // Add margin bottom on mobile to create spacing between logo and text
                         }}
                     />
 
                     {/* Text Items in a Row on Medium Screens and Larger */}
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 5 }}>
-                        <Box>About</Box>
+                        <Link to="/about" style={{ textDecoration: 'none' }}>
+                            <Box>About</Box>
+                        </Link>
                         <Box>Privacy Policy</Box>
                         <Box>Terms of Service</Box>
                     </Box>
 
                     {/* Text Items in Column on Small Screens */}
                     <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 2, flexDirection: 'row', textAlign: 'center' }}>
-                        <Box>About</Box>
+                        <Link to="/about" style={{ textDecoration: 'none' }}>
+                            <Box>About</Box>
+                        </Link>
                         <Box>Privacy Policy</Box>
                         <Box>Terms of Service</Box>
                     </Box>
@@ -1287,11 +1285,9 @@ export default function HomeView() {
             </Stack>
 
 
-            {isMenuOpe && showTelepop && (
-        <div className={`floating-telepop ${showTelepop ? 'show' : 'hide'}`}>
-          <FloatingTelepop />
-        </div>
-      )}
+
+            {/* Conditionally render the FloatingTelepop component */}
+            {isMenuOpe && showTelepop && <FloatingTelepop />}
 
 
 

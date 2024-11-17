@@ -41,13 +41,8 @@ const navConfig = [
     path: '/products',
     icon: icon('ic_globe'),
 
-  },
-
-
+  }, 
   
- 
-
-
   
   {
     title: 'logout',
