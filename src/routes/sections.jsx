@@ -20,6 +20,8 @@ const HomePage = lazy(() => import('src/pages/home')); // Lazy load HomePage
 
 const AboutPage = lazy(() => import('src/pages/about')); 
 
+const Private = lazy(() => import('src/pages/private'))
+
 
 
 
@@ -59,6 +61,11 @@ export default function Router() {
     {
       path: 'about',
       element: < AboutPage/>
+    },
+    {
+      path: 'private',
+      element: < Private/>
+
     },
  
     {

@@ -145,7 +145,7 @@ const LeftSidebar = () => {
 };
 
 // Main HomeView component
-export default function HomeView() {
+export default function Private() {
     const theme = useTheme(); // Get theme for styling
 
     return (
@@ -155,51 +155,57 @@ export default function HomeView() {
                     color: theme.palette.background.default,
                     imgUrl: '/assets/background/overlay_3.jpg',
                 }),
-                height: 1,
+                minHeight: '100vh',  // Ensure the container covers the full viewport height
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',  // Space out the sections from top to bottom
                 position: 'relative',
+
             }}
         >
             {/* Left Sidebar (mobile menu) */}
             <LeftSidebar />
 
+            {/* About Section with White Border */}
             <Box
                 sx={{
-                    border: '2px solid white',  // White border
+                    border: '2px solid white',
                     borderRadius: 2,
-                    padding: 7,
-                    position: 'absolute',
-                    top: '15%',  // Adjust the position as needed
-                    left: '50%',
-                    transform: 'translateX(-50%)', // Center the About Box
+                    padding: 5,
+                    margin: '0 auto',  // Center horizontally
                     maxWidth: '900px',  // Limit the width
                     backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Optional: Dark background with transparency
                     zIndex: 10,
                     width: '90%',  // Take up 90% of the container width
+                    marginTop: '10%',  // Adjust for top spacing on smaller screens
                     '@media (max-width: 600px)': {
-                        top: '19%',  // Adjust the top positioning for smaller screens
-                        padding: 4,  // Adjust padding for smaller screens
+                        padding: 4,
+                        marginTop: '15%',  // Slightly adjust for smaller screens
                     },
                     '@media (max-width: 400px)': {
-                        top: '10%',  // Move the Box further down for very small screens
-                        padding: 2,  // Further reduce padding
-
-                    }
+                        padding: 2,
+                        marginTop: '20%',  // Further adjust for very small screens
+                    },
+                    '@media (min-width: 600px)': {
+                        marginTop: '8%',  // Adjust marginTop for larger screens (move up a bit)
+                    },
+                    '@media (min-width: 1024px)': {
+                        marginTop: '-1%',  // Further adjust for larger screens (even more upwards)
+                    },
                 }}
             >
                 <Typography
                     variant="h3"
                     sx={{
                         color: 'white',
-
-                        textAlign: 'left',  // Aligns the text to the left
-
+                        textAlign: 'left',  // Align text to the left
                         marginBottom: 3,
                         fontWeight: 'bold',
-
                     }}
                 >
-                    About Us
+                    Privacy Policy
                 </Typography>
+
                 <Typography
                     variant="body1"
                     sx={{
@@ -208,23 +214,37 @@ export default function HomeView() {
                         whiteSpace: 'pre-line',  // Ensures line breaks are respected
                     }}
                 >
-                    Welcome to OTP Ninja, your one-stop solution for secure and efficient one-time passcodes.
-                    We provide top-notch services for authentication and security, ensuring that your online
-                    experience is as safe and smooth as possible.
-
-                    {'\n'} {/* Adds a line break between paragraphs */}
-
-                    Join us today and experience the future of authentication with OTP Ninja!
-
-                    {'\n'} {/* Adds a line break between paragraphs */}
-
-
-                    © 2024 OTP ENTERPRISES, All Rights Reserved
+                    OTP Ninja provides secure and reliable OTP (One-Time Password) solutions for businesses looking to enhance their user authentication processes. As part of our commitment to transparency and trust, we want you to understand how your personal data is collected, used, and protected when interacting with our website and services.
+                    {'\n\n'}
+                  
+                    We do not sell, rent, or lease your personal information to third parties. However, we may share your information with trusted third-party service providers who assist us in operating our services, such as:
+                    {'\n\n'}
+                    Service Providers: Companies that help us manage our infrastructure, send emails, process payments, or provide customer support.
+                    {'\n\n'}
+                   
+                    We take reasonable measures to protect your personal information from unauthorized access, alteration, or destruction. Our security protocols include encryption, firewalls, and regular security audits. However, no method of data transmission over the internet is 100% secure, so we cannot guarantee complete security.
+                    {'\n\n'}
+                    © 2024 OTP Ninja ENTERPRISES, All Rights Reserved
                 </Typography>
-
             </Box>
 
+            {/* Logo below the About Section (Hidden on Larger Screens) */}
+            <Box
+                sx={{
 
+                    order: { xs: 0, md: 0 }, // Ensure logo comes first on mobile (xs), later on larger screens
+                    display: { xs: 'flex', md: 'none' },  // Display only on small screens
+                    justifyContent: 'center',  // Center the logo horizontally
+                    marginTop: '30px',  // Space between About section and logo
+                    padding: 2,  // Optional padding for spacing around the logo
+                }}
+            >
+                <Logo
+                    sx={{
+                        width: '150px',  // Adjust the logo size as needed
+                    }}
+                />
+            </Box>
 
 
 
@@ -241,8 +261,7 @@ export default function HomeView() {
                     borderTop: '1px solid #ccc',
                     backgroundColor: '#f9f9f9',
                     gap: { xs: -5, md: 5 }, // Spacing between items
-                    position: 'absolute',
-                    bottom: 0, // Stick to the bottom of the viewport
+                    position: 'relative',  // Ensure footer sticks to bottom without absolute positioning
                 }}
             >
                 {/* Logo in Footer */}
@@ -251,10 +270,13 @@ export default function HomeView() {
                         order: { xs: 0, md: 0 }, // Ensure logo comes first on mobile (xs), later on larger screens
                         mb: { xs: 2, md: -10 }, // Adjust margin bottom on mobile to create spacing between logo and text
                         marginLeft: { xs: 0, md: 2 }, // Align logo to left with some margin
-                    }} />
+                        display: { xs: 'none', md: 'flex' },  // Hide logo on small screens, show on medium and larger screens
+                    }}
+                />
 
-                {/* Text Items in a Row on Medium Screens and Larger */}
-                <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 5, alignItems: 'center' }}>
+
+                 {/* Text Items in a Row on Medium Screens and Larger */}
+                 <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 5, alignItems: 'center' }}>
                     <Link to="/about" style={{ textDecoration: 'none' }}>
 
                         <Box sx={{ textDecoration: 'none' }}>About</Box>
@@ -296,11 +318,11 @@ export default function HomeView() {
 
 
                 <Box sx={{
-                    display: { xs: 'flex', md: 'block' }, // Flex on smaller screens, block on larger screens
-                    flexDirection: { xs: 'row', md: 'initial' }, // Row on small screens, default block behavior on larger
-                    width: { xs: 'auto', md: '13%' }, // Auto width on small screens, 13% on larger
-                    justifyContent: { xs: 'center', md: 'initial' }, // Center on small screens, default justify on larger
-                    alignItems: { xs: 'center', md: 'initial' }, // Center text on small screens, default align on larger
+                    display: { xs: 'flex', md: 'block' },
+                    flexDirection: { xs: 'row', md: 'initial' },
+                    width: { xs: 'auto', md: '13%' },
+                    justifyContent: { xs: 'center', md: 'initial' },
+                    alignItems: { xs: 'center', md: 'initial' },
                 }}>
                     © 2024 Otp Ninja
                 </Box>
@@ -312,4 +334,6 @@ export default function HomeView() {
             </Box>
         </Box>
     );
+
+
 }

@@ -31,6 +31,113 @@ import Logo from 'src/components/logo';
 import TelegramIcon from '../../layouts/dashboard/common/telegram';  // Adjust path accordingly
 
 
+// LeftSidebar component for handling the mobile menu toggle
+const LeftSidebar = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const theme = useTheme();
+
+    const toggleMenu = () => {
+        setIsMenuOpen(prev => !prev);
+    };
+
+
+
+    return (
+        <Box
+            sx={{
+                height: '7.6vh',
+                marginTop: '-6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                paddingRight: 3,
+            }}
+        >
+            {/* IconButton for Menu Toggle */}
+            <IconButton
+                color="inherit"
+                sx={{
+                    fontSize: 40,
+                    fontWeight: 'bold',
+                    position: 'relative',
+                    top: 18,
+                    display: { xs: 'block', md: 'none' }, // Show on mobile only
+                }}
+                onClick={toggleMenu}
+            >
+                <MenuIcon sx={{ fontSize: 'inherit' }} />
+            </IconButton>
+
+            {/* Conditional Rendering of the Menu */}
+            {isMenuOpen && (
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '60px',
+                        right: 0,
+                        backgroundColor: theme.palette.background.paper,
+                        boxShadow: 3,
+                        borderRadius: 2,
+                        padding: 2,
+                        width: 200,
+                        zIndex: 999,
+                    }}
+                >
+                    {/* Menu Items */}
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 1,
+                        }}
+                    >
+                        <Typography
+                            variant="body1"
+                            sx={{
+                                color: 'text.primary',
+                                cursor: 'pointer',
+                                fontSize: '1rem',
+                                fontWeight: 500,
+                                padding: '8px 12px',
+                                borderRadius: 1,
+                                '&:hover': {
+                                    backgroundColor: theme.palette.action.hover,
+                                    color: theme.palette.primary.main,
+                                },
+                            }}
+                            // eslint-disable-next-line no-return-assign
+                            onClick={() => window.location.href = 'login'}
+                        >
+                            Login
+                        </Typography>
+
+                        <Typography
+                            variant="body1"
+                            sx={{
+                                color: 'text.primary',
+                                cursor: 'pointer',
+                                fontSize: '1rem',
+                                fontWeight: 500,
+                                padding: '8px 12px',
+                                borderRadius: 1,
+                                '&:hover': {
+                                    backgroundColor: theme.palette.action.hover,
+                                    color: theme.palette.primary.main,
+                                },
+                            }}
+                            // eslint-disable-next-line no-return-assign
+                            onClick={() => window.location.href = 'https://otpninja.com/register'}
+                        >
+                            Register
+                        </Typography>
+                    </Box>
+                </Box>
+            )}
+        </Box>
+    );
+};
+
+
 
 // ----------------------------------------------------------------------
 
@@ -39,7 +146,6 @@ export default function HomeView() {
     const navigate = useNavigate();  // Initialize the useNavigate hook
 
 
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const [time, setTime] = useState(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
 
@@ -62,7 +168,7 @@ export default function HomeView() {
         if (isMenuOpe) {
             const timer = setTimeout(() => {
                 setShowTelepop(true);
-            }, 5000); // Delay of 5 seconds
+            }, 6900); // Delay of 5 seconds
 
             // Cleanup the timer if the component unmounts or isMenuOpe changes
             return () => clearTimeout(timer);
@@ -71,11 +177,7 @@ export default function HomeView() {
     }, [isMenuOpe]);
 
 
-    // Toggle the menu visibility
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
-
+  
     const toggleMen = () => {
         setIsMenuOpe(!isMenuOpe);
     };
@@ -418,7 +520,6 @@ export default function HomeView() {
 
 
 
-    // eslint-disable-next-line no-shadow
     // Function to navigate to the Register or Login page
     const handleMenuClick = (page) => {
         if (page === 'login') {
@@ -428,101 +529,7 @@ export default function HomeView() {
         }
     };
 
-    // eslint-disable-next-line react/no-unstable-nested-components
-    const LeftSidebar = () => (
-        <Box
-            sx={{
-                height: '7.6vh',
-                marginTop: '-6px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-                paddingRight: 3,
-            }}
-        >
-            <IconButton
-                color="inherit"
-                sx={{
-                    fontSize: 40,
-                    fontWeight: 'bold',
-                    position: 'relative',
-                    top: 18,
-                    // Hide hamburger menu on larger screens (md and above)
-                    display: { xs: 'block', md: 'none' }, // Show only on xs (mobile) screens
-                }}
-                onClick={toggleMenu}  // Toggle the menu on click
-            >
-                <MenuIcon sx={{ fontSize: 'inherit' }} />
-            </IconButton>
-
-            {/* Conditional rendering of the menu */}
-            {isMenuOpen && (
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        top: '60px', // Adjust the top position for better alignment
-                        right: 0,
-                        backgroundColor: theme.palette.background.paper,
-                        boxShadow: 3,
-                        borderRadius: 2,
-                        padding: 2,
-                        width: 200, // Fixed width for consistency
-                        zIndex: 999, // Ensure the menu appears on top of other elements
-                    }}
-                >
-
-
-                    {/* Menu Items */}
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 1,
-                        }}
-                    >
-                        <Typography
-                            variant="body1"
-                            sx={{
-                                color: 'text.primary',
-                                cursor: 'pointer',
-                                fontSize: '1rem',
-                                fontWeight: 500,
-                                padding: '8px 12px',
-                                borderRadius: 1,
-                                '&:hover': {
-                                    backgroundColor: theme.palette.action.hover,
-                                    color: theme.palette.primary.main,
-                                },
-                            }}
-                            onClick={() => handleMenuClick('login')}
-                        >
-                            Login
-                        </Typography>
-
-                        <Typography
-                            variant="body1"
-                            sx={{
-                                color: 'text.primary',
-                                cursor: 'pointer',
-                                fontSize: '1rem',
-                                fontWeight: 500,
-                                padding: '8px 12px',
-                                borderRadius: 1,
-                                '&:hover': {
-                                    backgroundColor: theme.palette.action.hover,
-                                    color: theme.palette.primary.main,
-                                },
-                            }}
-                            // eslint-disable-next-line no-return-assign
-                            onClick={() => window.location.href = 'https://otpninja.com/register'} // Redirect to external URL
-                        >
-                            Register
-                        </Typography>
-                    </Box>
-                </Box>
-            )}
-        </Box>
-    );
+    
 
     return (
         <Box
@@ -535,8 +542,9 @@ export default function HomeView() {
                 position: 'relative',
             }}
         >
-            {/* Left Sidebar */}
-            <LeftSidebar />
+             {/* Left Sidebar (mobile menu) */}
+             <LeftSidebar />
+           
 
             {/* Logo */}
             <Logo
@@ -707,7 +715,7 @@ export default function HomeView() {
                                             opacity: 0.9,
                                         },
                                         '@media (max-width: 600px)': {
-                                            maxWidth: '500px',  // Larger image on mobile
+                                            maxWidth: '690px',  // Larger image on mobile
                                         },
                                         backgroundColor: 'transparent',  // Ensure no background color here
                                         backdropFilter: 'none',  // Remove glass effect or blur
@@ -1255,25 +1263,67 @@ export default function HomeView() {
                         }}
                     />
 
-                    {/* Text Items in a Row on Medium Screens and Larger */}
-                    <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 5 }}>
-                        <Link to="/about" style={{ textDecoration: 'none' }}>
-                            <Box>About</Box>
-                        </Link>
-                        <Box>Privacy Policy</Box>
-                        <Box>Terms of Service</Box>
+                     {/* Text Items in a Row on Medium Screens and Larger */}
+                <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 5, alignItems: 'center' }}>
+                    <Link to="/about" style={{ textDecoration: 'none' }}>
+
+                        <Box sx={{ textDecoration: 'none' }}>About</Box>
+
+                    </Link>
+
+                    <Link to="/private" style={{ textDecoration: 'none' }}>
+                        <Box style={{ textDecoration: 'none' }}>Privacy Policy </Box>
+                    </Link>
+                    <Box>Terms of Service</Box>
+                </Box>
+
+                {/* Text Items in Column on Small Screens */}
+                <Box
+                    sx={{
+                        display: { xs: 'flex', md: 'none' },
+                        gap: 2,
+                        flexDirection: 'row',
+                        textAlign: 'center',
+                        mt: 3, // Adjust this value to move the Box up
+                    }}
+                >
+                    <Link to="/about" style={{ textDecoration: 'none' }}>
+
+                        <Box sx={{ textDecoration: 'none', mt: -5 }}>About</Box>
+
+                    </Link>
+                    <Link to="/private" style={{ textDecoration: 'none' }}>
+
+                        <Box sx={{ textDecoration: 'none', mt: -5 }}>Privacy Policy</Box>
+
+                    </Link>
+                    <Link to="/about" style={{ textDecoration: 'none' }}>
+
+                        <Box sx={{ textDecoration: 'none', mt: -5 }}>Terms of Service</Box>
+
+                    </Link>
+                </Box>
+
+
+
+                    {/* © 2024 Otp Ninja with better font styling */}
+                    <Box
+                        sx={{
+                            display: { xs: 'flex', md: 'block' },  // Flex on smaller screens, block on larger screens
+                            flexDirection: { xs: 'row', md: 'initial' },  // Row on small screens, default block behavior on larger
+                            width: { xs: 'auto', md: '13%' },  // Auto width on small screens, 13% on larger
+                            justifyContent: { xs: 'center', md: 'initial' },  // Center on small screens, default justify on larger
+                            alignItems: { xs: 'center', md: 'initial' },  // Center text on small screens, default align on larger
+                            fontWeight: '700',  // Make the font bold
+                            fontSize: { xs: '0.875rem', md: '1rem' },  // Responsive font size
+                            letterSpacing: '0.5px',  // Letter spacing for better readability
+                            lineHeight: '1.5',  // Adjust line height for better spacing
+                        }}
+                    >
+                        © 2024 Otp Ninja
                     </Box>
 
-                    {/* Text Items in Column on Small Screens */}
-                    <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 2, flexDirection: 'row', textAlign: 'center' }}>
-                        <Link to="/about" style={{ textDecoration: 'none' }}>
-                            <Box>About</Box>
-                        </Link>
-                        <Box>Privacy Policy</Box>
-                        <Box>Terms of Service</Box>
-                    </Box>
 
-                    <Box>© 2024 Otp Ninja</Box>
 
                 </Box>
 
