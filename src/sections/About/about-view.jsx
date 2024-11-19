@@ -55,7 +55,7 @@ const LeftSidebar = () => {
                 <Logo
                     sx={{
                         position: 'relative',
-                        top: { xs: 59, md: 30 }, // Adjust top spacing for different screens
+                        top: { xs: 70, md: 30 }, // Adjust top spacing for different screens
                         left: { xs: 16, md: 24 }, // Align logo to left with some spacing from edge
                     }}
                 />
@@ -67,7 +67,7 @@ const LeftSidebar = () => {
                     fontSize: 40,
                     fontWeight: 'bold',
                     position: 'relative',
-                    top: 19,
+                    top: 32,
                     display: { xs: 'block', md: 'none' }, // Show on mobile only
                 }}
                 onClick={toggleMenu}
@@ -180,7 +180,7 @@ export default function HomeView() {
                         padding: 4,  // Adjust padding for smaller screens
                     },
                     '@media (max-width: 400px)': {
-                        top: '10%',  // Move the Box further down for very small screens
+                        top: '20%',  // Move the Box further down for very small screens
                         padding: 2,  // Further reduce padding
 
                     }
