@@ -9,7 +9,7 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title> HomePage  | OTP NINJA </title>
+        <title> OTPNINJA - HomePage </title>
       </Helmet>
 
       <HomeView />

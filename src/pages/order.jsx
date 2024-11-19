@@ -9,7 +9,7 @@ export default function BlogPage() {
   return (
     <>
       <Helmet>
-        <title> Order | Minimal UI </title>
+        <title> Order Page </title>
       </Helmet>
 
       <OrderView />

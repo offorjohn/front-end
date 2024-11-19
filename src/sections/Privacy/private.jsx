@@ -55,8 +55,8 @@ const LeftSidebar = () => {
                 <Logo
                     sx={{
                         position: 'relative',
-                        top: { xs: 59, md: 30 }, // Adjust top spacing for different screens
-                        left: { xs: 16, md: 24 }, // Align logo to left with some spacing from edge
+                        top: { xs: 63, md: 30 }, // Adjust top spacing for different screens
+                        left: { xs: 19, md: 24 }, // Align logo to left with some spacing from edge
                     }}
                 />
             </Box>
@@ -67,7 +67,7 @@ const LeftSidebar = () => {
                     fontSize: 40,
                     fontWeight: 'bold',
                     position: 'relative',
-                    top: 19,
+                    top: 34,
                     display: { xs: 'block', md: 'none' }, // Show on mobile only
                 }}
                 onClick={toggleMenu}
@@ -261,6 +261,7 @@ export default function Private() {
                     borderTop: '1px solid #ccc',
                     backgroundColor: '#f9f9f9',
                     gap: { xs: -5, md: 5 }, // Spacing between items
+                    marginTop: -3.5,
                     position: 'relative',  // Ensure footer sticks to bottom without absolute positioning
                 }}
             >
@@ -296,7 +297,7 @@ export default function Private() {
                         gap: 2,
                         flexDirection: 'row',
                         textAlign: 'center',
-                        mt: 3, // Adjust this value to move the Box up
+                        mt: 8, // Adjust this value to move the Box up
                     }}
                 >
                     <Link to="/about" style={{ textDecoration: 'none' }}>
@@ -309,7 +310,7 @@ export default function Private() {
                         <Box sx={{ textDecoration: 'none', mt: -5 }}>Privacy Policy</Box>
 
                     </Link>
-                    <Link to="/about" style={{ textDecoration: 'none' }}>
+                    <Link to="/terms" style={{ textDecoration: 'none' }}>
 
                         <Box sx={{ textDecoration: 'none', mt: -5 }}>Terms of Service</Box>
 

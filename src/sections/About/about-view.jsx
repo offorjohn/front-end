@@ -216,7 +216,7 @@ export default function HomeView() {
 
                     Join us today and experience the future of authentication with OTP Ninja!
 
-                    {'\n'} {/* Adds a line break between paragraphs */}
+                    {'\n\n'} {/* Adds a line break between paragraphs */}
 
 
                     © 2024 OTP ENTERPRISES, All Rights Reserved

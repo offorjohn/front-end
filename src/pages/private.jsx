@@ -8,7 +8,7 @@ export default function Privatejon() {
     return (
         <>
             <Helmet>
-                <title>AboutPage | OTP NINJA</title>
+                <title>PrivacyPage | OTP NINJA</title>
             </Helmet>
             <Private />
         </>

@@ -1178,9 +1178,9 @@ export default function HomeView() {
                     <Grid
                         item
                         xs={12}
-                        sm={6}
-                        md={4}
-                        lg={3}
+                        sm={7}
+                        md={6}
+                        lg={3.5}
                         xl={3}
                         sx={{
                             ml: { xs: '-29px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
@@ -1197,9 +1197,9 @@ export default function HomeView() {
                     <Grid
                         item
                         xs={12}
-                        sm={6}
-                        md={4}
-                        lg={3}
+                        sm={7}
+                        md={6}
+                        lg={3.5}
                         xl={3}
                         sx={{
                             ml: { xs: '-29px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
@@ -1215,9 +1215,9 @@ export default function HomeView() {
                     <Grid
                         item
                         xs={12}
-                        sm={6}
-                        md={4}
-                        lg={3}
+                        sm={7}
+                        md={6}
+                        lg={3.5}
                         xl={3}
                         sx={{
                             ml: { xs: '-29px', sm: 0 },  // Move to the left a little on mobile (xs), reset on larger screens
@@ -1274,7 +1274,10 @@ export default function HomeView() {
                     <Link to="/private" style={{ textDecoration: 'none' }}>
                         <Box style={{ textDecoration: 'none' }}>Privacy Policy </Box>
                     </Link>
-                    <Box>Terms of Service</Box>
+                    <Link to="/terms" style={{ textDecoration: 'none' }}>
+                    <Box style={{ textDecoration: 'none' }}>Terms of Service</Box>
+                
+                </Link>
                 </Box>
 
                 {/* Text Items in Column on Small Screens */}
@@ -1297,7 +1300,7 @@ export default function HomeView() {
                         <Box sx={{ textDecoration: 'none', mt: -5 }}>Privacy Policy</Box>
 
                     </Link>
-                    <Link to="/about" style={{ textDecoration: 'none' }}>
+                    <Link to="/terms" style={{ textDecoration: 'none' }}>
 
                         <Box sx={{ textDecoration: 'none', mt: -5 }}>Terms of Service</Box>
 

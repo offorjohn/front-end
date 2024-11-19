@@ -22,6 +22,8 @@ const AboutPage = lazy(() => import('src/pages/about'));
 
 const Private = lazy(() => import('src/pages/private'))
 
+const Terms = lazy(() => import('src/pages/terms'))
+
 
 
 
@@ -61,6 +63,11 @@ export default function Router() {
     {
       path: 'about',
       element: < AboutPage/>
+    },
+    {
+      path: 'terms',
+      element: <Terms/>
+
     },
     {
       path: 'private',
