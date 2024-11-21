@@ -84,7 +84,6 @@ export default function AppView() {
         setBalance(balanceResponse.data.balance); // Assuming the API returns a `balance` field
 
       } catch (err) {
-        console.error('Error fetching data:', err);
         setError('Failed to fetch data.');
       } finally {
         setLoading(false); // Set loading to false after all requests are done

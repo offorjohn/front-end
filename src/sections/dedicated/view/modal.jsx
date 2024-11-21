@@ -74,14 +74,13 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
         setStoredSubphone(subphone);
         setTimer('600'); // Set the timer to 10 minutes (600 seconds)
       }
-      console.log(subphone)
+   
 
       if (cancel && cancel.trim() !== '') {
         setTimer(''); // Set the timer to 10 minutes (600 seconds)
 
         setStoredCancel(cancel);
       }
-      console.log(cancel)
       if (cost && cost.trim() !== '') {
         setStoredCost(cost);
       }
@@ -357,7 +356,7 @@ Modal.propTypes = {
   subphone: PropTypes.string,
   cost: PropTypes.string,
   cancel: PropTypes.string,
-  onBack: PropTypes.string
+  onBack: PropTypes.string.isRequired,
 };
 
 export default Modal;

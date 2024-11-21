@@ -78,7 +78,6 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
       if (responseText && responseText.trim() !== '') {
         setStoredResponseText(responseText);
       }
-      console.log(responseText)
       
       if (subphone && subphone.trim() !== '') {
         setStoredSubphone(subphone);
@@ -90,7 +89,6 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
 
         setStoredCancel(cancel);
       }
-      console.log(cancel)
       if (cost && cost.trim() !== '') {
         setStoredCost(cost);
       }

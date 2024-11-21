@@ -1013,7 +1013,6 @@ export default function CustomizedTables() {
     const logoFilename = serviceLogoMap[serviceCode];
 
     // Debugging: Check the logo filename after mapping
-    console.log("Mapped Logo Filename:", logoFilename);
 
     if (!logoFilename) return '...'; // Return empty if no logo is found for the code
 
@@ -1080,9 +1079,7 @@ export default function CustomizedTables() {
 
         setPayments(uniquePayments); // Store only the unique payments
 
-      } catch (error) {
-        console.error('Error fetching payments:', error);
-      }
+      } catch (error) { /* empty */ }
     };
     fetchPayments();
   }, []);
@@ -1102,11 +1099,9 @@ export default function CustomizedTables() {
 
         };
         const responseServices = await axios.request(optionsServices);
-        console.log(responseServices)
+       
         setServices(responseServices.data.data);
-      } catch (error) {
-        console.error('Error fetching services:', error);
-      }
+      } catch (error) { /* empty */ }
     };
     fetchNames();
   }, []);
@@ -1128,10 +1123,7 @@ export default function CustomizedTables() {
       try {
         const response = await axios.request(options);
         setServ(response.data);  // Store the response data in the state
-        console.log(response.data.price);  // Check the data in the console
-      } catch (error) {
-        console.error('Error fetching service:', error);
-      }
+      } catch (error) { /* empty */ }
     };
 
     // Call the fetch function once when the component mounts
@@ -1184,7 +1176,6 @@ export default function CustomizedTables() {
         }
       };
 
-      console.log(options)
 
 
       // Make the API request
@@ -1217,7 +1208,6 @@ export default function CustomizedTables() {
       setShowModal(true);
 
     } catch (error) {
-      console.error('Purchase error:', error); // Log the error for debugging
       setResponseText('Purchase failed. Please try again.');
       setModalType('yellow');
       setShowModal(true);

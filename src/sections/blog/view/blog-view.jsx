@@ -62,12 +62,8 @@ export default function Blog() {
         const paymentLink = response.data.paymentlink;
         // Redirect the user to the payment link
         window.location.href = paymentLink;
-      } else {
-        console.error("Payment initiation failed:", response.data.message);
-      }
-    } catch (error) {
-      console.error('Error initializing payment:', error);
-    }
+      } else { /* empty */ }
+    } catch (error) { /* empty */ }
   };
 
   // Create rows and sort them by date (latest first)
@@ -91,10 +87,8 @@ export default function Blog() {
 
   React.useEffect(() => {
     const fetchPayments = async () => {const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-      console.log('Token:', token);
-      if (!token) {
-        console.error('No token found. User may not be logged in.');
-      }
+      
+      if (!token) { /* empty */ }
       
       try {
         const options = {
@@ -105,12 +99,10 @@ export default function Blog() {
           },
         };
         const response = await axios.request(options);
-        console.log(options)
+       
         setPayments(response.data.data);
-        console.log(response);
-      } catch (error) {
-        console.error('Error fetching payments:', error);
-      }
+       
+      } catch (error) { /* empty */ }
     };
     fetchPayments();
   }, []);

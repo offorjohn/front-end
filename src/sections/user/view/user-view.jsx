@@ -106,9 +106,7 @@ export default function CustomizedTables() {
         setPayments(paymentData);
 
       }
-    } catch (error) {
-      console.error('Login or fetching payments failed:', error);
-    }
+    } catch (error) { /* empty */ }
   };
 
   const ITEM_HEIGHT = 48;
@@ -1621,16 +1619,12 @@ export default function CustomizedTables() {
   const getServiceLogoUrl = (serviceCode) => {
     if (!serviceCode) return ''; // Return empty if service code is missing
 
-    // Debugging: Check the serviceCode and serviceLogoMap
-    console.log("Service Code:", serviceCode);
-    console.log("Service Logo Map:", serviceLogoMap);
 
 
     // Get the mapped logo filename from serviceLogoMap
     const logoFilename = serviceLogoMap[serviceCode.toLowerCase()];
 
     // Debugging: Check the logo filename after mapping
-    console.log("Mapped Logo Filename:", logoFilename);
 
     if (!logoFilename) return '...'; // Return empty if no logo is found for the code
 
@@ -1678,9 +1672,7 @@ export default function CustomizedTables() {
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate delay
       // Here, you could make another API call to fetch details based on selected service
       // const response = await axios.get(`/api/service/${value}`);
-    } catch (error) {
-      console.error('Error loading service:', error);
-    } finally {
+    } catch (error) { /* empty */ } finally {
       setLoading(false); // Stop loading after the fetch
     }
   };
@@ -1739,9 +1731,7 @@ export default function CustomizedTables() {
         setNames(responseCountries.data.data);
         setServices(responseServices.data.data);
 
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
+      } catch (error) { /* empty */ } finally {
         // Ensure loading state is true for at least 5 seconds
         setTimeout(() => {
           setLoading(false); // Stop loading after 5 seconds
@@ -1803,7 +1793,7 @@ export default function CustomizedTables() {
       const { number, message, service, nid } = response.data;
 
       if (response.data.message === 'Invalid service') {
-        console.log(response.data.message)
+       
         // Handle undefined number scenario
         setResponseText("Service not available for this number.");
         setShowModal(true);
@@ -1813,7 +1803,7 @@ export default function CustomizedTables() {
           setResponseText("Service not available for this number.");
         }, 108000); // 3 hours
       } else if (response.data.message === 'Insufficient balance') {
-        console.log(response.data)
+      
         // Handle insufficient balance scenario
         setResponseText("Insufficient balance.");
         setShowModal(true);
@@ -1864,7 +1854,6 @@ export default function CustomizedTables() {
 
 
     } catch (error) {
-      console.error('Purchase error:', error); // Log the error for debugging
       setResponseText('Purchase failed. Please try again.');
       setModalType('yellow');
       setShowModal(true); // Show error modal
@@ -1913,7 +1902,6 @@ export default function CustomizedTables() {
       const { message } = cancelResponse.data; // Assuming the message is in the 'message' field
       const statusCode = cancelResponse.status; // Status code of the response
       // Log the extracted values
-      console.log('Message:', message);
       console.log('Status Code:', statusCode);
       // Extract comparison result into a variable
       const isInvalidRequest = (message === 'invalid request');
@@ -1932,9 +1920,7 @@ export default function CustomizedTables() {
 
 
 
-    } catch (error) {
-      console.error('Error canceling number:', error);
-    }
+    } catch (error) { /* empty */ }
   };
 
 
@@ -1982,9 +1968,7 @@ export default function CustomizedTables() {
             setNoNewMessagesCount((count) => count + 1);
           }
         }
-      } catch (error) {
-        console.error('Error fetching payments:', error);
-      }
+      } catch (error) { /* empty */ }
     };
 
     // Initial fetch
@@ -2004,15 +1988,12 @@ export default function CustomizedTables() {
       const wsendpoint = `${wsendpointBase}${token}/`;
       const socket = new WebSocket(wsendpoint);
 
-      console.log('WebSocket connection initiated', wsendpoint);
 
       socket.onopen = () => {
-        console.log('WebSocket connection opened');
         setResponseText('Connected. Waiting for new messages...');
       };
 
       socket.onmessage = (event) => {
-        console.log('WebSocket message received:', event.data);
         const data = JSON.parse(event.data);
         const sortedData = data.data?.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
 
@@ -2052,12 +2033,11 @@ export default function CustomizedTables() {
       };
 
       socket.onerror = (error) => {
-        console.error('WebSocket error:', error);
+       
         setResponseText('WebSocket encountered an error.');
       };
 
       socket.onclose = () => {
-        console.log('WebSocket connection closed');
         setResponseText(`'Otp.. ${message}`);
       };
 
@@ -2088,7 +2068,7 @@ React.useEffect(() => {
   }
 }, [message, noNewMessagesCount]);
 
-console.log(message);
+   
 
 
 
@@ -2107,14 +2087,12 @@ console.log(message);
       try {
         const response = await axios.request(options);
         setServ(response.data);  // Store the response data in the state
-        console.log(response.data)
+      
 
 
 
 
-      } catch (error) {
-        console.error('Error fetching service:', error);
-      }
+      } catch (error) { /* empty */ }
     };
 
 
@@ -2164,7 +2142,6 @@ console.log(message);
   const isDesktop = useMediaQuery('(min-width:600px)');
 
 
-  console.log(subphone);
 
 
   return (

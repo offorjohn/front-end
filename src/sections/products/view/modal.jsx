@@ -7,11 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 
-const Modal = React.memo(({ show, onClose, responseText, modalType }) => {
-    console.log(responseText);  // This should only log when `responseText` changes or the modal opens
-    
-    
-    return (
+const Modal = React.memo(({ show, onClose, responseText, modalType }) => (
       <Dialog open={show} onClose={onClose}>
         <DialogContent>
           <DialogContentText>
@@ -25,8 +21,7 @@ const Modal = React.memo(({ show, onClose, responseText, modalType }) => {
           </Button>
         </DialogActions>
       </Dialog>
-    );
-  });
+    ));
   
     
 

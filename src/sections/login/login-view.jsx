@@ -63,7 +63,6 @@ export default function LoginView() {
       }
       // eslint-disable-next-line no-shadow
     } catch (error) {
-      console.error(error);
       setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);

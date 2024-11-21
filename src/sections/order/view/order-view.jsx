@@ -44,7 +44,7 @@ export default function CustomizedTables() {
 
   React.useEffect(() => {
     const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-    console.log('useEffect triggered');
+  
     const fetchPayments = async () => {
       try {
         const options = {
@@ -56,11 +56,8 @@ export default function CustomizedTables() {
         };
         const response = await axios.request(options);
      
-        console.log('Response received:', response);
         setPayments(response.data.data);
-      } catch (error) {
-        console.error('Error fetching payments:', error);
-      }
+      } catch (error) { /* empty */ }
     };
     fetchPayments();
   }, []);
