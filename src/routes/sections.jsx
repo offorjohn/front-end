@@ -16,7 +16,6 @@ const ProductsPage = lazy(() => import('src/pages/products'));
 const OrderPage =  lazy(() => import('src/pages/order'));
 const DedicatedPage =  lazy(() => import('src/pages/dedicated'));
 
-const HomePage = lazy(() => import('src/pages/home')); // Lazy load HomePage
 
 const AboutPage = lazy(() => import('src/pages/about')); 
 
@@ -52,10 +51,7 @@ export default function Router() {
    
       ],
     },
-    {
-      path: 'home',
-      element: <HomePage />, // Route for the homepage
-    }, 
+  
     {
       path: 'login',
       element: <LoginPage />,
@@ -77,7 +73,7 @@ export default function Router() {
  
     {
       path: '*',
-      element: <Navigate to="home" replace />,
+      element: <Navigate to="./login" replace />,
     },
   ]);
 

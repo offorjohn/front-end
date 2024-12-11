@@ -20,7 +20,7 @@ const MENU_OPTIONS = [
     label: 'Home',
     icon: 'eva:home-fill',
 
-    route: '../../home', // Set the route for the Home option
+    route: './login', // Set the route for the Home option
   },
   {
     label: 'Profile',

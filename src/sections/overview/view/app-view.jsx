@@ -28,7 +28,7 @@ export default function AppView() {
     if (!token) {
       setError('User is not authenticated.');
       setLoading(false);
-      window.location.href = '../../home'; // Redirect to home page
+      window.location.href = './login'; // Redirect to home page
       return;
     }
 
