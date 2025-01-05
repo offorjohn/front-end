@@ -1,0 +1,1 @@
+export { default as DedicatedView } from './dedicated-view';
