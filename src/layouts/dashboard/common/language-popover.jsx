@@ -7,6 +7,9 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 
+import { isValidJSON } from "../../../utils/json-validator";
+
+import { getCookie } from '../../../utils/cookie-util';
 // ----------------------------------------------------------------------
 
 export default function LanguagePopover() {
@@ -14,7 +17,7 @@ export default function LanguagePopover() {
   const [balance, setBalance] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+ 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
@@ -26,14 +29,17 @@ export default function LanguagePopover() {
   // Fetch balance from the API only on component load
   useEffect(() => {
     const fetchBalance = async () => {
-      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-
+      let token=getCookie("token").split(":")[0];
+      console.log(JSON.stringify(localStorage.getItem('loginResponse')))
+      if(isValidJSON(localStorage.getItem('loginResponse'))){
+       token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+      }
       if (!token) {
         setError('Token not found');
         setLoading(false);
         return;
       }
-
+   
       try {
         const response = await fetch('https://otpninja.com/api/v1/getbalance', {
           method: 'GET',
@@ -47,6 +53,7 @@ export default function LanguagePopover() {
         }
 
         const data = await response.json();
+        console.log(data)
         setBalance(data.balance); // Assuming the API returns { balance: 100 }
       } catch (err) {
         setError('Failed to fetch balance');

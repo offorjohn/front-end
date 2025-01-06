@@ -30,6 +30,9 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell'; // Import
 
 import Modal from './modal';// Import the Modal component
 
+import { isValidJSON } from "../../../utils/json-validator";
+
+import { getCookie } from '../../../utils/cookie-util';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -1049,7 +1052,11 @@ export default function CustomizedTables() {
   useEffect(() => {
     const fetchPayments = async () => {
 
-      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+      let token=getCookie("token").split(":")[0];
+      if(isValidJSON(localStorage.getItem('loginResponse'))){
+       token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+      }
+
       try {
         const options = {
           method: 'GET',
@@ -1088,7 +1095,11 @@ export default function CustomizedTables() {
     const fetchNames = async () => {
 
 
-      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+      let token=getCookie("token").split(":")[0];
+    if(isValidJSON(localStorage.getItem('loginResponse'))){
+     token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    }
+
       try {
         const optionsServices = {
           method: 'GET',
@@ -1099,8 +1110,9 @@ export default function CustomizedTables() {
 
         };
         const responseServices = await axios.request(optionsServices);
-       
+       if(responseServices.data.data){
         setServices(responseServices.data.data);
+       }
       } catch (error) { /* empty */ }
     };
     fetchNames();
@@ -1108,7 +1120,10 @@ export default function CustomizedTables() {
 
   React.useEffect(() => {
 
-    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    let token=getCookie("token").split(":")[0];
+    if(isValidJSON(localStorage.getItem('loginResponse'))){
+     token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    }
     const fetchData = async () => {
       const options = {
         method: 'GET',
@@ -1122,7 +1137,9 @@ export default function CustomizedTables() {
 
       try {
         const response = await axios.request(options);
+        if(response.data){
         setServ(response.data);  // Store the response data in the state
+        }
       } catch (error) { /* empty */ }
     };
 
@@ -1152,9 +1169,10 @@ export default function CustomizedTables() {
         document.getElementById("price").style.display = "none"; // Hide price
       }
 
-      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-
-
+      let token=getCookie("token").split(":")[0];
+      if(isValidJSON(localStorage.getItem('loginResponse'))){
+       token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+      }
 
 
       // Set up the request options using the second code snippet's structure
@@ -1183,7 +1201,9 @@ export default function CustomizedTables() {
 
 
       // Update state with response data
+      if(response.data){
       setResponseData(response.data);
+    
 
 
 
@@ -1202,7 +1222,7 @@ export default function CustomizedTables() {
         }, 3000); // 3 seconds
       }
 
-
+    }
 
 
       setShowModal(true);

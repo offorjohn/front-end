@@ -30,8 +30,9 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
 import Modal from './modal';// Import the Modal component
 
+import { isValidJSON } from "../../../utils/json-validator";
 
-
+import { getCookie } from '../../../utils/cookie-util';
 
 export default function CustomizedTables() {
   const [page, setPage] = useState(0);
@@ -1696,7 +1697,10 @@ export default function CustomizedTables() {
 
     const fetchNames = async () => {
 
-      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+      let token=getCookie("token").split(":")[0];
+      if(isValidJSON(localStorage.getItem('loginResponse'))){
+       token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+      }
 
       try {
         const optionsCountries = {
@@ -1728,8 +1732,12 @@ export default function CustomizedTables() {
         ]);
 
         // Update state with both responses
+        if(responseCountries.data.data){
         setNames(responseCountries.data.data);
+        }
+        if(responseServices.data.data){
         setServices(responseServices.data.data);
+       }
 
       } catch (error) { /* empty */ } finally {
         // Ensure loading state is true for at least 5 seconds
@@ -1764,8 +1772,10 @@ export default function CustomizedTables() {
         priceElement.style.display = "none"; // Hide price
       }
 
-      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-
+      let token=getCookie("token").split(":")[0];
+    if(isValidJSON(localStorage.getItem('loginResponse'))){
+     token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    }
       // Prepare API request options
       const options = {
         method: 'POST',
@@ -1822,7 +1832,9 @@ export default function CustomizedTables() {
       } else {
         // Handle success case
         setPurchasedNid(nid);
+        if(response.data){
         setResponseData(response.data);
+        }
         setLoading(true);
 
         setTimeout(() => {
@@ -1875,7 +1887,11 @@ export default function CustomizedTables() {
   // Function to cancel the purchased numberv
   const cancelNumber = async () => {
 
-    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    let token=getCookie("token").split(":")[0];
+    if(isValidJSON(localStorage.getItem('loginResponse'))){
+     token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    }
+
     if (!purchasedNid) {
 
       return;
@@ -1927,7 +1943,10 @@ export default function CustomizedTables() {
 
   // eslint-disable-next-line consistent-return
   React.useEffect(() => {
-    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    let token=getCookie("token").split(":")[0];
+    if(isValidJSON(localStorage.getItem('loginResponse'))){
+     token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    }
     let intervalId;
 
     const fetchPayments = async () => {
@@ -1953,8 +1972,9 @@ export default function CustomizedTables() {
             "messagedate": new Date().toISOString() // current date and time
           }]
           : response.data.data.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
-
-        setPayments(sortedData);
+          if(sortedData){
+           setPayments(sortedData);
+          }
 
         // Update message state if it's different
         if (sortedData.length > 0) {
@@ -2074,7 +2094,10 @@ React.useEffect(() => {
 
   React.useEffect(() => {
 
-    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    let token=getCookie("token").split(":")[0];
+    if(isValidJSON(localStorage.getItem('loginResponse'))){
+     token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    }
     const fetchData = async () => {
       const options = {
         method: 'GET',

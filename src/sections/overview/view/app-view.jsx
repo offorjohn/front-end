@@ -12,32 +12,15 @@ import Typography from '@mui/material/Typography';
 
 import AppWidgetSummary from '../app-widget-summary';
 
+import { getCookie } from '../../../utils/cookie-util';
 // ----------------------------------------------------------------------
-let token="";
-function getCookie(cname) {
- 
-  const name = `${cname}=`;
-  const decodedCookie = decodeURIComponent(document.cookie);
-  const ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i+=1) {
-    let c = ca[i];
-    while (c.charAt(0) === ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) === 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
 
-const loginServer = async () => {
-  token=getCookie("token").split(":")[0];
-  const profileResponse = await axios.get('https://otpninja.com/api/v1/getsession', {
-    headers: { 'X-OTPNINJA-TOKEN': token },
-  });
-  localStorage.setItem('loginResponse',profileResponse);
-}
+
+
+
+let token=getCookie("token").split(":")[0];
+
+
 
 export default function AppView() {
   const [data, setData] = useState([]);
@@ -47,86 +30,102 @@ export default function AppView() {
   const [balance, setBalance] = useState(0); // State for balance
 
 
-  useEffect(() => {
-    
-    
-    token=getCookie("token").split(":")[0];
- 
 
-    loginServer();
-    
   
-    
-    token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-
-    if (!token) {
-      
-      setError('User is not authenticated.');
-      setLoading(false);
-      window.location.href = 'https://otpninja.com/login'; // Redirect to home page
-      return;
+  
+  const fetchData = async () => {
+    try {
+      // Fetch profile data
+      const profileResponse = await axios.get('https://otpninja.com/api/v1/getprofile', {
+        headers: { 'X-OTPNINJA-TOKEN': token },
+      });
+  
+      // Set username from profile data
+      setUsername(profileResponse.data.data[0]?.username || '');
+  
+      // Show success toast once the user is authenticated and the data is fetched
+      toast.success(`Welcome back ${profileResponse.data.data[0]?.username || 'User'}!`, {
+        position: "top-right",
+        autoClose: 7000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          backgroundColor: 'green', // Set background color to green
+          color: 'white', // Set text color to white (to ensure contrast)
+          fontWeight: 'bold', // Optional: make text bold for better visibility
+        },
+      });
+  
+      // Fetch total numbers
+      const mdnResponse = await axios.get('https://otpninja.com/api/v1/listnumbers?type=mdn', {
+        headers: { 'X-OTPNINJA-TOKEN': token },
+      });
+      const otpResponse = await axios.get('https://otpninja.com/api/v1/listnumbers?type=otp', {
+        headers: { 'X-OTPNINJA-TOKEN': token },
+      });
+  
+      const uniqueMDNNumbers = [...new Set(mdnResponse.data.data.map(item => item.number))];
+      const uniqueOTPNumbers = [...new Set(otpResponse.data.data.map(item => item.number))];
+  
+      const totalMDN = uniqueMDNNumbers.length;
+      const totalOTP = uniqueOTPNumbers.length;
+  
+      setData([
+        { title: 'Total Rentals Numbers', total: totalMDN, color: 'primary', icon: 'ic_globe' },
+        { title: 'Total Verification Numbers', total: totalOTP, color: 'secondary', icon: 'ic_flag' },
+      ]);
+  
+      // Fetch balance data
+      const balanceResponse = await axios.get('https://otpninja.com/api/v1/getbalance', {
+        headers: { 'X-OTPNINJA-TOKEN': token },
+      });
+      setBalance(balanceResponse.data.balance); // Assuming the API returns a `balance` field
+  
+    } catch (err) {
+      setError('Failed to fetch data.');
+    } finally {
+      setLoading(false); // Set loading to false after all requests are done
     }
-
-    const fetchData = async () => {
-      try {
-        // Fetch profile data
-        const profileResponse = await axios.get('https://otpninja.com/api/v1/getprofile', {
-          headers: { 'X-OTPNINJA-TOKEN': token },
-        });
-
-        // Set username from profile data
-        setUsername(profileResponse.data.data[0]?.username || '');
-
-        // Show success toast once the user is authenticated and the data is fetched
-        toast.success(`Welcome back ${profileResponse.data.data[0]?.username || 'User'}!`, {
-          position: "top-right",
-          autoClose: 7000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          style: {
-            backgroundColor: 'green', // Set background color to green
-            color: 'white', // Set text color to white (to ensure contrast)
-            fontWeight: 'bold', // Optional: make text bold for better visibility
-          },
-        });
-
-        // Fetch total numbers
-        const mdnResponse = await axios.get('https://otpninja.com/api/v1/listnumbers?type=mdn', {
-          headers: { 'X-OTPNINJA-TOKEN': token },
-        });
-        const otpResponse = await axios.get('https://otpninja.com/api/v1/listnumbers?type=otp', {
-          headers: { 'X-OTPNINJA-TOKEN': token },
-        });
-
-        const uniqueMDNNumbers = [...new Set(mdnResponse.data.data.map(item => item.number))];
-        const uniqueOTPNumbers = [...new Set(otpResponse.data.data.map(item => item.number))];
-
-        const totalMDN = uniqueMDNNumbers.length;
-        const totalOTP = uniqueOTPNumbers.length;
-
-        setData([
-          { title: 'Total Rentals Numbers', total: totalMDN, color: 'primary', icon: 'ic_globe' },
-          { title: 'Total Verification Numbers', total: totalOTP, color: 'secondary', icon: 'ic_flag' },
-        ]);
-
-        // Fetch balance data
-        const balanceResponse = await axios.get('https://otpninja.com/api/v1/getbalance', {
-          headers: { 'X-OTPNINJA-TOKEN': token },
-        });
-        setBalance(balanceResponse.data.balance); // Assuming the API returns a `balance` field
-
-      } catch (err) {
-        setError('Failed to fetch data.');
-      } finally {
-        setLoading(false); // Set loading to false after all requests are done
+  };
+  
+  
+  useEffect(() => {
+    const loginServer = async () => {
+      token=getCookie("token").split(":")[0];
+       const res = await axios.get('https://otpninja.com/api/v1/getsession', {
+        headers: { 'X-OTPNINJA-TOKEN': token },
+      });
+      console.log(res.data)
+      const response = res.data;
+      if(response.data){
+      console.log(response.data[0])
+      const profileResponse= response.data[0];
+      
+      localStorage.setItem('loginResponse',profileResponse);
+      if (!profileResponse.token) {
+        
+        setError('User is not authenticated.');
+        setLoading(false);
+        window.location.href = 'https://otpninja.com/login'; // Redirect to home page
+        
       }
+      fetchData();
+    }
+    else{
+        setError('User is not authenticated.');
+        setLoading(false);
+        window.location.href = 'https://otpninja.com/login'; 
+        
+    }
     };
 
-    fetchData();
-  }, []); // Empty dependency array ensures this runs only once when the component mounts
+    loginServer();
+   
+   
+  },[]); // Empty dependency array ensures this runs only once when the component mounts
 
   if (loading) {
     return (

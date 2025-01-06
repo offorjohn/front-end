@@ -16,6 +16,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
+import { isValidJSON } from "../../../utils/json-validator";
+
+import { getCookie } from '../../../utils/cookie-util';
+
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.grey,
@@ -43,7 +48,10 @@ export default function CustomizedTables() {
   const [payments, setPayments] = useState([]);
 
   React.useEffect(() => {
-    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    let token=getCookie("token").split(":")[0];
+    if(isValidJSON(localStorage.getItem('loginResponse'))){
+     token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    }
   
     const fetchPayments = async () => {
       try {
@@ -55,8 +63,9 @@ export default function CustomizedTables() {
           },
         };
         const response = await axios.request(options);
-     
+        if(response.data.data){
         setPayments(response.data.data);
+        }
       } catch (error) { /* empty */ }
     };
     fetchPayments();

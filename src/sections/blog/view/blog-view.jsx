@@ -21,6 +21,11 @@ import FormControl from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TableContainer from '@mui/material/TableContainer';
 
+import { isValidJSON } from "../../../utils/json-validator";
+
+import { getCookie } from '../../../utils/cookie-util';
+
+
 export default function Blog() {
 
   const [open, setOpen] = useState(false);
@@ -45,8 +50,10 @@ export default function Blog() {
   };
 
   const paymentMoney = async () => {
-    const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-
+    let token=getCookie("token").split(":")[0];
+    if(isValidJSON(localStorage.getItem('loginResponse'))){
+     token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+    }
     try {
       const options = {
         method: 'GET',
@@ -86,8 +93,11 @@ export default function Blog() {
   };
 
   React.useEffect(() => {
-    const fetchPayments = async () => {const token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
-      
+    const fetchPayments = async () => { 
+      let token=getCookie("token").split(":")[0];
+      if(isValidJSON(localStorage.getItem('loginResponse'))){
+       token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+      }
       if (!token) { /* empty */ }
       
       try {
@@ -99,8 +109,9 @@ export default function Blog() {
           },
         };
         const response = await axios.request(options);
-       
+       if(response.data.data){
         setPayments(response.data.data);
+       }
        
       } catch (error) { /* empty */ }
     };

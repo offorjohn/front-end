@@ -20,7 +20,7 @@ const DedicatedPage =  lazy(() => import('src/pages/dedicated'));
 const AboutPage = lazy(() => import('src/pages/about')); 
 
 const Private = lazy(() => import('src/pages/private'))
-
+const Logout = lazy(() => import('src/pages/logout'))
 const Terms = lazy(() => import('src/pages/terms'))
 
 
@@ -67,7 +67,12 @@ export default function Router() {
     },
     {
       path: 'private',
-      element: < Private/>
+      element: <Private/>
+
+    },
+    {
+      path: 'logout',
+      element: <Logout/>
 
     },
  
