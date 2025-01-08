@@ -29,10 +29,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell'; // Import useNavigate
 
 import Modal from './modal';// Import the Modal component
-
-import { isValidJSON } from "../../../utils/json-validator";
-
 import { getCookie } from '../../../utils/cookie-util';
+import { isValidJSON } from "../../../utils/json-validator";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {

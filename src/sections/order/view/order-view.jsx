@@ -16,9 +16,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
-import { isValidJSON } from "../../../utils/json-validator";
-
 import { getCookie } from '../../../utils/cookie-util';
+import { isValidJSON } from "../../../utils/json-validator";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

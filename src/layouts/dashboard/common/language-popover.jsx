@@ -7,9 +7,8 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { isValidJSON } from "../../../utils/json-validator";
-
 import { getCookie } from '../../../utils/cookie-util';
+import { isValidJSON } from "../../../utils/json-validator";
 // ----------------------------------------------------------------------
 
 export default function LanguagePopover() {

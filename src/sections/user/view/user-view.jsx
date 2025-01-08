@@ -30,9 +30,8 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
 import Modal from './modal';// Import the Modal component
 
-import { isValidJSON } from "../../../utils/json-validator";
-
 import { getCookie } from '../../../utils/cookie-util';
+import { isValidJSON } from "../../../utils/json-validator";
 
 export default function CustomizedTables() {
   const [page, setPage] = useState(0);

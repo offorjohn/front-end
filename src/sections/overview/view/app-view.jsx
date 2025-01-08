@@ -11,7 +11,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
 import AppWidgetSummary from '../app-widget-summary';
-
 import { getCookie } from '../../../utils/cookie-util';
 // ----------------------------------------------------------------------
 
