@@ -2029,7 +2029,7 @@ export default function CustomizedTables() {
             setMessage(latestMessage);
             previousMessageRef.current = latestMessage;
             setTimeout(() => {
-              setResponseText(`'Otp.. ${latestMessage}`);
+              setResponseText(`'Otp.. Loading`);
             }, 7200000);
             
           } 
