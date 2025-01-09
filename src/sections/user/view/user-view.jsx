@@ -2035,7 +2035,7 @@ export default function CustomizedTables() {
             }, 7200000);
           } 
         } else {
-          setResponseText('Waiting to receive OTP...');
+          setResponseText(`'Otp.. ${message}`);
 
           
         }
