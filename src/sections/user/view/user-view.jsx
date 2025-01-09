@@ -56,7 +56,6 @@ export default function CustomizedTables() {
   const [subtitleText, setSubtitleText] = useState('');
   const [title, setTitle] = useState('PREVIOUS SMS Verifications')
 
-  const [currentIndex, setCurrentIndex] = useState(0); // Index for cycling
   const [responseData, setResponseData] = useState(null);
 
   const [cancelModal, setCancelM] = useState('Request FulFilled. ✔')
@@ -73,17 +72,13 @@ export default function CustomizedTables() {
   const [, setNoNewMessagesCount] = useState(0);
 
 
-
-  const handleOpenModal = () => {
-    if (payments.length > 0) {
-      // Update subPhone with the current index's number
-      setSubPhone(payments[currentIndex]?.number);
+  const handleOpenModal = (number) => {
+    if (number) {
+      // Set the selected number for the modal
+      setSubPhone(number);
       setShowModal(true);
-
-      // Increment index, reset to 0 if it's the last element
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % payments.length);
     } else {
-      console.log("No data available.");
+      console.log("No number provided.");
     }
   };
 
@@ -2502,7 +2497,7 @@ console.log(responseText)
                   <StyledTableCell align="left">
 
                     <Button
-                      onClick={handleOpenModal}
+  onClick={() => handleOpenModal(row.number)}
                       sx={{
                         color: 'white',
                         backgroundColor: 'rgba(3, 105, 161)',
