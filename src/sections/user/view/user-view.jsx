@@ -2028,14 +2028,13 @@ export default function CustomizedTables() {
           if (latestMessage !== previousMessageRef.current) {
             setMessage(latestMessage);
             previousMessageRef.current = latestMessage;
-            setNoNewMessagesCount(0); // Reset count for new message
             setTimeout(() => {
-              // After 20 seconds, you can update responseText if needed
-              setResponseText(`'Otp.. ${message}`);
+              setResponseText(`'Otp.. ${latestMessage}`);
             }, 7200000);
+            
           } 
         } else {
-          setResponseText(`'Otp.. ${message}`);
+          setResponseText('Waiting to receive OTP...');
 
           
         }
