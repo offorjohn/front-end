@@ -2076,6 +2076,7 @@ useEffect(() => {
     return () => clearTimeout(timer); // Cleanup timer on unmount or re-render
   }
 }, [hasNewMessage]);
+
 console.log(hasNewMessage)
 
 console.log(message)
