@@ -14,6 +14,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 
 const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle, cancelM, subphone, cost, cancel }) => {
 
+  
+
 
 
   // State for modal open/close
@@ -62,6 +64,7 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
     localStorage.setItem('modalSubphone', storedSubphone || '');
   }, [storedSubphone]);
 
+  console.log(storedSubphone)
   useEffect(() => {
     localStorage.setItem('modalCost', storedCost || '');
   }, [storedCost]);
@@ -99,6 +102,7 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
       setIsModalOpen(false);
     }
   }, [show, responseText, subphone, cancel, cost]);
+  
 
   
 
@@ -252,6 +256,7 @@ if (!storedResponseText || storedResponseText.includes("Service not available fo
               }}
             >
               {storedSubphone}
+              
 
             </span>
             <Button

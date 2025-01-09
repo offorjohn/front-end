@@ -55,6 +55,8 @@ export default function CustomizedTables() {
   const [lastMessage, setLastMessage] = useState(''); // Tracks the last message
   const [subtitleText, setSubtitleText] = useState('');
   const [title, setTitle] = useState('PREVIOUS SMS Verifications')
+
+  const [currentIndex, setCurrentIndex] = useState(0); // Index for cycling
   const [responseData, setResponseData] = useState(null);
 
   const [cancelModal, setCancelM] = useState('Request FulFilled. ✔')
@@ -71,10 +73,19 @@ export default function CustomizedTables() {
   const [, setNoNewMessagesCount] = useState(0);
 
 
-  const handleOpenModal = () => {
-    setShowModal(true);
 
-  }
+  const handleOpenModal = () => {
+    if (payments.length > 0) {
+      // Update subPhone with the current index's number
+      setSubPhone(payments[currentIndex]?.number);
+      setShowModal(true);
+
+      // Increment index, reset to 0 if it's the last element
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % payments.length);
+    } else {
+      console.log("No data available.");
+    }
+  };
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -1959,6 +1970,7 @@ export default function CustomizedTables() {
           },
         };
         const response = await axios.request(options);
+        console.log(response)
 
         // Sort and process the response data
         const sortedData = response.data.data.length === 0
@@ -1975,6 +1987,7 @@ export default function CustomizedTables() {
           if(sortedData){
            setPayments(sortedData);
           }
+          console.log(sortedData)
 
         // Update message state if it's different
         if (sortedData.length > 0) {
@@ -2015,6 +2028,8 @@ export default function CustomizedTables() {
         const data = JSON.parse(event.data);
         const sortedData = data.data?.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
 
+        console.log(sortedData)
+
         if (sortedData && sortedData.length > 0) {
           setPayments((prevPayments) => {
             const mergedData = [...prevPayments, ...sortedData].filter(
@@ -2022,6 +2037,9 @@ export default function CustomizedTables() {
             );
             return mergedData.sort((a, b) => new Date(b.messagedate) - new Date(a.messagedate));
           });
+
+          
+
 
 
           const latestMessage = sortedData[0]?.message;
@@ -2060,7 +2078,7 @@ useEffect(() => {
 
 // eslint-disable-next-line consistent-return
 useEffect(() => {
-  if (hasNewMessage) {
+if (hasNewMessage) {
     // New message detected, reset after 30 seconds
     const timer = setTimeout(() => setHasNewMessage(false), 900000);
     return () => clearTimeout(timer); // Cleanup timer on unmount or re-render
@@ -2122,12 +2140,16 @@ console.log(responseText)
       id: payment.reference, // Assuming `reference` is unique
       name: payment.name,
 
-      number: payment.number || subphone, // Add `subphone` if `payment.number` is missing
+      number: payment.number, // Add `subphone` if `payment.number` is missing
       messagedate: new Date(payment.messagedate), // Convert date string to Date object
       message: payment.message,
     }))
+    
 
     .sort((a, b) => a.messagedate - b.messagedate)
+
+
+    
 
 
 
@@ -2152,7 +2174,8 @@ console.log(responseText)
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);  // Paginate after reversing
 
   const isDesktop = useMediaQuery('(min-width:600px)');
-
+  
+  
 
 
 
@@ -2176,6 +2199,8 @@ console.log(responseText)
         cancel={cancel}
         subtitle={subtitleText} // Dynamic subtitle
         subphone={subphone}
+
+        
 
         cost={cost}
         cancelM={cancelModal}
@@ -2473,6 +2498,7 @@ console.log(responseText)
                 <StyledTableRow key={row.id}>
                   <StyledTableCell align="left">{row.name}</StyledTableCell>
                   <StyledTableCell align="left">{row.number}</StyledTableCell>
+                
                   <StyledTableCell align="left">
 
                     <Button
