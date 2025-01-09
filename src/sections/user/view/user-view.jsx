@@ -2037,12 +2037,7 @@ export default function CustomizedTables() {
         } else {
           setResponseText('Waiting to receive OTP...');
 
-          // Delay further updates for 20 seconds
-          setTimeout(() => {
-            // After 20 seconds, you can update responseText if needed
-            setResponseText('Connected. Waiting for new messages...');
-          }, 20000); // 20,000 milliseconds = 20 seconds
-
+          
         }
       };
 
