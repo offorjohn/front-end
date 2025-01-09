@@ -1670,7 +1670,7 @@ export default function CustomizedTables() {
 
     try {
       // Simulate a network request (replace with actual fetching logic if needed)
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate delay
+      await new Promise((resolve) => setTimeout(resolve, 100)); // Simulate delay
       // Here, you could make another API call to fetch details based on selected service
       // const response = await axios.get(`/api/service/${value}`);
     } catch (error) { /* empty */ } finally {
@@ -1846,11 +1846,11 @@ export default function CustomizedTables() {
 
         // Show OTP refresh message after 30 seconds
         setTimeout(() => {
-          setResponseText(`'Otp.. ${message}`);
+          setResponseText('OTP refreshes after 30 seconds. Please be patient.');
 
           // Keep the message for 5 more seconds
           setTimeout(() => {
-            setResponseText(`'Otp.. ${message}`);
+            setResponseText('OTP refreshes after 30 seconds. Please be patient.');
           }, 5 * 1000); // 5 seconds delay
         }, 20 * 1000); // 20 seconds delay
 
