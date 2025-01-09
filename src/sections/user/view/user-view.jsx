@@ -2056,29 +2056,27 @@ export default function CustomizedTables() {
 
 
 // Memoized effect for setting response text based on message count
-
 useEffect(() => {
   if (message && message !== lastMessage) {
     // New message received
     setLastMessage(message); // Update the last message
-    setHasNewMessage(true); // Mark as a new message
+    setHasNewMessage(true); // Mark as new message
     setResponseText(`OTP... ${message}`); // Show the new OTP
-  } else if (message === lastMessage) {
-    // No new message
-    setHasNewMessage(false); // No new message
-    setResponseText('Please wait...'); // Inform the user to wait
+  } else if (message === lastMessage && !hasNewMessage) {
+    // No new message and not already marked
+    setResponseText('Please wait...');
   }
-}, [message, lastMessage]); // Dependencies: message, lastMessage
+}, [message, lastMessage, hasNewMessage]); // Dependencies
 
-// Additional logic (optional) to reset or track `hasNewMessage` if needed
+// eslint-disable-next-line consistent-return
 useEffect(() => {
   if (hasNewMessage) {
-    console.log('A new OTP message was received!');
-    
-
-    // Handle any specific side effects for a new message here
+    // New message detected, reset after 30 seconds
+    const timer = setTimeout(() => setHasNewMessage(false), 900000);
+    return () => clearTimeout(timer); // Cleanup timer on unmount or re-render
   }
-}, [hasNewMessage, message]);
+}, [hasNewMessage]);
+console.log(hasNewMessage)
 
 console.log(message)
 
