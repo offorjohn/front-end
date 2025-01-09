@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as React from 'react';
-import { useRef, useState } from 'react';
+import {useRef, useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -48,10 +48,11 @@ export default function CustomizedTables() {
   const [purchasedNid, setPurchasedNid] = useState(null); // Store the 'nid'
   const [cost] = useState('');
   const isMobile = useMediaQuery('(max-width:600px)'); // Adjust breakpoint as needed
+  const [hasNewMessage, setHasNewMessage] = useState(false); // Tracks if a new OTP has arrived
   const [selectedName, setSelectedName] = React.useState('');
   const [serv, setServ] = useState(null);  // To store the single service object
   const [maxWidth, setMaxWidth] = useState('sm');
-
+  const [lastMessage, setLastMessage] = useState(''); // Tracks the last message
   const [subtitleText, setSubtitleText] = useState('');
   const [title, setTitle] = useState('PREVIOUS SMS Verifications')
   const [responseData, setResponseData] = useState(null);
@@ -67,7 +68,7 @@ export default function CustomizedTables() {
 
 
   // Declare a state variable to count the number of times the latest message has been the same
-  const [noNewMessagesCount, setNoNewMessagesCount] = useState(0);
+  const [, setNoNewMessagesCount] = useState(0);
 
 
   const handleOpenModal = () => {
@@ -1845,11 +1846,11 @@ export default function CustomizedTables() {
 
         // Show OTP refresh message after 30 seconds
         setTimeout(() => {
-          setResponseText('OTP refreshes after 30 seconds. Please be patient.');
+          setResponseText(`'Otp.. ${message}`);
 
           // Keep the message for 5 more seconds
           setTimeout(() => {
-            setResponseText('OTP refreshes after 30 seconds. Please be patient.');
+            setResponseText(`'Otp.. ${message}`);
           }, 5 * 1000); // 5 seconds delay
         }, 20 * 1000); // 20 seconds delay
 
@@ -2008,9 +2009,7 @@ export default function CustomizedTables() {
       const socket = new WebSocket(wsendpoint);
 
 
-      socket.onopen = () => {
-        setResponseText('Connected. Waiting for new messages...');
-      };
+    
 
       socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
@@ -2032,13 +2031,9 @@ export default function CustomizedTables() {
             setNoNewMessagesCount(0); // Reset count for new message
             setTimeout(() => {
               // After 20 seconds, you can update responseText if needed
-              setResponseText('Connected. Waiting for new messages...');
+              setResponseText(`'Otp.. ${message}`);
             }, 7200000);
-          } else {
-            // Set response text to be displayed multiple times
-            const repeatedResponseText = 'Connected. Waiting for new messages... '.repeat(1); // Repeat 3 times
-            setResponseText(repeatedResponseText);
-          }
+          } 
         } else {
           setResponseText('Waiting to receive OTP...');
 
@@ -2051,15 +2046,7 @@ export default function CustomizedTables() {
         }
       };
 
-      socket.onerror = (error) => {
-       
-        setResponseText('WebSocket encountered an error.');
-      };
-
-      socket.onclose = () => {
-        setResponseText(`'Otp.. ${message}`);
-      };
-
+   
       return () => {
         clearInterval(intervalId);
         socket.close();
@@ -2069,23 +2056,37 @@ export default function CustomizedTables() {
 
 
 // Memoized effect for setting response text based on message count
-React.useEffect(() => {
-  if (message) {
-    // Check if the message indicates insufficient funds or service not available
-    if (message.includes("Insufficient balance") || message.includes("Service not available for this number")) {
-  
-      handleClose(); // Call the handleClose function
-    } else {
-      // Existing logic for setting OTP message based on new message count
-      // eslint-disable-next-line no-lonely-if
-      if (noNewMessagesCount < 3) {
-        setResponseText(`OTP... ${message}`);
-      } else {
-        setResponseText('Refreshes after 30 seconds. Please be patient...');
-      }
-    }
+
+useEffect(() => {
+  if (message && message !== lastMessage) {
+    // New message received
+    setLastMessage(message); // Update the last message
+    setHasNewMessage(true); // Mark as a new message
+    setResponseText(`OTP... ${message}`); // Show the new OTP
+  } else if (message === lastMessage) {
+    // No new message
+    setHasNewMessage(false); // No new message
+    setResponseText('Please wait...'); // Inform the user to wait
   }
-}, [message, noNewMessagesCount]);
+}, [message, lastMessage]); // Dependencies: message, lastMessage
+
+// Additional logic (optional) to reset or track `hasNewMessage` if needed
+useEffect(() => {
+  if (hasNewMessage) {
+    console.log('A new OTP message was received!');
+    
+
+    // Handle any specific side effects for a new message here
+  }
+}, [hasNewMessage, message]);
+
+console.log(message)
+
+console.log(lastMessage)
+
+
+console.log(responseText)
+
 
    
 
