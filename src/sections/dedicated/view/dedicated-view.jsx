@@ -17,7 +17,7 @@ import TableContainer from '@mui/material/TableContainer';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { getCookie } from '../../../utils/cookie-util';
-import { isValidJSON } from "../../../utils/json-validator";sd
+import { isValidJSON } from "../../../utils/json-validator";
 
 
 const DedicatedPage = () => {
