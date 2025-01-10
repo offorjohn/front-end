@@ -16,6 +16,10 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import CircularProgress from '@mui/material/CircularProgress';
 
+import { getCookie } from '../../../utils/cookie-util';
+import { isValidJSON } from "../../../utils/json-validator";
+
+
 const DedicatedPage = () => {
   const location = useLocation();
   const phoneNumber = new URLSearchParams(location.search).get('number'); // Extract the phone number from the URL
@@ -26,7 +30,10 @@ const DedicatedPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const url = `https://otpninja.com/api/v1/listmessagesbynumber?type=mdn&number=${phoneNumber}`;
-      const token = JSON.parse(localStorage.getItem('loginResponse'))?.token; // Get the token from localStorage
+      let token=getCookie("token").split(":")[0];
+      if(isValidJSON(localStorage.getItem('loginResponse'))){
+       token = JSON.parse(localStorage.getItem('loginResponse'))?.token;
+      }
 
       try {
         const response = await axios.get(url, {
@@ -34,8 +41,9 @@ const DedicatedPage = () => {
             'X-OTPNINJA-TOKEN': token, // Use token in the custom header
           },
         });
-
+        if(response.data.data){
         setData(response.data.data); // Update state with the fetched messages
+        }
       } catch (err) {
         setError(err.message); // Update state with error message
       } finally {

@@ -77,6 +77,7 @@ export default function CustomizedTables() {
       // Set the selected number for the modal
       setSubPhone(number);
       setShowModal(true);
+      
     } else {
       console.log("No number provided.");
     }
@@ -2080,14 +2081,6 @@ if (hasNewMessage) {
   }
 }, [hasNewMessage]);
 
-console.log(hasNewMessage)
-
-console.log(message)
-
-console.log(lastMessage)
-
-
-console.log(responseText)
 
 
    

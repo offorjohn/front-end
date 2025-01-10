@@ -12,6 +12,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 
 
 
+
 const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle, cancelM, subphone, cost, cancel }) => {
 
   
@@ -64,7 +65,6 @@ const Modal = React.memo(({ show, onClose, onBack, responseText, title, subtitle
     localStorage.setItem('modalSubphone', storedSubphone || '');
   }, [storedSubphone]);
 
-  console.log(storedSubphone)
   useEffect(() => {
     localStorage.setItem('modalCost', storedCost || '');
   }, [storedCost]);
